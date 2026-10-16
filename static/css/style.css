@@ -1,0 +1,5748 @@
+:root {
+    /* Color Palette */
+    --slate-50: #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-300: #cbd5e1;
+    --slate-400: #94a3b8;
+    --slate-500: #64748b;
+    --slate-600: #475569;
+    --slate-700: #334155;
+    --slate-800: #1e293b;
+    --slate-900: #0f172a;
+    --slate-950: #020617;
+    
+    --electric-teal: #0ea5e9;
+    --electric-teal-hover: #0284c7;
+    --emerald-success: #10b981;
+    --rose-danger: #f43f5e;
+    
+    --bg-color: var(--slate-50);
+    --card-bg: #ffffff;
+    --text-main: var(--slate-800);
+    --text-muted: var(--slate-500);
+    --border-color: var(--slate-200);
+    
+    --sidebar-width: 260px;
+    --header-height: 64px;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    letter-spacing: -0.01em;
+}
+
+/* Typography refinements */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--slate-900);
+}
+
+/* ========================================================
+   Hero Section & The Bold Moment
+======================================================== */
+.hero-section {
+    background-color: var(--slate-950);
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--slate-800);
+}
+
+/* Glowing Precision Grid */
+.hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 0;
+}
+.hero-grid-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 70% 30%, rgba(14, 165, 233, 0.15) 0%, transparent 60%);
+}
+
+.hero-title {
+    color: #ffffff;
+    font-size: 4rem;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.max-w-2xl {
+    max-width: 42rem;
+}
+
+.btn-electric {
+    background-color: var(--electric-teal);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px 0 rgba(14, 165, 233, 0.39);
+}
+.btn-electric:hover {
+    background-color: var(--electric-teal-hover);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.23);
+}
+
+.btn-outline-slate {
+    background-color: transparent;
+    color: var(--slate-300);
+    border: 1px solid var(--slate-600);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+.btn-outline-slate:hover {
+    border-color: var(--slate-400);
+    color: white;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ========================================================
+   Meet the Team Section
+======================================================== */
+.team-section {
+    background-color: var(--slate-900);
+}
+.team-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--slate-800);
+    border-radius: 4px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+.team-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--slate-600);
+    transform: translateY(-2px);
+}
+.team-name {
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: -0.01em;
+}
+
+/* ========================================================
+   Sidebar
+======================================================== */
+.sidebar {
+    width: var(--sidebar-width);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--slate-900);
+    color: #fff;
+    padding: 20px 0;
+    z-index: 1040;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--slate-800);
+}
+.sidebar-header {
+    padding: 0 24px 20px;
+    border-bottom: 1px solid var(--slate-800);
+    margin-bottom: 20px;
+}
+.sidebar-brand {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+}
+.sidebar-brand i {
+    color: var(--electric-teal);
+}
+.sidebar-nav {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+.sidebar-section {
+    padding: 16px 24px 8px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--slate-500);
+    font-weight: 700;
+}
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 24px;
+    color: var(--slate-300);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+.sidebar-link i {
+    font-size: 1.1rem;
+    opacity: 0.7;
+}
+.sidebar-link:hover, .sidebar-link.active {
+    background-color: var(--slate-800);
+    color: #ffffff;
+    border-left: 3px solid var(--electric-teal);
+}
+.sidebar-link:hover i, .sidebar-link.active i {
+    color: var(--electric-teal);
+    opacity: 1;
+}
+.sidebar-footer {
+    padding: 20px 24px;
+    border-top: 1px solid var(--slate-800);
+    font-size: 0.8rem;
+    color: var(--slate-500);
+}
+.sidebar-footer .dropdown-toggle {
+    color: var(--slate-200) !important;
+}
+
+/* ========================================================
+   Main Content & Navbar
+======================================================== */
+.main-content {
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.3s ease;
+}
+.top-navbar {
+    height: var(--header-height);
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+}
+/* When not authenticated, navbar matches dark theme */
+.top-navbar.bg-dark {
+    background-color: var(--slate-950) !important;
+    border-bottom: 1px solid var(--slate-800);
+}
+.content-wrapper {
+    padding: 40px;
+    flex-grow: 1;
+}
+
+/* ========================================================
+   Cards & UI - Precision sharp design
+======================================================== */
+.card {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1);
+    background-color: var(--card-bg);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+}
+.card-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.25rem 1.5rem;
+}
+
+.btn {
+    border-radius: 4px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+.btn-primary {
+    background-color: var(--slate-800);
+    border-color: var(--slate-800);
+    color: #ffffff;
+}
+.btn-primary:hover {
+    background-color: var(--slate-900);
+    border-color: var(--slate-900);
+}
+.btn-outline-primary {
+    color: var(--slate-800);
+    border-color: var(--slate-800);
+}
+.btn-outline-primary:hover {
+    background-color: var(--slate-800);
+    color: #ffffff;
+}
+
+.badge {
+    font-weight: 600;
+    padding: 0.4em 0.8em;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+}
+
+.alert-legal {
+    background-color: var(--slate-100);
+    color: var(--slate-700);
+    border-left: 4px solid var(--electric-teal);
+    border-radius: 4px;
+}
+
+/* ========================================================
+   Chatbot Interface
+======================================================== */
+.chat-container {
+    height: calc(100vh - var(--header-height) - 100px);
+    display: flex;
+    flex-direction: column;
+    background: var(--card-bg);
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+.chat-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--card-bg);
+}
+.chat-mode-selector {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.chat-mode-card {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    background: var(--slate-50);
+    color: var(--slate-600);
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+.chat-mode-card:hover {
+    border-color: var(--slate-300);
+    background: #ffffff;
+}
+.chat-mode-card.active {
+    border-color: var(--electric-teal);
+    background: #f0f9ff;
+    color: var(--electric-teal-hover);
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+}
+.chat-messages {
+    flex-grow: 1;
+    padding: 24px;
+    overflow-y: auto;
+    background: #ffffff;
+}
+.message {
+    margin-bottom: 24px;
+    max-width: 85%;
+    display: flex;
+    flex-direction: column;
+}
+.message.user {
+    margin-left: auto;
+    align-items: flex-end;
+}
+.message.ai {
+    margin-right: auto;
+    align-items: flex-start;
+}
+.message-bubble {
+    padding: 14px 20px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+.message.user .message-bubble {
+    background-color: var(--slate-800);
+    color: white;
+}
+.message.ai .message-bubble {
+    background-color: var(--slate-50);
+    color: var(--slate-800);
+    border: 1px solid var(--border-color);
+}
+.message-source {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: var(--slate-500);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.chat-input-area {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border-color);
+    background: var(--card-bg);
+}
+.form-control {
+    border-radius: 4px;
+    border: 1px solid var(--slate-300);
+}
+.form-control:focus {
+    border-color: var(--electric-teal);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: var(--slate-500);
+}
+.suggested-question {
+    padding: 10px 18px;
+    background: var(--slate-50);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    margin: 6px;
+    display: inline-block;
+    font-weight: 500;
+}
+.suggested-question:hover {
+    background: var(--slate-800);
+    color: white;
+    border-color: var(--slate-800);
+}
+
+/* ========================================================
+   Mobile Responsiveness
+======================================================== */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    .sidebar.show {
+        transform: translateX(0);
+    }
+    .main-content {
+        margin-left: 0;
+    }
+    .chat-mode-selector {
+        flex-direction: column;
+    }
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    .content-wrapper {
+        padding: 20px;
+    }
+}
+
+/* ========================================================
+   Bootstrap Utility Overrides for Slate Theme
+======================================================== */
+.text-primary { color: var(--slate-800) !important; }
+.bg-primary { background-color: var(--slate-800) !important; }
+
+.text-success { color: var(--emerald-success) !important; }
+.bg-success { background-color: var(--emerald-success) !important; }
+
+.text-info { color: var(--electric-teal) !important; }
+.bg-info { background-color: var(--electric-teal) !important; }
+
+.text-warning { color: #f59e0b !important; }
+.bg-warning { background-color: #f59e0b !important; }
+
+.btn-outline-success { border-color: var(--emerald-success); color: var(--emerald-success); }
+.btn-outline-success:hover { background-color: var(--emerald-success); color: white; }
+
+.btn-outline-info { border-color: var(--electric-teal); color: var(--electric-teal); }
+.btn-outline-info:hover { background-color: var(--electric-teal); color: white; }
+
+.btn-outline-warning { border-color: #f59e0b; color: #f59e0b; }
+.btn-outline-warning:hover { background-color: #f59e0b; color: white; }
+
+.bg-opacity-10 { --bs-bg-opacity: 0.1; }
+
+/* Additional Public Landing Overrides */
+.bg-slate-950 { background-color: var(--slate-950) !important; }
+.bg-slate-900 { background-color: var(--slate-900) !important; }
+.bg-slate-800 { background-color: var(--slate-800) !important; }
+.bg-slate-50 { background-color: var(--slate-50) !important; }
+.border-slate-800 { border-color: var(--slate-800) !important; }
+.text-slate-400 { color: var(--slate-400) !important; }
+.text-slate-300 { color: var(--slate-300) !important; }
+
+/* Custom feature icon cards */
+.feature-icon-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    background-color: var(--slate-100);
+    color: var(--electric-teal);
+}
+/* ==========================================================
+   LexAI — COMPLETE PREMIUM LEGAL-TECH THEME
+   Paste at the END of static/css/style.css
+   ========================================================== */
+
+:root {
+    --lx-navy: #10172a;
+    --lx-navy-light: #192442;
+    --lx-blue: #4f46e5;
+    --lx-blue-light: #6366f1;
+    --lx-cyan: #06b6d4;
+    --lx-purple: #8b5cf6;
+    --lx-bg: #f4f6fc;
+    --lx-white: #ffffff;
+    --lx-text: #182238;
+    --lx-muted: #748099;
+    --lx-border: #e5e9f3;
+    --lx-radius: 18px;
+    --lx-shadow: 0 8px 28px rgba(25, 37, 72, .07);
+    --lx-shadow-hover: 0 18px 42px rgba(41, 52, 110, .13);
+    --lx-transition: .28s ease;
+}
+
+/* 1. GLOBAL BACKGROUND AND TYPOGRAPHY */
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+body {
+    background:
+        radial-gradient(ellipse at 0% 0%, rgba(99,102,241,.07), transparent 38%),
+        radial-gradient(ellipse at 100% 40%, rgba(6,182,212,.05), transparent 35%),
+        var(--lx-bg);
+    color: var(--lx-text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.65;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--lx-text);
+    font-weight: 750;
+    letter-spacing: -.035em;
+    line-height: 1.25;
+}
+
+p {
+    line-height: 1.75;
+}
+
+a {
+    transition: color var(--lx-transition);
+}
+
+::selection {
+    background: rgba(99,102,241,.2);
+    color: var(--lx-navy);
+}
+
+/* 2. PAGE ENTRANCE ANIMATION */
+
+@keyframes lxFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes lxFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes lxFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+}
+
+@keyframes lxGlow {
+    0%, 100% { box-shadow: 0 0 0 rgba(99,102,241,0); }
+    50% { box-shadow: 0 0 25px rgba(99,102,241,.15); }
+}
+
+@keyframes lxShimmer {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+}
+
+body:not(.no-page-animation) .content-wrapper {
+    animation: lxFadeUp .55s ease both;
+}
+
+body.public-layout > nav,
+body.public-layout > .navbar {
+    animation: lxFadeIn .45s ease both;
+}
+
+/* 3. NAVBAR */
+
+.top-navbar {
+    background: rgba(255,255,255,.9) !important;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(229,233,243,.9);
+    box-shadow: 0 3px 20px rgba(20,30,60,.035);
+}
+
+.top-navbar.bg-dark {
+    background: linear-gradient(120deg, #10172a, #202c50) !important;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.top-navbar h5 {
+    color: var(--lx-text) !important;
+    font-weight: 750;
+}
+
+.navbar {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.public-layout .navbar {
+    background: rgba(16,23,42,.96) !important;
+    box-shadow: 0 5px 25px rgba(9,15,35,.12);
+}
+
+.public-layout .navbar-brand {
+    letter-spacing: -.04em;
+}
+
+.navbar-nav .nav-link {
+    transition: color .22s ease, transform .22s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #67e8f9 !important;
+    transform: translateY(-2px);
+}
+
+/* 4. SIDEBAR */
+
+.sidebar {
+    background:
+        radial-gradient(ellipse at top left, rgba(99,102,241,.19), transparent 42%),
+        linear-gradient(180deg, #111a32 0%, #0b1122 100%);
+    border-right: 1px solid rgba(255,255,255,.07);
+    box-shadow: 8px 0 30px rgba(10,18,42,.06);
+}
+
+.sidebar-header {
+    border-bottom-color: rgba(255,255,255,.09);
+}
+
+.sidebar-brand {
+    font-size: 1.35rem;
+    letter-spacing: -.04em;
+}
+
+.sidebar-brand i {
+    color: #67e8f9 !important;
+}
+
+.sidebar-section {
+    color: #8e9cba;
+    letter-spacing: .12em;
+    font-size: .68rem;
+}
+
+.sidebar-link {
+    margin: 4px 12px;
+    padding: 12px 15px;
+    border: 0;
+    border-radius: 11px;
+    color: #c0c9dc;
+    position: relative;
+    transition:
+        background .25s ease,
+        color .25s ease,
+        transform .25s ease;
+}
+
+.sidebar-link:hover {
+    background: rgba(255,255,255,.075);
+    color: white;
+    transform: translateX(3px);
+}
+
+.sidebar-link.active {
+    background: linear-gradient(110deg, rgba(99,102,241,.3), rgba(6,182,212,.11));
+    color: white;
+    box-shadow: inset 3px 0 #818cf8;
+}
+
+.sidebar-link.active i,
+.sidebar-link:hover i {
+    color: #67e8f9;
+}
+
+.sidebar-footer {
+    border-top-color: rgba(255,255,255,.1);
+}
+
+/* 5. MAIN CONTENT AND SECTION SPACING */
+
+.main-content {
+    background: transparent;
+    min-width: 0;
+}
+
+.content-wrapper {
+    padding: clamp(18px, 3vw, 38px);
+}
+
+.container,
+.container-fluid {
+    position: relative;
+}
+
+section {
+    position: relative;
+}
+
+/* 6. PREMIUM CARDS AND PANELS */
+
+.card,
+.stat-card,
+.dashboard-card,
+.feature-card,
+.panel,
+.chat-container {
+    background: rgba(255,255,255,.92);
+    border: 1px solid var(--lx-border);
+    border-radius: var(--lx-radius);
+    box-shadow: var(--lx-shadow);
+    transition:
+        transform var(--lx-transition),
+        box-shadow var(--lx-transition),
+        border-color var(--lx-transition);
+}
+
+.card {
+    overflow: hidden;
+}
+
+.card:hover,
+.stat-card:hover,
+.dashboard-card:hover,
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--lx-shadow-hover);
+    border-color: #d4d9f8;
+}
+
+.card-header {
+    background: linear-gradient(120deg, #fff, #f8f9ff);
+    border-bottom: 1px solid var(--lx-border);
+    padding: 18px 22px;
+}
+
+.card-body {
+    padding: 22px;
+}
+
+.card-footer {
+    background: #fafbff;
+    border-top: 1px solid var(--lx-border);
+}
+
+.shadow,
+.shadow-sm {
+    box-shadow: var(--lx-shadow) !important;
+}
+
+.rounded {
+    border-radius: 12px !important;
+}
+
+.rounded-3,
+.rounded-4 {
+    border-radius: var(--lx-radius) !important;
+}
+
+/* 7. DASHBOARD STATISTICS */
+
+.stat-card {
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::after {
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    right: -40px;
+    top: -40px;
+    background: radial-gradient(circle, rgba(99,102,241,.11), transparent 70%);
+    pointer-events: none;
+}
+
+.stat-card h2,
+.stat-card h3,
+.stat-card h4 {
+    font-size: clamp(1.45rem, 2.5vw, 2rem);
+    font-weight: 800;
+}
+
+.stat-card i {
+    color: var(--lx-blue);
+}
+
+/* 8. BUTTONS */
+
+.btn {
+    border-radius: 10px;
+    font-weight: 650;
+    padding: .65rem 1.15rem;
+    transition:
+        transform .22s ease,
+        box-shadow .22s ease,
+        background .22s ease,
+        border-color .22s ease;
+}
+
+.btn-primary,
+.btn-electric {
+    color: white !important;
+    background: linear-gradient(120deg, #4f46e5, #6366f1);
+    border: 1px solid transparent;
+    box-shadow: 0 5px 15px rgba(79,70,229,.2);
+}
+
+.btn-primary:hover,
+.btn-electric:hover {
+    background: linear-gradient(120deg, #4338ca, #4f46e5);
+    box-shadow: 0 9px 22px rgba(79,70,229,.28);
+    transform: translateY(-2px);
+}
+
+.btn-outline-primary {
+    color: var(--lx-blue);
+    border-color: #c7d2fe;
+}
+
+.btn-outline-primary:hover {
+    background: var(--lx-blue);
+    color: white;
+    border-color: var(--lx-blue);
+    transform: translateY(-2px);
+}
+
+.btn-outline-slate {
+    border: 1px solid rgba(255,255,255,.28);
+    color: white;
+    border-radius: 10px;
+}
+
+.btn-outline-slate:hover {
+    background: rgba(255,255,255,.1);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: scale(.98);
+}
+
+/* 9. FORMS, INPUTS AND SEARCH */
+
+.form-control,
+.form-select {
+    min-height: 45px;
+    border: 1px solid #dfe4ef;
+    border-radius: 10px;
+    background-color: #fff;
+    color: var(--lx-text);
+    transition:
+        border-color .22s ease,
+        box-shadow .22s ease,
+        background .22s ease;
+}
+
+textarea.form-control {
+    min-height: 110px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #818cf8;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(99,102,241,.12);
+}
+
+.form-label {
+    font-weight: 650;
+    color: #36415b;
+    margin-bottom: 7px;
+}
+
+/* 10. TABLES AND HISTORY LISTS */
+
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--lx-text);
+    border-color: var(--lx-border);
+    vertical-align: middle;
+}
+
+.table thead th {
+    background: #f4f6fd;
+    color: #5e6984;
+    text-transform: uppercase;
+    font-size: .74rem;
+    letter-spacing: .07em;
+    font-weight: 750;
+    padding: 15px 14px;
+    border-bottom: 1px solid var(--lx-border);
+}
+
+.table tbody td {
+    padding: 15px 14px;
+}
+
+.table tbody tr {
+    transition: background .2s ease;
+}
+
+.table tbody tr:hover > * {
+    --bs-table-bg: #f5f6ff;
+}
+
+/* 11. BADGES, ALERTS AND STATUS LABELS */
+
+.badge {
+    border-radius: 7px;
+    padding: .48em .75em;
+    font-weight: 700;
+    letter-spacing: .015em;
+}
+
+.alert {
+    border-radius: 12px;
+    border: 1px solid var(--lx-border);
+    box-shadow: 0 3px 12px rgba(20,30,60,.035);
+}
+
+.alert-legal {
+    background: linear-gradient(120deg, #eff6ff, #f5f3ff);
+    border-left: 4px solid var(--lx-blue);
+    color: #37466a;
+    border-radius: 12px;
+}
+
+/* 12. CHATBOT */
+
+.chat-container {
+    overflow: hidden;
+}
+
+.chat-header {
+    background: linear-gradient(110deg, #fff, #f6f7ff);
+    border-bottom: 1px solid var(--lx-border);
+}
+
+.chat-messages {
+    background:
+        radial-gradient(ellipse at top left, rgba(99,102,241,.035), transparent 45%),
+        #fbfcff;
+}
+
+.message {
+    animation: lxFadeUp .3s ease both;
+}
+
+.message-bubble {
+    border-radius: 15px;
+    line-height: 1.75;
+    padding: 13px 17px;
+}
+
+.message.user .message-bubble {
+    background: linear-gradient(130deg, #4f46e5, #6366f1);
+    box-shadow: 0 5px 15px rgba(79,70,229,.13);
+    border-bottom-right-radius: 5px;
+}
+
+.message.ai .message-bubble {
+    background: white;
+    border: 1px solid var(--lx-border);
+    box-shadow: 0 3px 12px rgba(20,30,60,.035);
+    border-bottom-left-radius: 5px;
+}
+
+.chat-input-area {
+    background: rgba(255,255,255,.96);
+    border-top: 1px solid var(--lx-border);
+}
+
+/* 13. UPLOAD AREAS */
+
+.upload-area,
+.drop-zone,
+.file-upload-area {
+    border: 2px dashed #c7cffa;
+    border-radius: 16px;
+    background: linear-gradient(140deg, #fafaff, #f0f7ff);
+    padding: 30px;
+    transition:
+        background .25s ease,
+        border-color .25s ease,
+        transform .25s ease;
+}
+
+.upload-area:hover,
+.drop-zone:hover,
+.file-upload-area:hover {
+    background: linear-gradient(140deg, #f0f0ff, #eaf8ff);
+    border-color: var(--lx-blue-light);
+    transform: translateY(-2px);
+}
+
+/* 14. PUBLIC LANDING PAGE — HERO */
+
+.hero-section {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background:
+        radial-gradient(ellipse at 80% 15%, rgba(99,102,241,.3), transparent 38%),
+        radial-gradient(ellipse at 10% 100%, rgba(6,182,212,.17), transparent 38%),
+        linear-gradient(135deg, #0b1021 0%, #151d3a 50%, #10172a 100%);
+    border: 0;
+    min-height: 72vh;
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 38px 38px;
+    mask-image: linear-gradient(to bottom, black, transparent);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.hero-title {
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+    line-height: 1.08;
+    letter-spacing: -.055em;
+    color: white;
+    animation: lxFadeUp .7s ease both;
+}
+
+.hero-section p {
+    color: #c5cee3;
+    font-size: 1.08rem;
+}
+
+.text-gradient {
+    background: linear-gradient(110deg, #818cf8, #67e8f9, #c4b5fd);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: lxShimmer 6s linear infinite;
+}
+
+.hero-section .btn {
+    padding: 13px 23px;
+}
+
+/* 15. PUBLIC PAGE SECTION BACKGROUNDS */
+
+.public-layout #features,
+.public-layout #how-it-works,
+.public-layout #pricing,
+.public-layout #about {
+    padding-top: clamp(55px, 8vw, 100px);
+    padding-bottom: clamp(55px, 8vw, 100px);
+}
+
+.public-layout #features {
+    background: linear-gradient(180deg, #f8f9ff, #f1f5ff);
+}
+
+.public-layout #how-it-works {
+    background: #fff;
+}
+
+.public-layout #pricing {
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(99,102,241,.11), transparent 55%),
+        linear-gradient(145deg, #10172a, #182343);
+    color: #e7ebf5;
+}
+
+.public-layout #pricing h1,
+.public-layout #pricing h2,
+.public-layout #pricing h3,
+.public-layout #pricing h4,
+.public-layout #pricing h5,
+.public-layout #pricing h6 {
+    color: white;
+}
+
+.public-layout #pricing p {
+    color: #c4cce0;
+}
+
+.public-layout #about {
+    background:
+        radial-gradient(ellipse at 100% 0%, rgba(6,182,212,.06), transparent 45%),
+        #f7f8fd;
+}
+
+.public-layout .team-section {
+    background: linear-gradient(140deg, #111a32, #1b2750);
+    border-radius: 22px;
+    padding: 28px;
+}
+
+.public-layout .team-card {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 14px;
+    transition: transform .25s ease, background .25s ease;
+}
+
+.public-layout .team-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255,255,255,.11);
+}
+
+.public-layout .team-name {
+    color: white;
+}
+
+/* 16. PUBLIC FEATURE CARDS */
+
+.public-layout #features .card,
+.public-layout #features .feature-card,
+.public-layout #how-it-works .card {
+    border-radius: 18px;
+    border: 1px solid #e6e9f6;
+    background: rgba(255,255,255,.9);
+    box-shadow: 0 6px 22px rgba(31,41,90,.045);
+}
+
+.public-layout #features .card:hover,
+.public-layout #how-it-works .card:hover {
+    transform: translateY(-6px);
+    border-color: #d4d9fa;
+    box-shadow: 0 18px 38px rgba(31,41,90,.1);
+}
+
+/* 17. PRICING CARDS */
+
+.public-layout #pricing .card {
+    background: rgba(255,255,255,.97);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 20px;
+    box-shadow: 0 14px 40px rgba(0,0,0,.15);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.public-layout #pricing .card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 22px 48px rgba(0,0,0,.24);
+}
+
+.public-layout #pricing .card h1,
+.public-layout #pricing .card h2,
+.public-layout #pricing .card h3,
+.public-layout #pricing .card h4,
+.public-layout #pricing .card h5,
+.public-layout #pricing .card h6,
+.public-layout #pricing .card p {
+    color: var(--lx-text);
+}
+
+/* 18. LOGIN AND REGISTER PAGES */
+
+.public-layout form {
+    position: relative;
+}
+
+.public-layout .card:has(form) {
+    border-radius: 20px;
+    box-shadow: 0 18px 55px rgba(31,41,90,.1);
+}
+
+.public-layout form .form-control {
+    min-height: 48px;
+}
+
+.public-layout form .btn {
+    min-height: 46px;
+}
+
+/* 19. FOOTER */
+
+.public-layout footer {
+    background:
+        radial-gradient(ellipse at 0% 0%, rgba(99,102,241,.14), transparent 45%),
+        linear-gradient(135deg, #0b1021, #111a32) !important;
+    border-top: 1px solid rgba(255,255,255,.08) !important;
+}
+
+.public-layout footer a {
+    transition: color .2s ease, padding-left .2s ease;
+}
+
+.public-layout footer a:hover {
+    color: #67e8f9 !important;
+    padding-left: 3px;
+}
+
+/* 20. PROGRESS BARS AND CHART CONTAINERS */
+
+.progress {
+    height: 9px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #e9ecf8;
+}
+
+.progress-bar {
+    border-radius: 20px;
+    background: linear-gradient(90deg, #4f46e5, #06b6d4);
+}
+
+canvas {
+    max-width: 100%;
+}
+
+.chart-container,
+.chart-card {
+    border-radius: 16px;
+    background: white;
+}
+
+/* 21. DROPDOWNS AND MODALS */
+
+.dropdown-menu {
+    border: 1px solid var(--lx-border);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 14px 35px rgba(20,30,60,.12);
+    animation: lxFadeUp .18s ease both;
+}
+
+.dropdown-item {
+    border-radius: 7px;
+    padding: 9px 12px;
+    transition: background .2s ease, color .2s ease;
+}
+
+.dropdown-item:hover {
+    background: #f0f1ff;
+    color: var(--lx-blue);
+}
+
+.modal-content {
+    border: 1px solid var(--lx-border);
+    border-radius: 18px;
+    box-shadow: 0 25px 70px rgba(10,18,42,.22);
+}
+
+.modal-header {
+    background: #f8f9ff;
+    border-bottom-color: var(--lx-border);
+    border-radius: 18px 18px 0 0;
+}
+
+/* 22. FOCUS AND ACCESSIBILITY */
+
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible {
+    outline: 3px solid rgba(99,102,241,.5);
+    outline-offset: 3px;
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* 23. RESPONSIVE DESIGN */
+
+@media (max-width: 991.98px) {
+    .content-wrapper {
+        padding: 22px 18px;
+    }
+
+    .hero-section {
+        min-height: auto;
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+
+    .hero-title {
+        font-size: clamp(2.35rem, 8vw, 3.6rem);
+    }
+
+    .public-layout #features,
+    .public-layout #how-it-works,
+    .public-layout #pricing,
+    .public-layout #about {
+        padding-top: 55px;
+        padding-bottom: 55px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .content-wrapper {
+        padding: 18px 13px;
+    }
+
+    .card-body {
+        padding: 17px;
+    }
+
+    .stat-card {
+        padding: 17px;
+    }
+
+    .chat-container {
+        min-height: 65vh;
+        height: auto;
+    }
+
+    .message {
+        max-width: 95%;
+    }
+
+    .public-layout .team-section {
+        padding: 18px;
+    }
+}
+
+/* 24. REDUCED MOTION PREFERENCE */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+/* ===== LEXAI FEATURE CAROUSEL ===== */
+
+#features {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 10% 20%, rgba(99,102,241,.12), transparent 38%),
+        radial-gradient(ellipse at 90% 80%, rgba(6,182,212,.10), transparent 35%),
+        linear-gradient(135deg, #f8faff, #edf1ff) !important;
+}
+
+#features .container {
+    max-width: 1440px;
+}
+
+#features .row.g-5.mt-2 {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 24px !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 12px 8px 35px;
+    margin: 25px 0 0 !important;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: #818cf8 #e6eaff;
+    -webkit-overflow-scrolling: touch;
+}
+
+#features .row.g-5.mt-2 > div {
+    flex: 0 0 340px;
+    width: 340px;
+    max-width: 340px;
+    padding: 0;
+    margin: 0 !important;
+    scroll-snap-align: start;
+}
+
+#features .row.g-5.mt-2 .card {
+    height: 100%;
+    min-height: 260px;
+    padding: 30px !important;
+    position: relative;
+    overflow: hidden;
+    background: rgba(255,255,255,.88);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,.9) !important;
+    border-radius: 22px;
+    box-shadow: 0 12px 35px rgba(46,55,120,.08) !important;
+    transition: transform .35s ease, box-shadow .35s ease,
+                border-color .35s ease;
+    scroll-snap-align: start;
+}
+
+#features .row.g-5.mt-2 .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #4f46e5, #06b6d4, #8b5cf6);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .35s ease;
+}
+
+#features .row.g-5.mt-2 .card:hover {
+    transform: translateY(-8px);
+    border-color: #c7d2fe !important;
+    box-shadow: 0 24px 50px rgba(46,55,120,.15) !important;
+}
+
+#features .row.g-5.mt-2 .card:hover::before {
+    transform: scaleX(1);
+}
+
+#features .feature-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 68px;
+    height: 68px;
+    margin-bottom: 24px;
+    border-radius: 19px;
+    background: linear-gradient(135deg, #eef2ff, #e0f7ff);
+    color: #4f46e5;
+    transition: transform .35s ease, border-radius .35s ease;
+}
+
+#features .feature-icon-box i {
+    font-size: 1.8rem;
+}
+
+#features .card:hover .feature-icon-box {
+    transform: rotate(-5deg) scale(1.08);
+    border-radius: 23px;
+}
+
+#features .card h5 {
+    font-size: 1.2rem;
+    margin-bottom: 14px !important;
+    letter-spacing: -.025em;
+}
+
+#features .card p {
+    color: #68748d !important;
+    font-size: .98rem;
+    line-height: 1.8;
+}
+
+/* Section heading */
+#features .text-center h6 {
+    letter-spacing: .16em;
+}
+
+#features .text-center h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -.045em;
+}
+
+#features .text-center .lead {
+    max-width: 760px;
+    margin-inline: auto;
+    color: #66718a !important;
+}
+
+/* Mobile layout */
+@media (max-width: 600px) {
+    #features .container {
+        padding-left: 18px !important;
+        padding-right: 18px !important;
+    }
+
+    #features .row.g-5.mt-2 > div {
+        flex-basis: 82vw;
+        width: 82vw;
+        max-width: 82vw;
+    }
+
+    #features .row.g-5.mt-2 .card {
+        padding: 24px !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #features .row.g-5.mt-2 {
+        scroll-behavior: auto;
+    }
+
+    #features .row.g-5.mt-2 .card,
+    #features .feature-icon-box {
+        transition: none;
+    }
+}
+/* LexAI — Midnight Legal Tech background */
+
+#features {
+    background:
+        radial-gradient(
+            ellipse at 10% 15%,
+            rgba(79, 70, 229, 0.24),
+            transparent 38%
+        ),
+        radial-gradient(
+            ellipse at 90% 75%,
+            rgba(6, 182, 212, 0.15),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #0b1120 0%,
+            #111b35 50%,
+            #10172a 100%
+        ) !important;
+    position: relative;
+    isolation: isolate;
+}
+
+/* Subtle technology grid */
+#features::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    background-image:
+        linear-gradient(
+            rgba(148, 163, 255, 0.055) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(148, 163, 255, 0.055) 1px,
+            transparent 1px
+        );
+
+    background-size: 42px 42px;
+
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.9),
+        transparent 95%
+    );
+}
+
+/* Make section headings readable */
+#features h1,
+#features h2,
+#features h3,
+#features h4,
+#features h5 {
+    color: #f8fafc;
+}
+
+#features .text-center p,
+#features .lead {
+    color: #c0cbe0 !important;
+}
+
+/* Keep feature cards bright */
+#features .row.g-5.mt-2 .card {
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Refined scrollbar */
+#features .row.g-5.mt-2 {
+    scrollbar-color: #6366f1 #202b48;
+}
+
+/* Small glow around feature icons */
+#features .feature-icon-box {
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.08);
+}
+
+#features .row.g-5.mt-2 .card:hover {
+    box-shadow:
+        0 20px 45px rgba(0, 0, 0, 0.22),
+        0 0 22px rgba(99, 102, 241, 0.09) !important;
+}
+/* FIX: Feature card text visibility */
+
+#features .row.g-5.mt-2 .card,
+#features .row.g-5.mt-2 .card * {
+    color: #182238;
+}
+
+#features .row.g-5.mt-2 .card h1,
+#features .row.g-5.mt-2 .card h2,
+#features .row.g-5.mt-2 .card h3,
+#features .row.g-5.mt-2 .card h4,
+#features .row.g-5.mt-2 .card h5,
+#features .row.g-5.mt-2 .card h6 {
+    color: #111827 !important;
+    font-weight: 750;
+}
+
+#features .row.g-5.mt-2 .card p {
+    color: #64748b !important;
+}
+
+#features .row.g-5.mt-2 .card a {
+    color: #4f46e5 !important;
+}
+
+#features .row.g-5.mt-2 .card i {
+    color: #4f46e5;
+}
+
+#features .row.g-5.mt-2 .card .feature-icon-box {
+    color: #4f46e5;
+}
+/* ===== LEXAI PREMIUM FEATURES HEADING ===== */
+
+/* Small CAPABILITIES label */
+#features .text-center h6 {
+    display: inline-block;
+    margin-bottom: 22px !important;
+    padding: 8px 16px;
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 50px;
+    background: rgba(56, 189, 248, 0.08);
+    color: #67e8f9 !important;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+/* Main heading */
+#features .text-center h2 {
+    max-width: 1000px;
+    margin: 0 auto 24px !important;
+    font-size: clamp(2.2rem, 4.6vw, 4rem) !important;
+    font-weight: 850;
+    line-height: 1.12;
+    letter-spacing: -0.055em;
+    color: #f8fafc !important;
+    text-wrap: balance;
+    animation: lxFadeUp 0.75s ease both;
+}
+
+/* Gradient heading effect */
+#features .text-center h2 {
+    background: linear-gradient(
+        110deg,
+        #ffffff 5%,
+        #c7d2fe 48%,
+        #67e8f9 95%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Decorative glowing line */
+#features .text-center h2::after {
+    content: "";
+    display: block;
+    width: 76px;
+    height: 4px;
+    margin: 25px auto 0;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #6366f1, #22d3ee);
+    box-shadow: 0 0 18px rgba(34, 211, 238, 0.35);
+}
+
+/* Subtitle */
+#features .text-center .lead {
+    max-width: 730px;
+    margin: 0 auto !important;
+    color: #bdc9df !important;
+    font-size: clamp(1rem, 1.6vw, 1.22rem) !important;
+    font-weight: 400;
+    line-height: 1.9;
+    letter-spacing: 0.005em;
+    text-wrap: balance;
+    animation: lxFadeUp 0.9s ease both;
+}
+
+/* Subtle heading-area glow */
+#features .text-center {
+    position: relative;
+    padding-top: 12px;
+    padding-bottom: 48px;
+}
+
+/* Mobile sizing */
+@media (max-width: 768px) {
+    #features .text-center h6 {
+        margin-bottom: 16px !important;
+        font-size: 0.7rem;
+    }
+
+    #features .text-center h2 {
+        font-size: clamp(2rem, 8vw, 2.8rem) !important;
+        letter-spacing: -0.04em;
+    }
+
+    #features .text-center .lead {
+        font-size: 1rem !important;
+        line-height: 1.75;
+    }
+
+    #features .text-center {
+        padding-bottom: 30px;
+    }
+}
+/* ==========================================
+   LEXAI — PREMIUM ANIMATIONS
+   ========================================== */
+
+/* 1. Animated gradient background glow */
+#features {
+    background-size: 180% 180%;
+    animation: lxBackgroundFlow 12s ease-in-out infinite alternate;
+}
+
+@keyframes lxBackgroundFlow {
+    0%   { background-position: 0% 20%; }
+    100% { background-position: 100% 80%; }
+}
+
+/* 2. Floating ambient light effects */
+#features::after {
+    content: "";
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    top: 25%;
+    left: -140px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.13);
+    filter: blur(85px);
+    pointer-events: none;
+    z-index: 0;
+    animation: lxAmbientFloat 10s ease-in-out infinite alternate;
+}
+
+@keyframes lxAmbientFloat {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(180px, 80px) scale(1.25); }
+}
+
+/* 3. Heading entrance animation */
+#features .text-center h6 {
+    animation: lxLabelEnter .7s ease both;
+}
+
+#features .text-center h2 {
+    animation: lxTitleEnter .9s cubic-bezier(.2,.8,.2,1) both;
+}
+
+#features .text-center .lead {
+    animation: lxSubtitleEnter 1s ease .15s both;
+}
+
+@keyframes lxLabelEnter {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes lxTitleEnter {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(.98);
+        filter: blur(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes lxSubtitleEnter {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 4. Gentle glow on the heading accent line */
+#features .text-center h2::after {
+    animation: lxLineGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes lxLineGlow {
+    from {
+        box-shadow: 0 0 8px rgba(99,102,241,.3);
+        transform: scaleX(.85);
+    }
+    to {
+        box-shadow: 0 0 24px rgba(34,211,238,.65);
+        transform: scaleX(1.15);
+    }
+}
+
+/* 5. Feature cards enter with a staggered effect */
+#features .row.g-5.mt-2 > div:nth-child(1) .card {
+    animation: lxCardEnter .7s ease .10s both;
+}
+
+#features .row.g-5.mt-2 > div:nth-child(2) .card {
+    animation: lxCardEnter .7s ease .20s both;
+}
+
+#features .row.g-5.mt-2 > div:nth-child(3) .card {
+    animation: lxCardEnter .7s ease .30s both;
+}
+
+#features .row.g-5.mt-2 > div:nth-child(4) .card {
+    animation: lxCardEnter .7s ease .40s both;
+}
+
+#features .row.g-5.mt-2 > div:nth-child(5) .card {
+    animation: lxCardEnter .7s ease .50s both;
+}
+
+#features .row.g-5.mt-2 > div:nth-child(6) .card {
+    animation: lxCardEnter .7s ease .60s both;
+}
+
+@keyframes lxCardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 6. Premium card hover */
+#features .row.g-5.mt-2 .card {
+    transition:
+        transform .35s cubic-bezier(.2,.8,.2,1),
+        box-shadow .35s ease,
+        border-color .35s ease;
+}
+
+#features .row.g-5.mt-2 .card:hover {
+    transform: translateY(-9px) scale(1.01);
+    box-shadow:
+        0 25px 55px rgba(0,0,0,.23),
+        0 0 24px rgba(99,102,241,.12) !important;
+}
+
+/* 7. Icon hover animation */
+#features .feature-icon-box {
+    transition:
+        transform .35s cubic-bezier(.2,.8,.2,1),
+        box-shadow .35s ease;
+}
+
+#features .row.g-5.mt-2 .card:hover .feature-icon-box {
+    transform: translateY(-4px) rotate(-5deg) scale(1.08);
+    box-shadow: 0 10px 28px rgba(99,102,241,.2);
+}
+
+/* 8. Smooth horizontal scrolling */
+#features .row.g-5.mt-2 {
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+}
+
+#features .row.g-5.mt-2 > div {
+    scroll-snap-align: start;
+}
+
+/* 9. Accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    #features,
+    #features::after,
+    #features .text-center *,
+    #features .row.g-5.mt-2 .card,
+    #features .feature-icon-box {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+/* ==========================================
+   LEXAI — PREMIUM FEATURE CARD CONTENT
+   ========================================== */
+
+#features .row.g-5.mt-2 .card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 365px;
+    padding: 28px !important;
+    border-radius: 22px;
+    position: relative;
+    isolation: isolate;
+}
+
+/* Small feature category badge */
+#features .feature-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0 0 18px;
+    padding: 6px 11px;
+    border-radius: 30px;
+    background: #eef2ff;
+    color: #4f46e5;
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+}
+
+/* Card heading */
+#features .row.g-5.mt-2 .card h5 {
+    margin-bottom: 12px !important;
+    color: #151d34 !important;
+    font-size: 1.28rem;
+    font-weight: 800;
+    letter-spacing: -.035em;
+    line-height: 1.35;
+}
+
+/* Card description */
+#features .row.g-5.mt-2 .card p {
+    margin-bottom: 18px;
+    color: #66718a !important;
+    font-size: .94rem;
+    line-height: 1.8;
+}
+
+/* Mini benefit list */
+#features .feature-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 22px;
+    display: grid;
+    gap: 9px;
+}
+
+#features .feature-benefits li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    color: #37445f;
+    font-size: .84rem;
+    line-height: 1.55;
+}
+
+#features .feature-benefits li i {
+    color: #0d9488;
+    margin-top: 4px;
+}
+
+/* Bottom action link */
+#features .feature-action {
+    margin-top: auto;
+    padding-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #4f46e5 !important;
+    font-size: .88rem;
+    font-weight: 750;
+    text-decoration: none;
+}
+
+#features .feature-action i {
+    transition: transform .25s ease;
+}
+
+#features .feature-action:hover i {
+    transform: translateX(5px);
+}
+
+/* Small numbered marker */
+#features .feature-number {
+    position: absolute;
+    top: 23px;
+    right: 23px;
+    color: #cbd5e1;
+    font-size: .8rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+}
+
+/* Card hover polish */
+#features .row.g-5.mt-2 .card:hover .feature-tag {
+    background: #e0e7ff;
+}
+
+#features .row.g-5.mt-2 .card:hover .feature-number {
+    color: #818cf8;
+}
+
+/* Mobile sizing */
+@media (max-width: 600px) {
+    #features .row.g-5.mt-2 .card {
+        min-height: 340px;
+        padding: 23px !important;
+    }
+}
+/* ===== LEXAI: STYLISH FEATURE SUBHEADINGS ===== */
+
+#features .feature-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    width: fit-content;
+    padding: 7px 12px;
+    margin-bottom: 18px;
+
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+
+    border: 1px solid #dbeafe;
+    border-radius: 7px 14px 14px 7px;
+    background: linear-gradient(110deg, #eff6ff, #eef2ff);
+    color: #4338ca !important;
+
+    position: relative;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+/* Small accent bar */
+#features .feature-tag::before {
+    content: "";
+    width: 3px;
+    height: 14px;
+    border-radius: 5px;
+    background: linear-gradient(180deg, #6366f1, #06b6d4);
+}
+
+/* Hover effect */
+#features .row.g-5.mt-2 .card:hover .feature-tag {
+    transform: translateX(3px);
+    box-shadow: 0 5px 15px rgba(79,70,229,.12);
+}
+
+/* Different colours for each card */
+#features .row.g-5.mt-2 > div:nth-child(1) .feature-tag {
+    background: #eef2ff;
+    color: #4338ca !important;
+    border-color: #c7d2fe;
+}
+
+#features .row.g-5.mt-2 > div:nth-child(2) .feature-tag {
+    background: #ecfeff;
+    color: #0e7490 !important;
+    border-color: #a5f3fc;
+}
+
+#features .row.g-5.mt-2 > div:nth-child(3) .feature-tag {
+    background: #f0fdf4;
+    color: #15803d !important;
+    border-color: #bbf7d0;
+}
+
+#features .row.g-5.mt-2 > div:nth-child(4) .feature-tag {
+    background: #faf5ff;
+    color: #7e22ce !important;
+    border-color: #e9d5ff;
+}
+
+#features .row.g-5.mt-2 > div:nth-child(5) .feature-tag {
+    background: #fff7ed;
+    color: #c2410c !important;
+    border-color: #fed7aa;
+}
+
+#features .row.g-5.mt-2 > div:nth-child(6) .feature-tag {
+    background: #fdf2f8;
+    color: #be185d !important;
+    border-color: #fbcfe8;
+}
+/* ===== LEXAI: IMPROVED FEATURE CARD CONTENT ===== */
+
+/* Reduce empty space and improve card proportions */
+#features .row.g-5.mt-2 .card {
+    min-height: 390px;
+    height: auto;
+    padding: 28px !important;
+    justify-content: flex-start;
+    border-radius: 22px;
+}
+
+/* Make feature icons more vibrant */
+#features .feature-icon-box {
+    width: 62px;
+    height: 62px;
+    border-radius: 17px;
+    margin-bottom: 23px;
+    background: linear-gradient(135deg, #e0e7ff, #cffafe);
+    box-shadow: 0 8px 20px rgba(79, 70, 229, .10);
+}
+
+#features .feature-icon-box i {
+    font-size: 1.65rem;
+    color: #4f46e5 !important;
+}
+
+/* Stronger card headings */
+#features .row.g-5.mt-2 .card h5 {
+    font-size: 1.3rem;
+    line-height: 1.4;
+    font-weight: 800;
+    letter-spacing: -.035em;
+    color: #17213b !important;
+    margin: 0 0 13px !important;
+}
+
+/* Add a small accent below each heading */
+#features .row.g-5.mt-2 .card h5::after {
+    content: "";
+    display: block;
+    width: 38px;
+    height: 3px;
+    margin-top: 11px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #6366f1, #22d3ee);
+    transition: width .3s ease;
+}
+
+#features .row.g-5.mt-2 .card:hover h5::after {
+    width: 68px;
+}
+
+/* More readable descriptions */
+#features .row.g-5.mt-2 .card p {
+    color: #5b6781 !important;
+    font-size: .96rem;
+    line-height: 1.85;
+    margin: 0 0 17px;
+}
+
+/* Optional mini benefit list */
+#features .feature-benefits {
+    display: grid;
+    gap: 10px;
+    padding: 0;
+    margin: 5px 0 20px;
+    list-style: none;
+}
+
+#features .feature-benefits li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-size: .86rem;
+    line-height: 1.6;
+    color: #394760;
+}
+
+#features .feature-benefits li i {
+    color: #0d9488 !important;
+    margin-top: 4px;
+}
+
+/* Elegant bottom action link */
+#features .feature-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 13px;
+    color: #4f46e5 !important;
+    font-size: .9rem;
+    font-weight: 750;
+    text-decoration: none;
+}
+
+#features .feature-action i {
+    transition: transform .25s ease;
+}
+
+#features .feature-action:hover i {
+    transform: translateX(5px);
+}
+
+/* Better horizontal card spacing */
+#features .row.g-5.mt-2 {
+    gap: 26px !important;
+    padding: 15px 8px 28px;
+}
+
+#features .row.g-5.mt-2 > div {
+    flex: 0 0 370px;
+    width: 370px;
+    max-width: 370px;
+}
+
+/* Responsive cards */
+@media (max-width: 600px) {
+    #features .row.g-5.mt-2 > div {
+        flex-basis: 84vw;
+        width: 84vw;
+        max-width: 84vw;
+    }
+
+    #features .row.g-5.mt-2 .card {
+        min-height: 350px;
+        padding: 23px !important;
+    }
+}
+/* ===== LexAI Interactive 3D Book Popup ===== */
+
+.lexai-book-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px 30px;
+    background: rgba(5, 10, 25, 0.88);
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    overflow-y: auto;
+}
+
+.lexai-book-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.lexai-book-close {
+    position: absolute;
+    top: 20px;
+    right: 28px;
+    width: 46px;
+    height: 46px;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.lexai-book-scene {
+    width: min(900px, 95vw);
+    perspective: 1800px;
+}
+
+.lexai-book {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 480px;
+    transform-style: preserve-3d;
+    transition: transform 1s ease;
+}
+
+.lexai-book-cover {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 50%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 35px;
+    color: white;
+    text-align: center;
+    background: linear-gradient(135deg, #101a35, #3530a5, #111827);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px 4px 4px 12px;
+    transform-origin: left center;
+    backface-visibility: hidden;
+    transition: transform 1s ease;
+    box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+}
+
+.lexai-book.is-open .lexai-book-cover {
+    transform: rotateY(-155deg);
+}
+
+.lexai-cover-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+.lexai-book-emblem {
+    font-size: 48px;
+    color: #58d9ff;
+}
+
+.lexai-cover-label,
+.lexai-page-kicker {
+    font-size: 11px;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.lexai-book-cover h2 {
+    color: white;
+    font-size: clamp(26px, 4vw, 38px);
+}
+
+.lexai-book-cover p {
+    color: #d8e3ff;
+    line-height: 1.7;
+}
+
+.lexai-open-hint {
+    margin-top: 18px;
+    color: #73e1ff;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.lexai-book-pages {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #f8f6ef;
+    color: #17213a;
+    border-radius: 8px;
+    box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+}
+
+.lexai-page-left,
+.lexai-page-right {
+    position: relative;
+    padding: 35px;
+    min-width: 0;
+}
+
+.lexai-page-left {
+    border-right: 1px solid #d8d4c9;
+    background: linear-gradient(90deg, #eae5d8, #fffdf6);
+}
+
+.lexai-page-left h3,
+.lexai-page-right h3 {
+    margin: 20px 0;
+    color: #17213a;
+    font-size: clamp(22px, 3vw, 32px);
+}
+
+.lexai-page-rule {
+    width: 55px;
+    height: 3px;
+    margin: 22px 0;
+    background: #5145cd;
+}
+
+.lexai-page-left p,
+.lexai-book-feature p {
+    color: #596174;
+    line-height: 1.7;
+}
+
+.lexai-book-feature {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin: 18px 0;
+}
+
+.lexai-book-feature > span {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    color: #5145cd;
+    background: #e9e7ff;
+}
+
+.lexai-book-feature strong {
+    color: #17213a;
+}
+
+.lexai-book-feature p {
+    margin: 4px 0 0;
+    font-size: 13px;
+}
+
+.lexai-book-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 12px 18px;
+    border-radius: 8px;
+    color: white;
+    background: #5145cd;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.lexai-book-cta:hover {
+    background: #3930a6;
+    color: white;
+}
+
+.lexai-page-number {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    color: #777;
+    font-size: 12px;
+}
+
+.lexai-book-caption {
+    margin: 22px 0 0;
+    color: #e2e8ff;
+    text-align: center;
+    font-size: 13px;
+}
+
+body.lexai-book-open {
+    overflow: hidden;
+}
+
+@media (max-width: 650px) {
+    .lexai-book {
+        min-height: auto;
+    }
+
+    .lexai-book-pages {
+        grid-template-columns: 1fr;
+    }
+
+    .lexai-page-left,
+    .lexai-page-right {
+        padding: 25px;
+    }
+
+    .lexai-book-cover {
+        padding: 20px;
+    }
+
+    .lexai-book.is-open .lexai-book-cover {
+        transform: rotateY(-155deg);
+    }
+}
+
+/* ========================================
+   LEXAI — ANIMATED PROCESS TIMELINE
+======================================== */
+
+#how-it-works.lexai-process-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 65px 0;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(77, 92, 255, .13), transparent 55%),
+        linear-gradient(145deg, #f8faff 0%, #edf3ff 50%, #f9fbff 100%);
+    color: #14203b;
+}
+
+.lexai-process-section::before,
+.lexai-process-section::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 280px;
+    height: 280px;
+    border: 1px solid rgba(76, 91, 255, .12);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: lexai-background-float 9s ease-in-out infinite;
+}
+
+.lexai-process-section::before {
+    top: 5%;
+    left: -170px;
+    box-shadow: 0 0 0 30px rgba(76, 91, 255, .025),
+                0 0 0 60px rgba(76, 91, 255, .02);
+}
+
+.lexai-process-section::after {
+    right: -170px;
+    bottom: 5%;
+    animation-delay: -4s;
+}
+
+.lexai-process-heading {
+    margin-bottom: 65px;
+    animation: lexai-process-enter .8s ease both;
+}
+
+.lexai-process-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border: 1px solid rgba(52, 124, 255, .2);
+    border-radius: 50px;
+    background: rgba(255, 255, 255, .8);
+    color: #3858db;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.lexai-live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #20c997;
+    box-shadow: 0 0 0 5px rgba(32, 201, 151, .13);
+    animation: lexai-dot-pulse 2s infinite;
+}
+
+.lexai-process-heading h2 {
+    margin: 25px 0 16px;
+    color: #111a33;
+    font-size: clamp(32px, 4.5vw, 53px);
+    font-weight: 850;
+    letter-spacing: -1.8px;
+    line-height: 1.15;
+}
+
+.lexai-process-heading h2 span {
+    color: #5651e8;
+    background: linear-gradient(90deg, #3a83ff, #7551ed, #13a8d9);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.lexai-process-heading > p {
+    color: #66728b;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.lexai-process-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 45px minmax(0, 1fr) 45px minmax(0, 1fr);
+    align-items: center;
+    gap: 0;
+}
+
+.lexai-process-card {
+    position: relative;
+    min-width: 0;
+    min-height: 365px;
+    padding: 27px 23px 23px;
+    overflow: hidden;
+    border: 1px solid rgba(110, 132, 180, .18);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, .85);
+    box-shadow: 0 15px 45px rgba(30, 52, 100, .07);
+    animation: lexai-process-enter .8s ease both;
+    animation-delay: var(--step-delay);
+    transition: transform .4s ease,
+                box-shadow .4s ease,
+                border-color .4s ease,
+                background .4s ease;
+}
+
+.lexai-process-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 15%;
+    width: 70%;
+    height: 3px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, transparent, #5b73ff, #31c5ed, transparent);
+    opacity: .45;
+    transition: opacity .3s ease, width .3s ease;
+}
+
+.lexai-process-card:hover {
+    transform: translateY(-13px) scale(1.025);
+    border-color: rgba(87, 101, 242, .45);
+    background: #fff;
+    box-shadow: 0 28px 65px rgba(50, 67, 150, .16);
+}
+
+.lexai-process-card:hover::before {
+    left: 0;
+    width: 100%;
+    opacity: 1;
+}
+
+.lexai-process-featured {
+    border-color: rgba(93, 87, 238, .3);
+    background: linear-gradient(160deg, #fff 20%, #f0efff 100%);
+    box-shadow: 0 20px 55px rgba(86, 81, 232, .12);
+}
+
+.lexai-step-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.lexai-step-number {
+    color: #a4afc5;
+    font-size: 14px;
+    font-weight: 850;
+    letter-spacing: 2px;
+}
+
+.lexai-step-tag {
+    padding: 6px 9px;
+    border-radius: 6px;
+    background: #edf2ff;
+    color: #4f60cf;
+    font-size: 9px;
+    font-weight: 850;
+    letter-spacing: 1px;
+}
+
+.lexai-process-icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 94px;
+    height: 94px;
+    margin: 26px auto 25px;
+    border-radius: 28px;
+    font-size: 38px;
+    transition: transform .45s ease, border-radius .45s ease;
+}
+
+.lexai-process-icon > i {
+    position: relative;
+    z-index: 2;
+}
+
+.icon-upload {
+    color: #3488ff;
+    background: linear-gradient(145deg, #e8f2ff, #d8e7ff);
+}
+
+.icon-ai {
+    color: #6553ed;
+    background: linear-gradient(145deg, #efedff, #dcd8ff);
+}
+
+.icon-insights {
+    color: #0cae94;
+    background: linear-gradient(145deg, #e2fff7, #c9f5e9);
+}
+
+.lexai-process-card:hover .lexai-process-icon {
+    transform: translateY(-4px) rotate(-5deg);
+    border-radius: 50%;
+}
+
+.lexai-icon-orbit {
+    position: absolute;
+    inset: -8px;
+    border: 1px dashed rgba(91, 115, 255, .38);
+    border-radius: 33px;
+    animation: lexai-orbit-spin 15s linear infinite;
+    transition: border-radius .45s ease;
+}
+
+.lexai-process-card:hover .lexai-icon-orbit {
+    border-radius: 50%;
+}
+
+.lexai-ai-pulse {
+    position: absolute;
+    inset: -17px;
+    border: 1px solid rgba(101, 83, 237, .22);
+    border-radius: 35px;
+    animation: lexai-ring-pulse 2.5s ease-out infinite;
+}
+
+.lexai-process-card h3 {
+    margin: 0 0 13px;
+    color: #192542;
+    font-size: 20px;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: -.4px;
+}
+
+.lexai-process-card > p {
+    min-height: 80px;
+    margin: 0;
+    color: #6c7890;
+    font-size: 14px;
+    line-height: 1.8;
+    text-align: center;
+}
+
+.lexai-process-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #edf0f7;
+    color: #53627d;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.lexai-process-footer i {
+    color: #5a69e8;
+    font-size: 15px;
+}
+
+.lexai-process-connector {
+    position: relative;
+    height: 2px;
+    overflow: hidden;
+    background: #d8def5;
+}
+
+.lexai-process-connector span {
+    position: absolute;
+    top: 0;
+    left: -45%;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #635bff, #22b8ed, transparent);
+    animation: lexai-flow-line 2.4s linear infinite;
+}
+
+.lexai-process-connector:nth-of-type(2) span {
+    animation-delay: .8s;
+}
+
+.lexai-process-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 48px;
+}
+
+.lexai-process-bottom p {
+    margin: 0;
+    color: #77839a;
+    font-size: 12px;
+    text-align: center;
+}
+
+.lexai-process-bottom p i {
+    margin-right: 5px;
+    color: #625bea;
+}
+
+.lexai-bottom-line {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #bfc9eb);
+}
+
+.lexai-bottom-line:last-child {
+    transform: rotate(180deg);
+}
+
+@keyframes lexai-process-enter {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes lexai-background-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-25px) rotate(12deg); }
+}
+
+@keyframes lexai-dot-pulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(32, 201, 151, .12); }
+    50% { box-shadow: 0 0 0 8px rgba(32, 201, 151, .04); }
+}
+
+@keyframes lexai-orbit-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes lexai-ring-pulse {
+    0% { transform: scale(.88); opacity: .7; }
+    100% { transform: scale(1.18); opacity: 0; }
+}
+
+@keyframes lexai-flow-line {
+    to { left: 110%; }
+}
+
+@media (max-width: 991px) {
+    .lexai-process-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        max-width: 560px;
+        margin: 0 auto;
+    }
+
+    .lexai-process-card {
+        min-height: 0;
+        padding: 28px;
+    }
+
+    .lexai-process-card > p {
+        min-height: 0;
+    }
+
+    .lexai-process-connector {
+        width: 2px;
+        height: 30px;
+        margin: -24px auto;
+        overflow: hidden;
+        background: #d8def5;
+    }
+
+    .lexai-process-connector span {
+        top: -40%;
+        left: 0;
+        width: 100%;
+        height: 40%;
+        background: linear-gradient(180deg, transparent, #635bff, #22b8ed, transparent);
+        animation: lexai-flow-vertical 2.4s linear infinite;
+    }
+
+    @keyframes lexai-flow-vertical {
+        to { top: 110%; }
+    }
+
+    .lexai-process-heading {
+        margin-bottom: 42px;
+    }
+}
+
+@media (max-width: 575px) {
+    #how-it-works.lexai-process-section {
+        padding: 45px 0;
+    }
+
+    .lexai-process-heading h2 {
+        letter-spacing: -1px;
+    }
+
+    .lexai-process-label {
+        font-size: 9px;
+        letter-spacing: 1px;
+    }
+
+    .lexai-process-bottom {
+        gap: 8px;
+    }
+
+    .lexai-bottom-line {
+        width: 22px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lexai-process-section *,
+    .lexai-process-section *::before,
+    .lexai-process-section *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+}
+/* ========================================
+   LEXAI PREMIUM PRICING EXPERIENCE
+======================================== */
+
+#pricing.lexai-pricing-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 75px 0;
+    color: #fff;
+    background:
+        radial-gradient(ellipse at 15% 15%, rgba(67, 87, 210, .2), transparent 40%),
+        radial-gradient(ellipse at 90% 80%, rgba(0, 191, 255, .13), transparent 38%),
+        linear-gradient(135deg, #0b1124, #131c37 55%, #0a1021);
+}
+
+.lexai-pricing-section::before,
+.lexai-pricing-section::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 320px;
+    height: 320px;
+    border: 1px solid rgba(100, 135, 255, .13);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: lexai-price-orbit 12s ease-in-out infinite;
+}
+
+.lexai-pricing-section::before {
+    top: -170px;
+    left: -130px;
+    box-shadow: 0 0 0 35px rgba(100, 135, 255, .025),
+                0 0 0 70px rgba(100, 135, 255, .02);
+}
+
+.lexai-pricing-section::after {
+    right: -160px;
+    bottom: -190px;
+    animation-delay: -6s;
+}
+
+.lexai-pricing-heading {
+    margin-bottom: 65px;
+    animation: lexai-price-enter .8s ease both;
+}
+
+.lexai-pricing-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 16px;
+    border: 1px solid rgba(92, 132, 255, .35);
+    border-radius: 50px;
+    background: rgba(255, 255, 255, .055);
+    color: #73dfff;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.lexai-pricing-heading h2 {
+    margin: 24px 0 17px;
+    color: #fff;
+    font-size: clamp(34px, 4.5vw, 55px);
+    font-weight: 850;
+    letter-spacing: -1.8px;
+    line-height: 1.15;
+}
+
+.lexai-pricing-heading h2 span {
+    color: #8b9cff;
+    background: linear-gradient(90deg, #5f9dff, #9b8aff, #52dcff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.lexai-pricing-heading > p {
+    max-width: 620px;
+    margin: 0 auto;
+    color: #a8b5d1;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.lexai-pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 390px));
+    justify-content: center;
+    align-items: stretch;
+    gap: 30px;
+}
+
+.lexai-price-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 34px;
+    border: 1px solid rgba(162, 181, 225, .19);
+    border-radius: 25px;
+    background: linear-gradient(145deg, rgba(31, 44, 72, .95), rgba(20, 30, 53, .97));
+    box-shadow: 0 20px 55px rgba(0, 0, 0, .16);
+    animation: lexai-price-enter .8s ease both;
+    transition: transform .4s ease, box-shadow .4s ease,
+                border-color .4s ease, background .4s ease;
+}
+
+.lexai-basic-plan {
+    animation-delay: .1s;
+}
+
+.lexai-pro-plan {
+    border-color: rgba(76, 194, 255, .55);
+    background: linear-gradient(145deg, rgba(34, 49, 84, .98), rgba(20, 29, 57, .99));
+    animation-delay: .25s;
+}
+
+.lexai-price-card:hover {
+    transform: translateY(-12px);
+    border-color: rgba(106, 155, 255, .8);
+    box-shadow: 0 32px 75px rgba(0, 0, 0, .3);
+}
+
+.lexai-pro-plan:hover {
+    border-color: #42d7ff;
+    box-shadow: 0 30px 75px rgba(39, 151, 255, .15);
+}
+
+.lexai-price-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 26px;
+}
+
+.lexai-price-icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    font-size: 24px;
+    transition: transform .35s ease, border-radius .35s ease;
+}
+
+.lexai-price-card:hover .lexai-price-icon {
+    transform: rotate(-8deg) scale(1.08);
+    border-radius: 50%;
+}
+
+.basic-icon {
+    color: #86b5ff;
+    background: rgba(85, 133, 255, .15);
+}
+
+.pro-icon {
+    color: #70e6ff;
+    background: rgba(31, 201, 255, .14);
+}
+
+.lexai-plan-label {
+    color: #9eacc9;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-align: right;
+}
+
+.lexai-price-card h3 {
+    margin: 0 0 10px;
+    color: #fff;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -.5px;
+}
+
+.lexai-plan-description {
+    min-height: 50px;
+    margin: 0 0 25px;
+    color: #aebbd4;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.lexai-price {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    margin-bottom: 26px;
+}
+
+.lexai-price-amount {
+    color: #fff;
+    font-size: clamp(43px, 5vw, 58px);
+    font-weight: 850;
+    letter-spacing: -2px;
+    line-height: 1;
+    transition: text-shadow .3s ease;
+}
+
+.lexai-price-card:hover .lexai-price-amount {
+    text-shadow: 0 0 28px rgba(94, 173, 255, .35);
+}
+
+.lexai-pro-plan .lexai-price-amount {
+    background: linear-gradient(100deg, #fff, #9eeaff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.lexai-price-period {
+    color: #9aa9c8;
+    font-size: 13px;
+}
+
+.lexai-price-divider {
+    width: 100%;
+    height: 1px;
+    margin-bottom: 23px;
+    background: linear-gradient(90deg, rgba(130, 153, 205, .4), transparent);
+}
+
+.lexai-features-title {
+    margin-bottom: 19px;
+    color: #7f94bd;
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 1.6px;
+}
+
+.lexai-price-features {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+    margin: 0 0 30px;
+    padding: 0;
+    list-style: none;
+}
+
+.lexai-price-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    color: #e0e8fa;
+    font-size: 13px;
+    line-height: 1.7;
+    transition: transform .25s ease, color .25s ease;
+}
+
+.lexai-price-features li:hover {
+    transform: translateX(5px);
+    color: #fff;
+}
+
+.lexai-price-features li > i {
+    flex: 0 0 auto;
+    margin-top: 2px;
+    color: #56d9ff;
+    font-size: 15px;
+}
+
+.lexai-price-features .lexai-feature-unavailable {
+    color: #7f8aa3;
+}
+
+.lexai-price-features .lexai-feature-unavailable > i {
+    color: #7f8aa3;
+}
+
+.lexai-price-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: auto;
+    padding: 14px 17px;
+    border: 1px solid rgba(148, 169, 210, .38);
+    border-radius: 12px;
+    color: #fff;
+    background: rgba(255, 255, 255, .045);
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: transform .3s ease, box-shadow .3s ease,
+                border-color .3s ease, background .3s ease;
+}
+
+.lexai-price-button i {
+    transition: transform .3s ease;
+}
+
+.lexai-price-button:hover {
+    transform: translateY(-3px);
+    border-color: #69baff;
+    color: #fff;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .15);
+}
+
+.lexai-price-button:hover i {
+    transform: translate(3px, -3px);
+}
+
+.lexai-pro-button {
+    border-color: transparent;
+    background: linear-gradient(110deg, #465cf0, #7755e9, #348fff);
+    background-size: 200% 100%;
+    box-shadow: 0 8px 25px rgba(79, 89, 237, .2);
+}
+
+.lexai-pro-button:hover {
+    background-position: 100% 0;
+    border-color: transparent;
+    box-shadow: 0 12px 32px rgba(65, 129, 255, .32);
+}
+
+.lexai-popular-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 17px;
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: 50px;
+    color: #07172b;
+    background: linear-gradient(100deg, #66e7ff, #6b9cff);
+    box-shadow: 0 8px 28px rgba(35, 190, 255, .23);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    transform: translateX(-50%);
+    animation: lexai-badge-float 3s ease-in-out infinite;
+}
+
+.lexai-plan-footnote {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    margin-top: 19px;
+    color: #8c9bb8;
+    font-size: 11px;
+}
+
+.lexai-plan-footnote i {
+    color: #69d9fa;
+}
+
+.lexai-pricing-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    margin-top: 45px;
+    color: #8c9bb8;
+    font-size: 12px;
+    text-align: center;
+}
+
+.lexai-pricing-note i {
+    color: #66d9ff;
+}
+
+@keyframes lexai-price-enter {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes lexai-price-orbit {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-22px) rotate(10deg); }
+}
+
+@keyframes lexai-badge-float {
+    0%, 100% { margin-top: 0; }
+    50% { margin-top: -5px; }
+}
+
+@media (max-width: 767px) {
+    #pricing.lexai-pricing-section {
+        padding: 55px 0;
+    }
+
+    .lexai-pricing-grid {
+        grid-template-columns: minmax(0, 430px);
+        gap: 32px;
+    }
+
+    .lexai-pricing-heading {
+        margin-bottom: 45px;
+    }
+
+    .lexai-price-card {
+        padding: 29px 24px;
+    }
+
+    .lexai-plan-description {
+        min-height: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lexai-pricing-section *,
+    .lexai-pricing-section *::before,
+    .lexai-pricing-section *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+/* ========================================
+   LEXAI — PREMIUM ABOUT US SECTION
+======================================== */
+
+#about.lexai-about-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 75px 0;
+    color: #172440;
+    background:
+        radial-gradient(ellipse at 5% 10%, rgba(89, 123, 255, .10), transparent 38%),
+        radial-gradient(ellipse at 100% 80%, rgba(27, 197, 238, .09), transparent 38%),
+        linear-gradient(140deg, #ffffff, #f4f7ff 58%, #f9fcff);
+}
+
+.lexai-about-section::before,
+.lexai-about-section::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 270px;
+    height: 270px;
+    border: 1px solid rgba(87, 112, 226, .12);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: lexai-about-float 11s ease-in-out infinite;
+}
+
+.lexai-about-section::before {
+    top: -155px;
+    right: -100px;
+    box-shadow: 0 0 0 30px rgba(87, 112, 226, .025),
+                0 0 0 60px rgba(87, 112, 226, .018);
+}
+
+.lexai-about-section::after {
+    bottom: -180px;
+    left: -100px;
+    animation-delay: -5s;
+}
+
+.lexai-about-heading {
+    margin-bottom: 45px;
+    animation: lexai-about-enter .8s ease both;
+}
+
+.lexai-about-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    border: 1px solid rgba(82, 112, 230, .2);
+    border-radius: 50px;
+    background: rgba(255, 255, 255, .75);
+    color: #485cd2;
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 2px;
+}
+
+.lexai-about-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #20bd98;
+    box-shadow: 0 0 0 5px rgba(32, 189, 152, .12);
+    animation: lexai-about-pulse 2s infinite;
+}
+
+.lexai-about-heading h2 {
+    margin: 23px 0 13px;
+    color: #15213c;
+    font-size: clamp(35px, 4.5vw, 55px);
+    font-weight: 850;
+    line-height: 1.15;
+    letter-spacing: -1.7px;
+}
+
+.lexai-about-heading h2 span {
+    color: #5559e9;
+    background: linear-gradient(90deg, #3b83ff, #7955eb, #12a9d8);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.lexai-about-subtitle {
+    margin: 0;
+    color: #6c7891;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.lexai-about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+    align-items: stretch;
+    gap: 28px;
+}
+
+.lexai-about-glass-card,
+.lexai-team-panel {
+    height: 100%;
+    padding: 32px;
+    border: 1px solid rgba(139, 157, 197, .22);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, .72);
+    box-shadow: 0 18px 55px rgba(31, 53, 105, .06);
+    backdrop-filter: blur(12px);
+    transition: transform .4s ease, box-shadow .4s ease,
+                border-color .4s ease;
+}
+
+.lexai-about-glass-card {
+    animation: lexai-about-enter .8s .1s ease both;
+}
+
+.lexai-team-panel {
+    animation: lexai-about-enter .8s .22s ease both;
+}
+
+.lexai-about-glass-card:hover,
+.lexai-team-panel:hover {
+    transform: translateY(-5px);
+    border-color: rgba(93, 112, 231, .35);
+    box-shadow: 0 25px 65px rgba(31, 53, 105, .10);
+}
+
+.lexai-about-card-icon,
+.lexai-team-symbol {
+    display: grid;
+    place-items: center;
+    width: 53px;
+    height: 53px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(96, 116, 240, .16);
+    border-radius: 16px;
+    color: #585de3;
+    background: linear-gradient(145deg, #eef1ff, #e3f7ff);
+    font-size: 25px;
+    transition: transform .4s ease, border-radius .4s ease;
+}
+
+.lexai-about-glass-card:hover .lexai-about-card-icon {
+    transform: rotate(-8deg) scale(1.07);
+    border-radius: 50%;
+}
+
+.lexai-about-small-label {
+    color: #6374d7;
+    font-size: 9px;
+    font-weight: 850;
+    letter-spacing: 1.7px;
+}
+
+.lexai-about-glass-card h3 {
+    max-width: 450px;
+    margin: 13px 0 18px;
+    color: #172440;
+    font-size: clamp(23px, 2.4vw, 30px);
+    font-weight: 800;
+    line-height: 1.35;
+    letter-spacing: -.7px;
+}
+
+.lexai-about-glass-card > p {
+    margin: 0 0 15px;
+    color: #65728b;
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.lexai-about-divider {
+    height: 1px;
+    margin: 25px 0;
+    background: linear-gradient(90deg, #d8e0f5, transparent);
+}
+
+.lexai-about-values {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+}
+
+.lexai-about-values > div {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.lexai-value-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 40px;
+    height: 40px;
+    border-radius: 12px;
+    color: #5668dd;
+    background: #edf0ff;
+    transition: transform .3s ease, background .3s ease;
+}
+
+.lexai-about-values > div:hover .lexai-value-icon {
+    transform: scale(1.1) rotate(-5deg);
+    background: #e0e8ff;
+}
+
+.lexai-about-values strong,
+.lexai-about-values small {
+    display: block;
+}
+
+.lexai-about-values strong {
+    margin-bottom: 4px;
+    color: #24314d;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.lexai-about-values small {
+    color: #79849a;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.lexai-team-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.lexai-team-heading h3 {
+    margin: 9px 0 0;
+    color: #182440;
+    font-size: 27px;
+    font-weight: 850;
+    letter-spacing: -.7px;
+}
+
+.lexai-team-symbol {
+    flex-shrink: 0;
+    margin: 0;
+    color: #168fc9;
+}
+
+.lexai-team-panel:hover .lexai-team-symbol {
+    transform: rotate(8deg);
+}
+
+.lexai-team-description {
+    margin: 12px 0 25px;
+    color: #77839a;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.lexai-team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.lexai-member-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+    min-height: 80px;
+    padding: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(143, 160, 197, .23);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, .86);
+    box-shadow: 0 5px 20px rgba(37, 56, 105, .035);
+    animation: lexai-about-enter .65s ease both;
+    animation-delay: var(--member-delay);
+    transition: transform .32s ease, border-color .32s ease,
+                box-shadow .32s ease, background .32s ease;
+}
+
+.lexai-member-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 0;
+    border-radius: 5px;
+    background: linear-gradient(#5667ec, #21c2e9);
+    transition: height .3s ease;
+}
+
+.lexai-member-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(91, 108, 231, .45);
+    background: #fff;
+    box-shadow: 0 15px 32px rgba(42, 63, 128, .10);
+}
+
+.lexai-member-card:hover::before {
+    height: 100%;
+}
+
+.lexai-member-avatar {
+    display: grid;
+    place-items: center;
+    flex: 0 0 38px;
+    height: 38px;
+    border: 1px solid rgba(101, 119, 234, .16);
+    border-radius: 12px;
+    color: #4d5bd0;
+    background: linear-gradient(145deg, #eef0ff, #e4f7ff);
+    font-size: 11px;
+    font-weight: 900;
+    transition: transform .3s ease;
+}
+
+.lexai-member-card:hover .lexai-member-avatar {
+    transform: scale(1.07) rotate(-5deg);
+}
+
+.lexai-member-card > div {
+    min-width: 0;
+}
+
+.lexai-member-card strong,
+.lexai-member-card small {
+    display: block;
+    overflow-wrap: anywhere;
+}
+
+.lexai-member-card strong {
+    color: #26334e;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.5;
+}
+
+.lexai-member-card small {
+    margin-top: 4px;
+    color: #8792a7;
+    font-size: 10px;
+}
+
+.lexai-member-arrow {
+    flex-shrink: 0;
+    margin-left: auto;
+    color: #7585d8;
+    opacity: 0;
+    transform: translate(-4px, 4px);
+    transition: opacity .3s ease, transform .3s ease;
+}
+
+.lexai-member-card:hover .lexai-member-arrow {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+.lexai-team-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e7ebf5;
+    color: #8994a9;
+    font-size: 10px;
+    text-align: center;
+}
+
+.lexai-team-footer i {
+    color: #6874e8;
+}
+
+@keyframes lexai-about-enter {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes lexai-about-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(10deg); }
+}
+
+@keyframes lexai-about-pulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(32, 189, 152, .12); }
+    50% { box-shadow: 0 0 0 8px rgba(32, 189, 152, .035); }
+}
+
+@media (max-width: 991px) {
+    .lexai-about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lexai-about-glass-card,
+    .lexai-team-panel {
+        padding: 28px;
+    }
+}
+
+@media (max-width: 575px) {
+    #about.lexai-about-section {
+        padding: 48px 0;
+    }
+
+    .lexai-about-heading h2 {
+        letter-spacing: -1px;
+    }
+
+    .lexai-about-glass-card,
+    .lexai-team-panel {
+        padding: 22px;
+        border-radius: 19px;
+    }
+
+    .lexai-team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lexai-member-card {
+        min-height: 72px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lexai-about-section *,
+    .lexai-about-section *::before,
+    .lexai-about-section *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+/* LexAI About Section — Improved Readability */
+
+.lexai-about-subtitle {
+    font-size: 18px !important;
+    line-height: 1.8;
+}
+
+.lexai-about-small-label {
+    font-size: 12px !important;
+    letter-spacing: 1.4px;
+}
+
+.lexai-about-glass-card > p {
+    font-size: 16px !important;
+    line-height: 1.9;
+    color: #53617b;
+}
+
+.lexai-about-values strong {
+    font-size: 16px !important;
+}
+
+.lexai-about-values small {
+    font-size: 14px !important;
+    line-height: 1.7;
+    color: #5f6d85;
+}
+
+.lexai-team-description {
+    font-size: 15px !important;
+    line-height: 1.8;
+    color: #5f6d85;
+}
+
+.lexai-member-card strong {
+    font-size: 15px !important;
+    line-height: 1.6;
+    color: #24314d;
+}
+
+.lexai-member-card small {
+    font-size: 13px !important;
+    color: #63718a;
+}
+
+.lexai-team-footer {
+    font-size: 13px !important;
+    line-height: 1.7;
+    color: #63718a;
+}
+
+.lexai-about-eyebrow {
+    font-size: 12px;
+}
+
+@media (max-width: 575px) {
+    .lexai-about-glass-card > p {
+        font-size: 15px !important;
+    }
+
+    .lexai-about-values small {
+        font-size: 13px !important;
+    }
+
+    .lexai-member-card strong {
+        font-size: 14px !important;
+    }
+}
+/* Professional colour backgrounds for About Us cards */
+
+/* Main vision card */
+.lexai-about-glass-card {
+    background: linear-gradient(
+        145deg,
+        #ffffff 0%,
+        #f0f3ff 55%,
+        #e8f7ff 100%
+    ) !important;
+    border: 1px solid #d9e2ff;
+    box-shadow: 0 18px 45px rgba(65, 87, 170, 0.10);
+}
+
+/* Team panel */
+.lexai-team-panel {
+    background: linear-gradient(
+        145deg,
+        #edf2ff 0%,
+        #f5f2ff 50%,
+        #e8f8ff 100%
+    ) !important;
+    border: 1px solid #d6e0ff;
+    box-shadow: 0 18px 45px rgba(65, 87, 170, 0.10);
+}
+
+/* Individual team member cards */
+.lexai-member-card {
+    background: linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #f0f5ff 100%
+    ) !important;
+    border: 1px solid #dce5fa;
+    box-shadow: 0 8px 22px rgba(53, 77, 140, 0.06);
+}
+
+/* Smooth colour transition on hover */
+.lexai-about-glass-card,
+.lexai-team-panel,
+.lexai-member-card {
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease,
+        background 0.35s ease;
+}
+
+.lexai-about-glass-card:hover {
+    background: linear-gradient(
+        145deg,
+        #ffffff,
+        #e8edff,
+        #e1f7ff
+    ) !important;
+}
+
+.lexai-team-panel:hover {
+    background: linear-gradient(
+        145deg,
+        #e7efff,
+        #eee9ff,
+        #e1f6ff
+    ) !important;
+}
+
+.lexai-member-card:hover {
+    background: linear-gradient(
+        135deg,
+        #e6eeff,
+        #e8f9ff
+    ) !important;
+    border-color: #9aafff;
+    box-shadow: 0 14px 30px rgba(69, 91, 180, 0.13);
+}
+/* =====================================
+   LEXAI PREMIUM FOOTER
+===================================== */
+
+footer {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: linear-gradient(
+        125deg,
+        #0b1225 0%,
+        #131d39 48%,
+        #10162b 100%
+    ) !important;
+    border-top: 1px solid rgba(75, 139, 255, 0.3);
+    box-shadow: 0 -15px 50px rgba(32, 66, 140, 0.07);
+}
+
+/* Soft animated ambient glow */
+footer::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 430px;
+    height: 430px;
+    top: -280px;
+    left: 15%;
+    border-radius: 50%;
+    background: rgba(45, 112, 255, 0.17);
+    filter: blur(85px);
+    pointer-events: none;
+    animation: lexai-footer-glow 9s ease-in-out infinite alternate;
+}
+
+footer::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 350px;
+    height: 350px;
+    right: -150px;
+    bottom: -220px;
+    border-radius: 50%;
+    background: rgba(0, 195, 235, 0.13);
+    filter: blur(80px);
+    pointer-events: none;
+}
+
+/* Footer brand */
+footer .navbar-brand,
+footer .footer-brand,
+footer h4,
+footer h5 {
+    color: #ffffff !important;
+    transition: color .3s ease;
+}
+
+footer .navbar-brand:hover,
+footer .footer-brand:hover {
+    color: #53caff !important;
+}
+
+/* Footer descriptions */
+footer p {
+    color: #b8c6e0 !important;
+    line-height: 1.95;
+    transition: color .3s ease;
+}
+
+/* Column headings */
+footer h6,
+footer .fw-bold {
+    letter-spacing: .8px;
+}
+
+/* Footer navigation links */
+footer a:not(.navbar-brand):not(.btn) {
+    color: #b8c9e5 !important;
+    text-decoration: none;
+    transition:
+        color .28s ease,
+        transform .28s ease,
+        text-shadow .28s ease;
+}
+
+footer a:not(.navbar-brand):not(.btn):hover {
+    color: #55d6ff !important;
+    text-shadow: 0 0 16px rgba(50, 190, 255, .25);
+}
+
+/* Product and company link hover */
+footer .col-md-2 a,
+footer .col-md-3 a,
+footer .col-lg-2 a,
+footer .col-lg-3 a {
+    display: inline-block;
+}
+
+footer .col-md-2 a:hover,
+footer .col-md-3 a:hover,
+footer .col-lg-2 a:hover,
+footer .col-lg-3 a:hover {
+    transform: translateX(5px);
+}
+
+/* Legal disclaimer card */
+footer .alert,
+footer .disclaimer,
+footer .footer-disclaimer {
+    color: #243451 !important;
+    background: linear-gradient(135deg, #ffffff, #edf3ff) !important;
+    border: 1px solid rgba(161, 186, 255, .65) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, .15);
+    transition: transform .35s ease, box-shadow .35s ease;
+}
+
+footer .alert:hover,
+footer .disclaimer:hover,
+footer .footer-disclaimer:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .22);
+}
+
+/* Copyright separator */
+footer hr,
+footer .border-top {
+    border-color: rgba(183, 204, 255, .17) !important;
+}
+
+/* Copyright text — more visible */
+footer small,
+footer .text-muted {
+    color: #9eafd0 !important;
+}
+
+/* Entrance animation */
+@keyframes lexai-footer-glow {
+    from {
+        transform: translate3d(-25px, 0, 0) scale(.9);
+        opacity: .65;
+    }
+    to {
+        transform: translate3d(55px, 30px, 0) scale(1.15);
+        opacity: 1;
+    }
+}
+
+/* Respect reduced-motion settings */
+@media (prefers-reduced-motion: reduce) {
+    footer::before {
+        animation: none;
+    }
+
+    footer *,
+    footer *::before,
+    footer *::after {
+        transition-duration: .01ms !important;
+    }
+}
+/* LexAI footer text visibility fix */
+footer,
+footer p,
+footer a,
+footer small,
+footer .text-muted {
+    color: #cbd5e1 !important;
+}
+
+footer .text-slate-400 {
+    color: #cbd5e1 !important;
+}
+
+footer hr {
+    border-color: rgba(203, 213, 225, 0.25) !important;
+}
+
+footer a {
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+footer a:hover {
+    color: #22d3ee !important;
+}
+
+footer .copyright,
+footer .copyright p {
+    color: #cbd5e1 !important;
+}
+/* ===================================
+   LEXAI PREMIUM LEGAL DISCLAIMER
+=================================== */
+
+/* Target the disclaimer box in the footer */
+footer .alert,
+footer .disclaimer,
+footer .footer-disclaimer {
+    position: relative;
+    overflow: hidden;
+    padding: 25px 24px !important;
+    color: #e8f2ff !important;
+
+    background: linear-gradient(
+        145deg,
+        #1b2c4c 0%,
+        #172440 55%,
+        #12354b 100%
+    ) !important;
+
+    border: 1px solid rgba(69, 211, 255, 0.35) !important;
+    border-left: 4px solid #35d5f4 !important;
+    border-radius: 18px !important;
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+    transition:
+        transform .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease;
+}
+
+/* Subtle light effect */
+footer .alert::before,
+footer .disclaimer::before,
+footer .footer-disclaimer::before {
+    content: "";
+    position: absolute;
+    top: -55px;
+    right: -45px;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: rgba(42, 202, 255, 0.12);
+    filter: blur(28px);
+    pointer-events: none;
+    transition: transform .45s ease;
+}
+
+/* Hover animation */
+footer .alert:hover,
+footer .disclaimer:hover,
+footer .footer-disclaimer:hover {
+    transform: translateY(-5px);
+    border-color: rgba(69, 211, 255, 0.75) !important;
+    box-shadow:
+        0 22px 45px rgba(0, 0, 0, 0.25),
+        0 0 20px rgba(42, 202, 255, 0.08);
+}
+
+footer .alert:hover::before,
+footer .disclaimer:hover::before,
+footer .footer-disclaimer:hover::before {
+    transform: scale(1.5);
+}
+
+/* Readable disclaimer text */
+footer .alert *,
+footer .disclaimer *,
+footer .footer-disclaimer * {
+    color: #e8f2ff !important;
+    line-height: 1.8;
+}
+
+footer .alert strong,
+footer .disclaimer strong,
+footer .footer-disclaimer strong {
+    color: #61e2ff !important;
+    font-weight: 800;
+}
+
+/* Mobile spacing */
+@media (max-width: 575px) {
+    footer .alert,
+    footer .disclaimer,
+    footer .footer-disclaimer {
+        padding: 20px !important;
+        border-radius: 15px !important;
+    }
+}
+/* ===== LEXAI FOOTER INTERACTIVE TEXT ===== */
+
+/* Logo hover glow */
+footer a.navbar-brand,
+footer .footer-brand {
+    display: inline-block;
+    transition: transform .3s ease, filter .3s ease;
+}
+
+footer a.navbar-brand:hover,
+footer .footer-brand:hover {
+    transform: translateY(-3px);
+    filter: drop-shadow(0 0 9px rgba(34, 211, 238, .65));
+}
+
+/* Description text */
+footer p {
+    transition: color .3s ease;
+}
+
+footer p:hover {
+    color: #e0f2fe !important;
+}
+
+/* Product and Company headings */
+footer h6,
+footer h5 {
+    color: #ffffff !important;
+    transition: color .3s ease, letter-spacing .3s ease;
+}
+
+footer h6:hover,
+footer h5:hover {
+    color: #67e8f9 !important;
+    letter-spacing: 1.5px;
+}
+
+/* Animated footer links */
+footer a:not(.navbar-brand):not(.btn) {
+    position: relative;
+    text-decoration: none !important;
+    transition: color .3s ease, transform .3s ease;
+}
+
+footer a:not(.navbar-brand):not(.btn)::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #22d3ee, #818cf8);
+    transition: width .3s ease;
+}
+
+footer a:not(.navbar-brand):not(.btn):hover {
+    color: #67e8f9 !important;
+    transform: translateX(4px);
+}
+
+footer a:not(.navbar-brand):not(.btn):hover::after {
+    width: 100%;
+}
+
+/* Disclaimer interaction */
+footer .alert,
+footer .disclaimer,
+footer .footer-disclaimer {
+    cursor: default;
+    transition: transform .35s ease,
+                box-shadow .35s ease,
+                border-color .35s ease;
+}
+
+footer .alert:hover,
+footer .disclaimer:hover,
+footer .footer-disclaimer:hover {
+    transform: translateY(-6px) scale(1.015);
+    border-color: #67e8f9 !important;
+    box-shadow: 0 18px 40px rgba(34, 211, 238, .15);
+}
+
+/* Copyright text */
+footer .copyright,
+footer .copyright p,
+footer small {
+    transition: color .3s ease;
+}
+
+footer .copyright:hover,
+footer .copyright p:hover,
+footer small:hover {
+    color: #67e8f9 !important;
+}
+
+/* Keyboard accessibility */
+footer a:focus-visible {
+    outline: 2px solid #67e8f9;
+    outline-offset: 5px;
+    border-radius: 3px;
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+    footer * {
+        transition: none !important;
+    }
+}
+/* ==========================================
+   LEXAI FOOTER — PREMIUM LEGAL TECH DESIGN
+========================================== */
+
+#lexai-footer {
+    --lf-cyan: #54dcff;
+    --lf-text: #c4d1e6;
+
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: #fff;
+    background:
+        radial-gradient(ellipse at 10% 0%, rgba(80, 104, 230, .20), transparent 40%),
+        radial-gradient(ellipse at 100% 100%, rgba(0, 195, 230, .13), transparent 38%),
+        linear-gradient(135deg, #091225, #14203b 55%, #0b152b);
+    border-top: 1px solid rgba(84, 220, 255, .28);
+}
+
+#lexai-footer::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: -170px;
+    left: 18%;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: rgba(68, 105, 255, .18);
+    filter: blur(85px);
+    pointer-events: none;
+    animation: lfGlow 9s ease-in-out infinite alternate;
+}
+
+#lexai-footer .lexai-footer-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 22px;
+    color: #fff;
+    font-size: 29px;
+    font-weight: 850;
+    transition: color .3s ease, transform .3s ease;
+}
+
+#lexai-footer .lexai-footer-logo i {
+    color: var(--lf-cyan);
+    font-size: 29px;
+    transition: transform .35s ease, filter .35s ease;
+}
+
+#lexai-footer .lexai-footer-logo:hover {
+    color: var(--lf-cyan);
+    transform: translateY(-3px);
+}
+
+#lexai-footer .lexai-footer-logo:hover i {
+    transform: rotate(-8deg) scale(1.08);
+    filter: drop-shadow(0 0 8px rgba(84, 220, 255, .7));
+}
+
+#lexai-footer .lexai-footer-description {
+    max-width: 490px;
+    color: var(--lf-text);
+    font-size: 15px;
+    line-height: 1.95;
+}
+
+#lexai-footer .lexai-footer-tagline {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 12px;
+    padding: 10px 14px;
+    border: 1px solid rgba(84, 220, 255, .22);
+    border-radius: 30px;
+    color: #d2e7ff;
+    background: rgba(84, 220, 255, .06);
+    font-size: 12px;
+    transition: background .3s ease, border-color .3s ease;
+}
+
+#lexai-footer .lexai-footer-tagline i {
+    color: var(--lf-cyan);
+}
+
+#lexai-footer .lexai-footer-tagline:hover {
+    background: rgba(84, 220, 255, .12);
+    border-color: rgba(84, 220, 255, .6);
+}
+
+/* PRODUCT AND COMPANY */
+#lexai-footer .lexai-footer-column h6 {
+    margin: 8px 0 25px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 850;
+    letter-spacing: 1.7px;
+}
+
+#lexai-footer .lexai-footer-column li {
+    margin-bottom: 19px;
+}
+
+#lexai-footer .lexai-footer-column a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #c0cde2;
+    font-size: 14px;
+    line-height: 1.7;
+    text-decoration: none;
+    transition: color .3s ease, transform .3s ease;
+}
+
+#lexai-footer .lexai-footer-column a i {
+    color: var(--lf-cyan);
+    font-size: 11px;
+    opacity: 0;
+    transform: translate(-3px, 3px);
+    transition: opacity .3s ease, transform .3s ease;
+}
+
+#lexai-footer .lexai-footer-column a:hover {
+    color: var(--lf-cyan);
+    transform: translateX(4px);
+}
+
+#lexai-footer .lexai-footer-column a:hover i {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+/* DISTINCT DISCLAIMER CARD */
+#lexai-footer .lexai-footer-legal {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 24px 21px;
+    border: 1px solid rgba(84, 220, 255, .3);
+    border-left: 4px solid var(--lf-cyan);
+    border-radius: 18px;
+    background: linear-gradient(145deg, #203452, #132a43 75%, #12364a);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, .18);
+    transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+
+#lexai-footer .lexai-footer-legal::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: -65px;
+    right: -55px;
+    width: 145px;
+    height: 145px;
+    border-radius: 50%;
+    background: rgba(84, 220, 255, .15);
+    filter: blur(28px);
+    transition: transform .45s ease;
+}
+
+#lexai-footer .lexai-footer-legal:hover {
+    transform: translateY(-5px);
+    border-color: rgba(84, 220, 255, .7);
+    box-shadow: 0 22px 45px rgba(0, 0, 0, .25), 0 0 20px rgba(84, 220, 255, .08);
+}
+
+#lexai-footer .lexai-footer-legal:hover::before {
+    transform: scale(1.4);
+}
+
+#lexai-footer .lexai-footer-legal-icon {
+    display: grid;
+    place-items: center;
+    width: 43px;
+    height: 43px;
+    margin-bottom: 17px;
+    border: 1px solid rgba(84, 220, 255, .25);
+    border-radius: 13px;
+    color: var(--lf-cyan);
+    background: rgba(84, 220, 255, .09);
+    font-size: 21px;
+    transition: transform .35s ease, border-radius .35s ease;
+}
+
+#lexai-footer .lexai-footer-legal:hover .lexai-footer-legal-icon {
+    transform: rotate(-7deg) scale(1.06);
+    border-radius: 50%;
+}
+
+#lexai-footer .lexai-footer-legal-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--lf-cyan);
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 1.5px;
+}
+
+#lexai-footer .lexai-footer-legal h6 {
+    margin-bottom: 12px;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+#lexai-footer .lexai-footer-legal p {
+    margin: 0;
+    color: #d7e2f2;
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+#lexai-footer .lexai-footer-legal-note {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 13px;
+    border-top: 1px solid rgba(255, 255, 255, .12);
+    color: #b9d9e9;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+#lexai-footer .lexai-footer-legal-note i {
+    color: var(--lf-cyan);
+}
+
+/* COPYRIGHT */
+#lexai-footer .lexai-footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-top: 25px;
+    padding: 23px 0 5px;
+    border-top: 1px solid rgba(190, 210, 255, .17);
+    color: #b9c8df;
+    font-size: 13px;
+}
+
+#lexai-footer .lexai-footer-back-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 13px;
+    border: 1px solid rgba(84, 220, 255, .25);
+    border-radius: 10px;
+    color: #d5e7f7;
+    background: rgba(255, 255, 255, .04);
+    text-decoration: none;
+    transition: transform .3s ease, color .3s ease, background .3s ease;
+}
+
+#lexai-footer .lexai-footer-back-top i {
+    color: var(--lf-cyan);
+    transition: transform .3s ease;
+}
+
+#lexai-footer .lexai-footer-back-top:hover {
+    transform: translateY(-3px);
+    color: #fff;
+    background: rgba(84, 220, 255, .1);
+}
+
+#lexai-footer .lexai-footer-back-top:hover i {
+    transform: translateY(-3px);
+}
+
+@keyframes lfGlow {
+    from { transform: translate(-15px, 0) scale(.9); opacity: .6; }
+    to { transform: translate(45px, 20px) scale(1.15); opacity: 1; }
+}
+
+/* RESPONSIVE */
+@media (max-width: 991px) {
+    #lexai-footer .lexai-footer-description {
+        max-width: none;
+    }
+}
+
+@media (max-width: 575px) {
+    #lexai-footer .lexai-footer-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    #lexai-footer .lexai-footer-description {
+        font-size: 14px;
+    }
+
+    #lexai-footer .lexai-footer-legal {
+        padding: 21px 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #lexai-footer::before {
+        animation: none;
+    }
+
+    #lexai-footer *,
+    #lexai-footer *::before,
+    #lexai-footer *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+/* Make LexAI disclaimer box shorter and balanced */
+#lexai-footer .lexai-footer-legal {
+    max-width: 100%;
+    padding: 22px 24px !important;
+    min-height: auto;
+    height: fit-content;
+    align-self: start;
+}
+
+#lexai-footer .lexai-footer-legal p {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 12px;
+}
+
+#lexai-footer .lexai-footer-legal-note {
+    font-size: 12px;
+    line-height: 1.5;
+    margin-top: 12px;
+    padding-top: 10px;
+}
+
+#lexai-footer .lexai-footer-legal h5,
+#lexai-footer .lexai-footer-legal h6 {
+    margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+    #lexai-footer .lexai-footer-legal {
+        margin-top: 10px;
+        padding: 18px !important;
+    }
+}
+/* Fix LexAI book popup visibility */
+.lexai-book-overlay.is-open {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    z-index: 99999 !important;
+}
+/* ========================================
+   LexAI Premium Registration Page
+======================================== */
+
+.lexai-auth-section {
+    position: relative;
+    isolation: isolate;
+    min-height: calc(100vh - 85px);
+    padding: 55px 20px 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 10% 10%, rgba(99,102,241,.10), transparent 40%),
+        radial-gradient(ellipse at 90% 85%, rgba(6,182,212,.10), transparent 40%),
+        #f4f7fc;
+}
+
+.lexai-auth-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 510px;
+    margin: auto;
+}
+
+.lexai-auth-glow {
+    position: absolute;
+    z-index: -1;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    filter: blur(75px);
+    opacity: .3;
+    pointer-events: none;
+}
+
+.lexai-auth-glow-one {
+    top: 5%;
+    left: -100px;
+    background: #818cf8;
+}
+
+.lexai-auth-glow-two {
+    right: -100px;
+    bottom: 5%;
+    background: #67e8f9;
+}
+
+.lexai-auth-heading {
+    text-align: center;
+    margin-bottom: 27px;
+}
+
+.lexai-auth-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 17px;
+    border-radius: 18px;
+    color: #fff;
+    font-size: 27px;
+    background: linear-gradient(135deg, #4338ca, #6366f1 60%, #06b6d4);
+    box-shadow: 0 10px 25px rgba(79,70,229,.22);
+}
+
+.lexai-auth-eyebrow {
+    display: block;
+    margin-bottom: 10px;
+    color: #0891b2;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.lexai-auth-heading h1 {
+    margin: 0 0 10px;
+    color: #111b32;
+    font-size: clamp(26px, 4vw, 34px);
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.lexai-auth-heading h1 span {
+    color: #5655ed;
+}
+
+.lexai-auth-heading > p {
+    max-width: 390px;
+    margin: auto;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.lexai-auth-card {
+    padding: 34px;
+    border: 1px solid rgba(255,255,255,.9);
+    border-radius: 23px;
+    background: rgba(255,255,255,.94);
+    box-shadow: 0 22px 60px rgba(24,39,75,.10);
+    animation: lexaiAuthEnter .55s ease both;
+}
+
+.lexai-auth-card-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 26px;
+}
+
+.lexai-auth-card-heading h2 {
+    margin: 0 0 6px;
+    color: #17213a;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.lexai-auth-card-heading p {
+    margin: 0;
+    color: #718096;
+    font-size: 13px;
+}
+
+.lexai-auth-card-icon {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    color: #4f46e5;
+    background: #eef2ff;
+    font-size: 21px;
+}
+
+.lexai-auth-field {
+    margin-bottom: 21px;
+}
+
+.lexai-auth-field > label {
+    display: block;
+    margin-bottom: 9px;
+    color: #34415b;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .65px;
+    text-transform: uppercase;
+}
+
+.lexai-auth-input-wrap {
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    padding: 0 15px;
+    gap: 12px;
+    border: 1px solid #dce3ef;
+    border-radius: 12px;
+    background: #f8faff;
+    transition: border-color .22s ease, box-shadow .22s ease,
+                background .22s ease, transform .22s ease;
+}
+
+.lexai-auth-input-wrap > i {
+    flex-shrink: 0;
+    color: #8290aa;
+    font-size: 17px;
+    transition: color .2s ease;
+}
+
+.lexai-auth-input-wrap input {
+    width: 100%;
+    min-width: 0;
+    padding: 14px 0;
+    border: 0;
+    outline: 0;
+    color: #1e293b;
+    background: transparent;
+    font-size: 14px;
+}
+
+.lexai-auth-input-wrap input::placeholder {
+    color: #a0abc0;
+}
+
+.lexai-auth-input-wrap:focus-within {
+    border-color: #6366f1;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(99,102,241,.11);
+    transform: translateY(-1px);
+}
+
+.lexai-auth-input-wrap:focus-within > i {
+    color: #5655ed;
+}
+
+.lexai-password-toggle {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 30px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    color: #74819a;
+    background: transparent;
+    cursor: pointer;
+}
+
+.lexai-password-toggle:hover {
+    color: #4f46e5;
+    background: #eef2ff;
+}
+
+.lexai-password-toggle i {
+    font-size: 17px;
+}
+
+.lexai-auth-hint {
+    display: block;
+    margin-top: 8px;
+    color: #7b879c;
+    font-size: 11px;
+}
+
+.lexai-auth-hint i {
+    margin-right: 4px;
+    color: #0891b2;
+}
+
+.lexai-auth-validation {
+    display: block;
+    min-height: 0;
+    margin-top: 7px;
+    font-size: 12px;
+}
+
+.lexai-auth-validation:empty {
+    display: none;
+}
+
+.lexai-auth-validation.is-valid {
+    color: #15803d;
+}
+
+.lexai-auth-validation.is-invalid {
+    color: #dc2626;
+}
+
+.lexai-auth-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 54px;
+    margin-top: 8px;
+    border: 0;
+    border-radius: 12px;
+    color: #fff;
+    background: linear-gradient(110deg, #4f46e5, #6366f1 65%, #5145e5);
+    box-shadow: 0 9px 22px rgba(79,70,229,.22);
+    font-size: 15px;
+    font-weight: 750;
+    cursor: pointer;
+    transition: transform .22s ease, box-shadow .22s ease, filter .22s ease;
+}
+
+.lexai-auth-submit:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.06);
+    box-shadow: 0 13px 28px rgba(79,70,229,.30);
+}
+
+.lexai-auth-submit:active {
+    transform: translateY(0);
+}
+
+.lexai-auth-submit i {
+    transition: transform .22s ease;
+}
+
+.lexai-auth-submit:hover i {
+    transform: translateX(4px);
+}
+
+.lexai-auth-switch {
+    margin: 23px 0 0;
+    color: #718096;
+    text-align: center;
+    font-size: 13px;
+}
+
+.lexai-auth-switch a {
+    color: #4f46e5;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.lexai-auth-switch a:hover {
+    color: #0891b2;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.lexai-auth-footer-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin: 22px 0 0;
+    color: #74819a;
+    text-align: center;
+    font-size: 11px;
+}
+
+.lexai-auth-footer-note i {
+    color: #0891b2;
+}
+
+@keyframes lexaiAuthEnter {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 576px) {
+    .lexai-auth-section {
+        min-height: auto;
+        padding: 35px 16px;
+    }
+
+    .lexai-auth-card {
+        padding: 25px 20px;
+        border-radius: 18px;
+    }
+
+    .lexai-auth-heading {
+        margin-bottom: 22px;
+    }
+
+    .lexai-auth-heading h1 {
+        font-size: 27px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lexai-auth-card {
+        animation: none;
+    }
+
+    .lexai-auth-input-wrap,
+    .lexai-auth-submit,
+    .lexai-auth-submit i {
+        transition: none;
+    }
+}
+
+/* =========================================
+   LEXAI 3D BOOK LOGIN
+========================================= */
+
+.lexai-book-login {
+    min-height: 700px;
+    padding: 65px 20px 45px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 50% 45%, rgba(42, 99, 145, .14), transparent 65%),
+        #f4f7fc;
+}
+
+.lexai-book-scene {
+    width: 100%;
+    max-width: 1000px;
+    perspective: 1800px;
+    perspective-origin: center;
+}
+
+.lexai-login-book {
+    width: 100%;
+    min-height: 510px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    border-radius: 10px 18px 18px 10px;
+    transform-style: preserve-3d;
+    animation: lexaiBookOpen 1.35s cubic-bezier(.2, .7, .2, 1) both;
+    box-shadow: 0 35px 70px rgba(19, 39, 70, .20);
+}
+
+.lexai-login-page {
+    min-width: 0;
+    position: relative;
+    padding: 42px;
+    overflow: hidden;
+    backface-visibility: hidden;
+}
+
+.lexai-login-left {
+    color: #fff;
+    background: linear-gradient(145deg, #101d37, #172f50 65%, #164d68);
+    border-radius: 10px 0 0 10px;
+    border-right: 1px solid rgba(255,255,255,.12);
+}
+
+.lexai-login-left::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .15;
+    background-image: repeating-linear-gradient(
+        135deg,
+        transparent 0,
+        transparent 18px,
+        rgba(255,255,255,.12) 19px,
+        transparent 20px
+    );
+    pointer-events: none;
+}
+
+.lexai-book-brand,
+.lexai-book-welcome,
+.lexai-book-page-number {
+    position: relative;
+    z-index: 1;
+}
+
+.lexai-book-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -.7px;
+}
+
+.lexai-book-brand i {
+    color: #62e4e8;
+    font-size: 30px;
+}
+
+.lexai-book-welcome {
+    margin-top: 75px;
+}
+
+.lexai-book-label {
+    color: #1998b6;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2.2px;
+}
+
+.lexai-login-left .lexai-book-label {
+    color: #72e6e8;
+}
+
+.lexai-book-welcome h1 {
+    margin: 17px 0;
+    color: #fff;
+    font-size: clamp(30px, 4vw, 45px);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+}
+
+.lexai-book-welcome h1 span {
+    color: #63e2e6;
+}
+
+.lexai-book-welcome p {
+    max-width: 330px;
+    color: #c3d0e2;
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.lexai-book-watermark {
+    display: block;
+    margin-top: 20px;
+    color: rgba(111, 226, 231, .25);
+    font-size: 65px;
+}
+
+.lexai-book-page-number {
+    position: absolute;
+    bottom: 24px;
+    left: 42px;
+    color: #9aafc9;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.lexai-login-right {
+    background: linear-gradient(145deg, #fff, #f9fbff);
+    border-radius: 0 18px 18px 0;
+}
+
+.lexai-login-content {
+    max-width: 360px;
+    margin: 14px auto 25px;
+}
+
+.lexai-login-content h2 {
+    margin: 13px 0 8px;
+    color: #172943;
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.lexai-login-content h2 span {
+    color: #1689a9;
+}
+
+.lexai-login-subtitle {
+    margin-bottom: 30px;
+    color: #7d899c;
+    font-size: 13px;
+}
+
+.lexai-login-field {
+    margin-bottom: 22px;
+}
+
+.lexai-login-field label {
+    display: block;
+    margin-bottom: 9px;
+    color: #526179;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+
+.lexai-login-input {
+    display: flex;
+    align-items: center;
+    min-height: 50px;
+    padding: 0 14px;
+    gap: 11px;
+    background: #f5f8fc;
+    border: 1px solid #e0e7f0;
+    border-radius: 9px;
+    transition: border-color .25s, box-shadow .25s, background .25s;
+}
+
+.lexai-login-input:focus-within {
+    background: #fff;
+    border-color: #229bb8;
+    box-shadow: 0 0 0 4px rgba(34, 155, 184, .10);
+}
+
+.lexai-login-input > i {
+    color: #7890a9;
+    font-size: 17px;
+}
+
+.lexai-login-input input {
+    width: 100%;
+    min-width: 0;
+    padding: 13px 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #192b43;
+    font-size: 13px;
+}
+
+.lexai-login-input input::placeholder {
+    color: #a0adbd;
+}
+
+.lexai-password-toggle {
+    flex-shrink: 0;
+    padding: 5px;
+    border: 0;
+    background: transparent;
+    color: #77869a;
+    cursor: pointer;
+}
+
+.lexai-login-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 51px;
+    margin-top: 8px;
+    border: 0;
+    border-radius: 9px;
+    background: linear-gradient(100deg, #176b91, #168eac);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 9px 20px rgba(23, 107, 145, .20);
+    transition: transform .25s, box-shadow .25s;
+    cursor: pointer;
+}
+
+.lexai-login-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 13px 25px rgba(23, 107, 145, .28);
+}
+
+.lexai-login-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 25px 0 15px;
+    color: #8c99aa;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+}
+
+.lexai-login-divider::before,
+.lexai-login-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #e5eaf1;
+}
+
+.lexai-create-account {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 45px;
+    border: 1px solid #dce7f0;
+    border-radius: 9px;
+    color: #176f91;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background .2s, border-color .2s;
+}
+
+.lexai-create-account:hover {
+    background: #edf8fb;
+    border-color: #8bd1de;
+    color: #105c7c;
+}
+
+.lexai-login-security {
+    margin-top: 22px;
+    color: #8290a2;
+    font-size: 10px;
+    text-align: center;
+}
+
+.lexai-login-security i {
+    margin-right: 5px;
+    color: #168eac;
+}
+
+.lexai-login-right .lexai-book-page-number {
+    right: 28px;
+    left: auto;
+    color: #a2afc0;
+}
+
+.lexai-book-caption {
+    margin: 28px 0 0;
+    color: #75869b;
+    font-size: 12px;
+    text-align: center;
+    letter-spacing: .3px;
+}
+
+.lexai-book-caption i {
+    color: #168eac;
+    margin-right: 5px;
+}
+
+@keyframes lexaiBookOpen {
+    0% {
+        opacity: 0;
+        transform: rotateY(-16deg) translateY(25px) scale(.96);
+    }
+    60% {
+        opacity: 1;
+        transform: rotateY(3deg) translateY(-3px) scale(1.005);
+    }
+    100% {
+        opacity: 1;
+        transform: rotateY(0deg) translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 700px) {
+    .lexai-book-login {
+        min-height: auto;
+        padding: 35px 15px;
+    }
+
+    .lexai-login-book {
+        grid-template-columns: 1fr;
+        max-width: 450px;
+        margin: 0 auto;
+    }
+
+    .lexai-login-left {
+        min-height: 280px;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .lexai-book-welcome {
+        margin-top: 32px;
+    }
+
+    .lexai-book-welcome h1 {
+        font-size: 32px;
+    }
+
+    .lexai-book-welcome p {
+        max-width: 100%;
+    }
+
+    .lexai-book-watermark {
+        display: none;
+    }
+
+    .lexai-login-page {
+        padding: 28px 24px;
+    }
+
+    .lexai-login-right {
+        border-radius: 0 0 12px 12px;
+    }
+
+    .lexai-login-content {
+        margin: 5px auto 25px;
+    }
+
+    .lexai-book-page-number {
+        bottom: 15px;
+        left: 24px;
+    }
+
+    .lexai-login-right .lexai-book-page-number {
+        right: 24px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lexai-login-book {
+        animation: none;
+    }
+}
+/* LexAI login/register page flip */
+.lexai-login-right {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    perspective: 1600px;
+}
+
+.lexai-auth-flip-scene {
+    width: 100%;
+    position: relative;
+    perspective: 1600px;
+}
+
+.lexai-auth-flip-inner {
+    display: grid;
+    width: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transform-origin: left center;
+    transition: transform 1s cubic-bezier(.22, .61, .36, 1);
+}
+
+.lexai-auth-face {
+    grid-area: 1 / 1;
+    width: 100%;
+    min-width: 0;
+    padding: 8px 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.lexai-auth-front {
+    transform: rotateY(0deg);
+    z-index: 2;
+    position: relative;
+}
+
+.lexai-auth-back {
+    transform: rotateY(180deg);
+    z-index: 3;
+    position: relative;
+}
+.lexai-auth-flip-inner.is-flipped {
+    transform: rotateY(-180deg);
+}
+
+.lexai-auth-face form {
+    width: 100%;
+}
+
+.lexai-auth-face input,
+.lexai-auth-face button {
+    pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lexai-auth-flip-inner {
+        transition-duration: .01ms;
+    }
+}
+
+/* FIX: LexAI login and registration flip */
+.lexai-login-right {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    perspective: 1600px;
+}
+
+.lexai-auth-flip-scene {
+    width: 100%;
+    position: relative;
+    perspective: 1600px;
+}
+
+.lexai-auth-flip-inner {
+    display: grid;
+    width: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    transition: transform 0.9s ease-in-out;
+}
+
+.lexai-auth-flip-inner.is-flipped {
+    transform: rotateY(180deg);
+}
+
+.lexai-auth-face {
+    grid-area: 1 / 1;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 0 35px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.lexai-auth-front {
+    transform: rotateY(0deg);
+}
+
+.lexai-auth-back {
+    transform: rotateY(180deg);
+}
+
+.lexai-auth-face .lexai-create-account {
+    width: 100%;
+    cursor: pointer;
+    font: inherit;
+    margin-top: 12px;
+}
+
+.lexai-auth-face form {
+    width: 100%;
+}
+
+.lexai-auth-face input {
+    pointer-events: auto;
+}
+.lexai-register-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.lexai-register-title-row h2 {
+    margin: 0;
+}
+
+.lexai-register-title-row .lexai-auth-card-icon {
+    flex-shrink: 0;
+    margin: 0;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* LexAI animated answer popup */
+.lexai-answer-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(12, 20, 40, 0.65);
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.lexai-answer-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lexai-answer-modal {
+    width: min(850px, 100%);
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+    transform: translateY(25px) scale(0.97);
+    transition: transform 0.3s ease;
+}
+
+.lexai-answer-overlay.is-open .lexai-answer-modal {
+    transform: translateY(0) scale(1);
+}
+
+.lexai-answer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e7eaf2;
+    background: #f8faff;
+}
+
+.lexai-answer-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.lexai-answer-heading > i {
+    font-size: 28px;
+    color: #4f46e5;
+}
+
+.lexai-answer-heading h4 {
+    margin: 0;
+    color: #17223b;
+    font-weight: 700;
+}
+
+.lexai-answer-heading small {
+    color: #737d91;
+}
+
+.lexai-popup-close {
+    border: none;
+    background: transparent;
+    color: #647084;
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.lexai-answer-body {
+    padding: 26px;
+    overflow-y: auto;
+    color: #263247;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.lexai-answer-body h1,
+.lexai-answer-body h2,
+.lexai-answer-body h3,
+.lexai-answer-body h4 {
+    margin-top: 18px;
+    margin-bottom: 10px;
+    color: #18243c;
+}
+
+.lexai-answer-body pre {
+    padding: 14px;
+    overflow-x: auto;
+    border-radius: 10px;
+    background: #f3f5fa;
+}
+
+.lexai-answer-body table {
+    width: 100%;
+    margin: 16px 0;
+    border-collapse: collapse;
+}
+
+.lexai-answer-body th,
+.lexai-answer-body td {
+    padding: 10px;
+    border: 1px solid #e0e5ef;
+    text-align: left;
+}
+
+.lexai-answer-body img {
+    max-width: 100%;
+}
+
+.lexai-answer-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid #e7eaf2;
+    background: #fafbfe;
+}
+
+@media (max-width: 600px) {
+    .lexai-answer-overlay {
+        padding: 10px;
+    }
+
+    .lexai-answer-modal {
+        max-height: 92vh;
+        border-radius: 14px;
+    }
+
+    .lexai-answer-body {
+        padding: 18px;
+    }
+
+    .lexai-answer-footer {
+        padding: 14px;
+    }
+}
+/* Remove the gap between the public navbar and homepage hero */
+body.public-layout {
+    margin: 0;
+    padding: 0;
+}
+
+body.public-layout > nav.navbar {
+    margin-bottom: 0;
+}
+
+body.public-layout > #hero,
+body.public-layout > .hero,
+body.public-layout > .hero-section,
+body.public-layout > main {
+    margin-top: 0;
+}

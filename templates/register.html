@@ -1,0 +1,105 @@
+
+{% extends "public_base.html" %}
+
+{% block title %}Create Account{% endblock %}
+
+{% block content %}
+<section class="lexai-auth-section lexai-register-section">
+    <div class="lexai-auth-glow lexai-auth-glow-one"></div>
+    <div class="lexai-auth-glow lexai-auth-glow-two"></div>
+
+    <div class="lexai-auth-container">
+
+        <!-- Brand heading -->
+        <div class="lexai-auth-heading">
+            <div class="lexai-auth-logo">
+                <i class="bi bi-bank"></i>
+            </div>
+
+            <span class="lexai-auth-eyebrow">YOUR LEGAL INTELLIGENCE WORKSPACE</span>
+
+            <h1>Create your <span>LexAI</span> account</h1>
+
+            <p>Start exploring legal knowledge with greater clarity and confidence.</p>
+        </div>
+
+        <!-- Registration card -->
+        <div class="lexai-auth-card">
+    {% include "_register_form.html" %}
+
+    <p class="lexai-auth-switch">
+        Already have an account?
+        <a href="{{ url_for('auth.login') }}">Sign in</a>
+    </p>
+</div>
+
+        <p class="lexai-auth-footer-note">
+            <i class="bi bi-shield-lock"></i>
+            Your journey towards clearer legal understanding starts here.
+        </p>
+
+    </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirm_password');
+    const message = document.getElementById('lexaiPasswordMessage');
+    const form = document.getElementById('lexaiRegisterForm');
+
+    document.querySelectorAll('.lexai-password-toggle').forEach(function (button) {
+        button.addEventListener('click', function () {
+            const input = document.getElementById(
+                button.getAttribute('data-password-target')
+            );
+            const icon = button.querySelector('i');
+
+            const showPassword = input.type === 'password';
+            input.type = showPassword ? 'text' : 'password';
+            button.setAttribute('aria-pressed', String(showPassword));
+            button.setAttribute(
+                'aria-label',
+                showPassword ? 'Hide password' : 'Show password'
+            );
+
+            icon.className = showPassword ? 'bi bi-eye-slash' : 'bi bi-eye';
+        });
+    });
+
+    function checkPasswords() {
+        if (!confirmPassword.value) {
+            message.textContent = '';
+            confirmPassword.setCustomValidity('');
+            return true;
+        }
+
+        const matches = password.value === confirmPassword.value;
+
+        message.textContent = matches
+            ? 'Passwords match.'
+            : 'Passwords do not match.';
+
+        message.classList.toggle('is-valid', matches);
+        message.classList.toggle('is-invalid', !matches);
+
+        confirmPassword.setCustomValidity(
+            matches ? '' : 'Passwords do not match.'
+        );
+
+        return matches;
+    }
+
+    password.addEventListener('input', checkPasswords);
+    confirmPassword.addEventListener('input', checkPasswords);
+
+    form.addEventListener('submit', function (event) {
+        if (!checkPasswords()) {
+            event.preventDefault();
+            confirmPassword.reportValidity();
+        }
+    });
+});
+</script>
+{% endblock %}

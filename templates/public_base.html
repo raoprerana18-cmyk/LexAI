@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}LexAI{% endblock %} - AI Legal Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="public-layout bg-slate-50">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-slate-950 border-bottom border-slate-800 sticky-top py-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-white d-flex align-items-center" href="{{ url_for('main.index') }}">
+                <i class="bi bi-bank text-info me-2 fs-4"></i><span class="fs-4">LexAI</span>
+            </a>
+            <button class="navbar-toggler border-slate-800" type="button" data-bs-toggle="collapse" data-bs-target="#publicNavbar" aria-controls="publicNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="publicNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-medium">
+                    <li class="nav-item"><a class="nav-link px-3" href="{{ url_for('main.index') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#how-it-works">How It Works</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#pricing">Pricing</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#about">About Us</a></li>
+                </ul>
+                <div class="d-flex ms-lg-4 gap-3 mt-3 mt-lg-0">
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('main.dashboard') }}" class="btn btn-electric px-4 fw-semibold">Go to Dashboard</a>
+
+{% else %}
+    <a href="{{ url_for('auth.login') }}" class="btn btn-outline-slate px-4 fw-semibold">Login</a>
+{% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    {% block content %}{% endblock %}
+<!-- LexAI Premium Footer -->
+<footer id="lexai-footer">
+    <div class="container py-5">
+
+        <div class="row g-5 align-items-start">
+
+            <!-- BRAND & DESCRIPTION -->
+            <div class="col-lg-5 pe-lg-5 lexai-footer-brand">
+                <a href="{{ url_for('main.index') }}"
+                   class="lexai-footer-logo text-decoration-none">
+                    <i class="bi bi-bank"></i>
+                    <span>LexAI</span>
+                </a>
+
+                <p class="lexai-footer-description">
+                    Empowering smarter legal understanding through artificial
+                    intelligence. Explore legal concepts, simplify complex
+                    documents, and uncover meaningful insights with LexAI —
+                    your intelligent companion for navigating legal information
+                    with greater clarity and confidence.
+                </p>
+
+                <div class="lexai-footer-tagline">
+                    <i class="bi bi-stars"></i>
+                    Clarity powered by intelligence.
+                </div>
+            </div>
+
+            <!-- PRODUCT -->
+            <div class="col-lg-2 col-6 lexai-footer-column">
+                <h6>PRODUCT</h6>
+                <ul class="list-unstyled">
+                    <li><a href="#features">Explore Features <i class="bi bi-arrow-up-right"></i></a></li>
+                    <li><a href="#how-it-works">How LexAI Works <i class="bi bi-arrow-up-right"></i></a></li>
+                    <li><a href="#pricing">Pricing &amp; Plans <i class="bi bi-arrow-up-right"></i></a></li>
+                </ul>
+            </div>
+
+            <!-- COMPANY -->
+            <div class="col-lg-2 col-6 lexai-footer-column">
+                <h6>COMPANY</h6>
+                <ul class="list-unstyled">
+                    <li><a href="#about">About LexAI <i class="bi bi-arrow-up-right"></i></a></li>
+                    <li><a href="mailto:contact@lexai.example">Contact Us <i class="bi bi-envelope"></i></a></li>
+                </ul>
+            </div>
+
+            <!-- LEGAL DISCLAIMER -->
+            <div class="col-lg-3">
+                <div class="lexai-footer-legal">
+
+                    <div class="lexai-footer-legal-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+
+                    <span class="lexai-footer-legal-label">
+                        IMPORTANT NOTICE
+                    </span>
+
+                    <h6>Legal Disclaimer</h6>
+
+                    <p>
+                        LexAI provides AI-generated information for general
+                        educational and informational purposes only. AI
+                        responses may contain errors and should not be treated
+                        as professional legal advice. Please consult a qualified
+                        legal professional for advice on your specific situation.
+                    </p>
+
+                    <div class="lexai-footer-legal-note">
+                        <i class="bi bi-info-circle"></i>
+                        <span>Always verify important legal information.</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- COPYRIGHT -->
+        <div class="lexai-footer-bottom">
+            <span>© 2026 LexAI. All rights reserved.</span>
+
+            <a href="#" class="lexai-footer-back-top"
+               onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+                Back to top <i class="bi bi-arrow-up"></i>
+            </a>
+        </div>
+
+    </div>
+</footer>
+<!-- End LexAI Premium Footer -->
+
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}AI Legal Assistant{% endblock %}
+{% block page_title %}AI Tools / Chatbot{% endblock %}
+
+{% block content %}
+<div class="chat-container">
+    <!-- Chat Header & Mode Selector -->
+    <div class="chat-header">
+        <div class="chat-mode-selector">
+            <div class="chat-mode-card active" data-mode="general">
+                <i class="bi bi-bank fs-4 mb-2"></i>
+                <div class="fw-bold">General Legal</div>
+                <div class="small text-muted">Knowledge Base</div>
+            </div>
+            <div class="chat-mode-card" data-mode="document">
+                <i class="bi bi-file-earmark-text fs-4 mb-2"></i>
+                <div class="fw-bold">Document Chat</div>
+                <div class="small text-muted">Your Files</div>
+            </div>
+<a href="{{ url_for('chat.chat_history') }}"
+   class="chat-mode-card text-decoration-none text-dark">    <i class="bi bi-clock-history fs-4 mb-2"></i>
+    <div class="fw-bold">Chat History</div>
+    <div class="small text-muted">Saved Conversations</div>
+</a>
+
+        </div>
+        
+        <!-- Document Selector (Only visible in Document Mode) -->
+        <div id="document-selector-container" class="mt-3" style="display: none;">
+            <select class="form-select form-select-sm border-primary" id="document-select">
+                <option value="">-- Select a document to chat with --</option>
+                {% for doc in documents %}
+                    <option value="{{ doc.id }}" {% if request.args.get('doc') == doc.id|string %}selected{% endif %}>
+                        {{ doc.original_filename }} ({{ doc.uploaded_at.strftime('%b %d, %Y') }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <!-- Chat Messages Area -->
+    <div class="chat-messages" id="chat-messages">
+        <!-- General Chat Empty State -->
+        <div id="general-empty-state" class="empty-state">
+            <i class="bi bi-bank text-primary display-4 mb-3"></i>
+            <h4>Your Legal AI Assistant</h4>
+            <p class="mb-4">Ask questions about contracts, legal concepts, rights, obligations and procedures.</p>
+            <div class="d-flex flex-wrap justify-content-center gap-2">
+                <span class="suggested-question">What is a breach of contract?</span>
+                <span class="suggested-question">What is an NDA?</span>
+                <span class="suggested-question">What makes a contract valid?</span>
+                <span class="suggested-question">What is an indemnity clause?</span>
+            </div>
+        </div>
+
+        <!-- Document Chat Empty State -->
+        <div id="document-empty-state" class="empty-state" style="display: none;">
+            <i class="bi bi-file-earmark-text text-success display-4 mb-3"></i>
+            <h4>Chat with your documents</h4>
+            <p>Select a document from the dropdown above to start asking questions specifically about its content.</p>
+        </div>
+    </div>
+
+    <!-- Chat Input -->
+    <div class="chat-input-area">
+        <form id="chat-form" class="d-flex align-items-center">
+            <input type="hidden" id="current-conversation-id" value="">
+            <input type="text" id="chat-input" class="form-control rounded-pill px-4 py-2 me-3" placeholder="Ask a legal question..." required autocomplete="off">
+            <button type="submit" class="btn btn-primary rounded-circle" id="chat-submit" style="width: 45px; height: 45px; flex-shrink: 0;">
+                <i class="bi bi-send-fill"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Animated AI Answer Popup -->
+<div class="lexai-answer-overlay" id="answer-popup" aria-hidden="true">
+    <div class="lexai-answer-modal" role="dialog"
+         aria-modal="true" aria-labelledby="answer-popup-title">
+
+        <div class="lexai-answer-header">
+            <div class="lexai-answer-heading">
+                <i class="bi bi-robot"></i>
+                <div>
+                    <h4 id="answer-popup-title">LexAI Answer</h4>
+                    <small>AI-generated response</small>
+                </div>
+            </div>
+            <button type="button" id="close-answer-popup"
+                    class="lexai-popup-close" aria-label="Close answer">
+                &times;
+            </button>
+        </div>
+
+        <div class="lexai-answer-body" id="answer-popup-content"></div>
+
+        <div class="lexai-answer-footer">
+            <span class="small text-muted">
+                <i class="bi bi-info-circle"></i>
+                Review AI-generated information carefully.
+            </span>
+            <div class="d-flex gap-2">
+                <button type="button" id="copy-answer-popup"
+                        class="btn btn-outline-primary">
+                    <i class="bi bi-clipboard"></i> Copy Answer
+                </button>
+                <button type="button" id="close-answer-popup-bottom"
+                        class="btn btn-primary">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Templates -->
+<template id="user-message-template">
+    <div class="message user">
+        <div class="message-bubble">
+            <span class="message-content"></span>
+        </div>
+    </div>
+</template>
+
+<template id="ai-message-template">
+    <div class="message ai">
+        <div class="d-flex align-items-end mb-1">
+            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 24px; height: 24px; font-size: 12px;">
+                <i class="bi bi-robot"></i>
+            </div>
+            <small class="text-muted fw-bold">LexAI</small>
+        </div>
+        <div class="message-bubble">
+            <div class="message-content"></div>
+        </div>
+        <div class="sources-container" style="display: none;">
+            <div class="mt-2 text-muted small fw-bold">Sources</div>
+            <div class="sources-list d-flex flex-column gap-1"></div>
+        </div>
+    </div>
+</template>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+<script>
+    // Initialize mode based on URL query param
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('mode') === 'document') {
+            document.querySelector('.chat-mode-card[data-mode="document"]').click();
+        }
+    });
+</script>
+{% endblock %}

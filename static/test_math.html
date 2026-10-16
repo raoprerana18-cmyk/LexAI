@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div id="output"></div>
+<script>
+    const text = `
+Here is a formula:
+$$\text{Proposal [Sec 2(a)]} + \text{Acceptance [Sec 2(b)]} = \text{Agreement [Sec 2(e)]}$$
+
+And inline math: $x_1 + y_1 = z_1$.
+
+And another block:
+$$ A_1 + B_1 = C_1 $$
+`;
+    
+    // Protect math blocks from marked.js
+    let mathBlocks = [];
+    // Protect $$ ... $$ and $ ... $ (basic regex, avoids matching empty or single $)
+    let tempText = text.replace(/\$\$([\s\S]+?)\$\$/g, function(match) {
+        mathBlocks.push(match);
+        return `__MATH_BLOCK_${mathBlocks.length - 1}__`;
+    });
+    
+    tempText = tempText.replace(/\$((?:[^$]|\\[$])+?)\$/g, function(match) {
+        mathBlocks.push(match);
+        return `__MATH_BLOCK_${mathBlocks.length - 1}__`;
+    });
+    
+    let html = marked.parse(tempText);
+    html = DOMPurify.sanitize(html);
+    
+    mathBlocks.forEach((block, index) => {
+        html = html.replace(`__MATH_BLOCK_${index}__`, block);
+    });
+    
+    const output = document.getElementById('output');
+    output.innerHTML = html;
+    
+    window.onload = function() {
+        if (window.MathJax) {
+            MathJax.typesetPromise([output]);
+        }
+    }
+</script>
+</body>
+</html>

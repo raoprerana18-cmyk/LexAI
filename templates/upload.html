@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Document{% endblock %}
+{% block page_title %}Documents / Upload{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold"><i class="bi bi-cloud-arrow-up text-primary me-2"></i>Upload Document</h2>
+            <p class="text-muted">Upload a legal contract or document for AI analysis.</p>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-5">
+                <form action="{{ url_for('document.upload') }}" method="POST" enctype="multipart/form-data" id="uploadForm">
+                    <div class="mb-4 text-center">
+                        <label for="file" class="form-label fw-bold d-block mb-3">Select PDF or DOCX file (Max 15MB)</label>
+                        <div class="border border-2 border-dashed rounded p-5 bg-light position-relative" style="border-style: dashed !important; border-color: #cbd5e1 !important;" id="dropZone">
+                            <i class="bi bi-file-earmark-arrow-up display-4 text-muted mb-3 d-block"></i>
+                            <input type="file" class="form-control" id="file" name="file" accept=".pdf,.docx" required style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;">
+                            <span class="text-primary fw-bold" id="fileNameDisplay">Click to browse or drag and drop</span>
+                        </div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg shadow-sm" id="uploadBtn">
+                            <i class="bi bi-upload me-2"></i>Upload and Process
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="alert alert-info mt-4 border-0 shadow-sm d-flex align-items-center">
+            <i class="bi bi-info-circle-fill fs-4 me-3"></i>
+            <div>
+                <strong>Privacy Notice:</strong> Your documents are processed securely and are only visible to you.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('file').addEventListener('change', function(e) {
+        const fileName = e.target.files[0]?.name;
+        if (fileName) {
+            document.getElementById('fileNameDisplay').textContent = fileName;
+            document.getElementById('fileNameDisplay').classList.add('text-success');
+        }
+    });
+
+    document.getElementById('uploadForm').addEventListener('submit', function() {
+        const btn = document.getElementById('uploadBtn');
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Uploading...';
+        btn.disabled = true;
+    });
+</script>
+{% endblock %}

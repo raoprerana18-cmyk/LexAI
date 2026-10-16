@@ -1,0 +1,14 @@
+Flask==3.0.0
+Flask-SQLAlchemy==3.1.1
+Flask-Login==0.6.3
+Flask-Bcrypt==1.0.1
+python-dotenv==1.0.1
+PyMySQL==1.1.0
+email-validator==2.1.0
+PyMuPDF==1.25.5
+python-docx==1.1.2
+google-genai==0.3.0
+chromadb==0.5.23
+sentence-transformers==3.3.1
+anyio==4.7.0
+pytest==8.0.0

@@ -1,0 +1,90 @@
+
+{% extends "base.html" %}
+
+{% block title %}Chat History{% endblock %}
+{% block page_title %}AI Tools / Chat History{% endblock %}
+
+{% block content %}
+<p>TEST CHAT PAGE 123 — Conversations: {{ conversations|length }}</p>
+<div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+        <h2 class="fw-bold">
+            <i class="bi bi-clock-history text-primary me-2"></i>
+            Chat History
+        </h2>
+        <p class="text-muted mb-0">
+            View your previous conversations with LexAI.
+        </p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <a href="{{ url_for('chat.chat_ui') }}"
+           class="btn btn-primary">
+            <i class="bi bi-plus-lg me-2"></i>New Chat
+        </a>
+    </div>
+</div>
+
+{% if conversations %}
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="p-3">Conversation</th>
+                        <th class="p-3">Last Updated</th>
+                        <th class="p-3 text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for conversation in conversations %}
+                    <tr>
+                        <td class="p-3">
+                            <div class="fw-bold">
+                                {{ conversation.title or 'General Chat' }}
+                            </div>
+                            <small class="text-muted">
+                                {% if conversation.document_id %}
+                                    Document Chat
+                                {% else %}
+                                    General Legal Chat
+                                {% endif %}
+                            </small>
+                        </td>
+                        <td class="p-3 text-muted">
+                            {% if conversation.updated_at %}
+                                {{ conversation.updated_at.strftime('%d %b %Y, %I:%M %p') }}
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+                        <td class="p-3 text-end">
+                            <a href="{{ url_for('chat.chat_ui') }}?conversation_id={{ conversation.id }}"
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-chat-dots me-1"></i>
+                                Open Chat
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="card border-0 shadow-sm rounded-4 p-5 text-center">
+    <i class="bi bi-chat-square-text display-4 text-muted mb-3"></i>
+    <h5 class="fw-bold">No saved conversations yet</h5>
+    <p class="text-muted">
+        Your conversations will appear here after you chat with LexAI.
+    </p>
+    <div>
+        <a href="{{ url_for('chat.chat_ui') }}"
+           class="btn btn-primary">
+            Start Your First Chat
+        </a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

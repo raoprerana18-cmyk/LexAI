@@ -1,0 +1,401 @@
+
+{% extends "base.html" %}
+
+{% block title %}Knowledge Base{% endblock %}
+{% block page_title %}Knowledge / Legal KB{% endblock %}
+
+{% block content %}
+<div id="kbHome">
+
+    <div class="row mb-5 align-items-center">
+        <div class="col-md-8">
+            <h2 class="fw-bold">
+                <i class="bi bi-book text-info me-2"></i>Legal Knowledge Base
+            </h2>
+            <p class="text-muted mb-0">
+                Explore trusted legal concepts, clauses, and general legal information.
+            </p>
+        </div>
+
+        <div class="col-md-4 mt-3 mt-md-0">
+            <div class="input-group">
+                <span class="input-group-text bg-white border-end-0">
+                    <i class="bi bi-search text-muted"></i>
+                </span>
+                <input type="text" class="form-control border-start-0 ps-0"
+                       id="kbSearchInput" placeholder="Search legal topics...">
+            </div>
+        </div>
+    </div>
+
+    {% if not articles %}
+    <div class="card border-0 shadow-sm p-5 text-center bg-white mt-4">
+        <i class="bi bi-bookshelf display-4 text-muted mb-3"></i>
+        <h5 class="fw-bold">No articles yet</h5>
+        <p class="text-muted">The Knowledge Base is currently empty.</p>
+    </div>
+    {% else %}
+
+    <div class="d-flex flex-wrap gap-2 mb-4" id="kbCategories">
+        <button class="btn btn-primary btn-sm rounded-pill filter-btn active"
+                data-filter="all">All Categories</button>
+
+        {% set unique_cats = [] %}
+        {% for a in articles %}
+            {% if a.category not in unique_cats %}
+                {% set _ = unique_cats.append(a.category) %}
+                <button class="btn btn-outline-secondary btn-sm rounded-pill filter-btn"
+                        data-filter="{{ a.category|lower|replace(' ', '-')|trim }}">
+                    {{ a.category }}
+                </button>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="row g-4" id="kbGrid">
+        {% for a in articles %}
+      
+<div class="col-md-6 col-lg-4 kb-card"
+     data-category="{{ a.category|lower|replace(' ', '-')|trim }}">
+
+
+            <div class="card h-100 border-0 shadow-sm card-hover">
+                <div class="card-header bg-white border-0 pt-4 pb-0">
+                    <span class="badge bg-info bg-opacity-10 text-info mb-2">
+                        {{ a.category }}
+                    </span>
+                    <h5 class="card-title fw-bold mb-1">{{ a.title }}</h5>
+                </div>
+
+                <div class="card-body">
+                    <p class="card-text text-muted small">
+                        {{ a.content | truncate(120) }}
+                    </p>
+                </div>
+
+                <div class="card-footer bg-white border-0 pt-0 pb-4">
+                    <div class="d-flex justify-content-between align-items-center gap-2">
+                        <small class="text-muted">
+                            <i class="bi bi-shield-check me-1"></i>LexAI Verified
+                        </small>
+
+                        <button type="button"
+                                class="btn btn-sm btn-outline-primary kb-read-btn"
+                                data-article-id="{{ a.id }}">
+                            Read Full Article <i class="bi bi-arrow-up-right ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-none kb-article-data"
+                 data-article-id="{{ a.id }}"
+                 data-title="{{ a.title }}"
+                 data-category="{{ a.category }}"
+                 data-source="{{ a.source or 'Internal' }}"
+                 data-updated="{{ a.updated_at.strftime('%Y-%m-%d') if a.updated_at else 'Not specified' }}">{{ a.content }}</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div id="kbNoResults" class="text-center py-5 d-none">
+        <i class="bi bi-search display-5 text-muted"></i>
+        <h5 class="mt-3 fw-bold">No articles found</h5>
+        <p class="text-muted">Try another search term or category.</p>
+    </div>
+
+    {% endif %}
+</div>
+
+<!-- Article Reader: displayed in the same page -->
+<div id="kbReader" class="d-none">
+
+    <button type="button" id="kbBackBtn"
+            class="btn btn-light border rounded-pill mb-4">
+        <i class="bi bi-arrow-left me-2"></i>Back to Knowledge Base
+    </button>
+
+    <article class="kb-reader-paper">
+        <div class="kb-reader-topline">
+            <span class="kb-reader-brand">
+                <i class="bi bi-journal-bookmark-fill me-2"></i>LexAI Legal Library
+            </span>
+            <span class="kb-reader-label">LEGAL REFERENCE</span>
+        </div>
+
+        <div class="kb-reader-heading">
+            <span id="kbReaderCategory" class="badge bg-info bg-opacity-10 text-info mb-3"></span>
+            <h1 id="kbReaderTitle"></h1>
+            <div class="kb-reader-meta">
+                <span><i class="bi bi-journal-text me-1"></i>Source: <strong id="kbReaderSource"></strong></span>
+                <span><i class="bi bi-calendar3 me-1"></i>Updated: <strong id="kbReaderUpdated"></strong></span>
+            </div>
+        </div>
+
+        <div class="kb-reader-divider"></div>
+
+        <div id="kbReaderContent" class="kb-reader-content"></div>
+
+        <div class="kb-reader-disclaimer">
+            <i class="bi bi-info-circle me-2"></i>
+            <span>This material is provided for general legal information and educational purposes. It is not a substitute for advice from a qualified legal professional.</span>
+        </div>
+
+        <button type="button" id="kbBackBottomBtn"
+                class="btn btn-outline-primary rounded-pill mt-4">
+            <i class="bi bi-arrow-left me-2"></i>Back to Articles
+        </button>
+    </article>
+</div>
+
+<style>
+    #kbReader {
+        max-width: 1050px;
+        margin: 0 auto;
+    }
+
+    .kb-reader-paper {
+        background: var(--bs-body-bg, #fff);
+        border: 1px solid #e6eaf0;
+        border-radius: 18px;
+        padding: clamp(22px, 5vw, 56px);
+        box-shadow: 0 12px 38px rgba(20, 35, 70, 0.06);
+    }
+
+    .kb-reader-topline {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        padding-bottom: 22px;
+        border-bottom: 1px solid #e9edf3;
+        color: #52617a;
+        font-size: 13px;
+    }
+
+    .kb-reader-brand {
+        font-weight: 700;
+        color: #243b63;
+    }
+
+    .kb-reader-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+    }
+
+    .kb-reader-heading {
+        padding-top: 34px;
+    }
+
+    #kbReaderTitle {
+        color: #172b4d;
+        font-size: clamp(28px, 4vw, 42px);
+        line-height: 1.25;
+        font-weight: 750;
+        overflow-wrap: anywhere;
+        margin-bottom: 22px;
+    }
+
+    .kb-reader-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 24px;
+        color: #68758a;
+        font-size: 13px;
+    }
+
+    .kb-reader-meta strong {
+        color: #34445d;
+        font-weight: 600;
+    }
+
+    .kb-reader-divider {
+        height: 3px;
+        width: 64px;
+        background: #4f72d8;
+        border-radius: 5px;
+        margin: 30px 0;
+    }
+
+    .kb-reader-content {
+        color: #293548;
+        font-size: 16px;
+        line-height: 1.9;
+        overflow-wrap: anywhere;
+    }
+
+    .kb-reader-content h1,
+    .kb-reader-content h2,
+    .kb-reader-content h3,
+    .kb-reader-content h4 {
+        color: #1c3154;
+        line-height: 1.4;
+        margin-top: 30px;
+        margin-bottom: 14px;
+        font-weight: 700;
+    }
+
+    .kb-reader-content h1 { font-size: 28px; }
+    .kb-reader-content h2 { font-size: 24px; }
+    .kb-reader-content h3 { font-size: 20px; }
+    .kb-reader-content p { margin-bottom: 18px; }
+    .kb-reader-content li { margin-bottom: 8px; }
+    .kb-reader-content blockquote {
+        border-left: 4px solid #6685df;
+        background: #f5f7fc;
+        padding: 16px 20px;
+        margin: 22px 0;
+        border-radius: 0 10px 10px 0;
+    }
+    .kb-reader-content pre {
+        background: #f3f5f9;
+        padding: 16px;
+        border-radius: 10px;
+        overflow-x: auto;
+    }
+    .kb-reader-content table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+        border-collapse: collapse;
+    }
+    .kb-reader-content th,
+    .kb-reader-content td {
+        border: 1px solid #e1e6ee;
+        padding: 10px 12px;
+    }
+    .kb-reader-content img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    .kb-reader-disclaimer {
+        margin-top: 36px;
+        padding: 16px 18px;
+        border: 1px solid #e4eaf5;
+        background: #f7f9fd;
+        border-radius: 12px;
+        color: #58677f;
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    @media (max-width: 576px) {
+        .kb-reader-paper { padding: 22px 18px; }
+        .kb-reader-meta { flex-direction: column; gap: 8px; }
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const kbHome = document.getElementById('kbHome');
+    const kbReader = document.getElementById('kbReader');
+    const searchInput = document.getElementById('kbSearchInput');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const kbCards = document.querySelectorAll('.kb-card');
+    const noResults = document.getElementById('kbNoResults');
+
+    function filterKB() {
+        if (!searchInput) return;
+
+        const query = searchInput.value.toLowerCase().trim();
+        const activeButton = document.querySelector('.filter-btn.active');
+        const activeFilter = activeButton ? activeButton.dataset.filter : 'all';
+        let visibleCount = 0;
+
+        kbCards.forEach(card => {
+            const title = card.querySelector('.card-title').innerText.toLowerCase();
+            const text = card.querySelector('.card-text').innerText.toLowerCase();
+            const category = card.dataset.category;
+
+            const matchesSearch = title.includes(query) || text.includes(query);
+            const matchesCategory =
+    activeFilter === 'all' ||
+    activeFilter === category;
+            const visible = matchesSearch && matchesCategory;
+
+            card.classList.toggle('d-none', !visible);
+            if (visible) visibleCount++;
+        });
+
+        if (noResults) noResults.classList.toggle('d-none', visibleCount !== 0);
+    }
+
+    if (searchInput) searchInput.addEventListener('input', filterKB);
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+            filterBtns.forEach(b => {
+                b.classList.remove('active', 'btn-primary');
+                b.classList.add('btn-outline-secondary');
+            });
+
+            this.classList.add('active', 'btn-primary');
+            this.classList.remove('btn-outline-secondary');
+            filterKB();
+        });
+    });
+
+    function openArticle(articleId) {
+        const data = document.querySelector(
+            '.kb-article-data[data-article-id="' + articleId + '"]'
+        );
+
+        if (!data) return;
+
+        document.getElementById('kbReaderCategory').textContent =
+    (data.dataset.category || 'Legal Article').trim();
+        document.getElementById('kbReaderTitle').textContent = data.dataset.title || 'Legal Article';
+        document.getElementById('kbReaderSource').textContent = data.dataset.source || 'Internal';
+        document.getElementById('kbReaderUpdated').textContent = data.dataset.updated || 'Not specified';
+
+        const content = data.textContent.trim();
+        const contentBox = document.getElementById('kbReaderContent');
+
+        let html = content;
+        if (typeof marked !== 'undefined') {
+            html = marked.parse(content);
+        } else {
+            const paragraph = document.createElement('p');
+            paragraph.textContent = content;
+            contentBox.replaceChildren(paragraph);
+            html = null;
+        }
+
+        if (html !== null) {
+            if (typeof DOMPurify !== 'undefined') {
+                html = DOMPurify.sanitize(html);
+            } else {
+                contentBox.textContent = content;
+                html = null;
+            }
+            if (html !== null) contentBox.innerHTML = html;
+        }
+
+        kbHome.classList.add('d-none');
+        kbReader.classList.remove('d-none');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function closeArticle() {
+        kbReader.classList.add('d-none');
+        kbHome.classList.remove('d-none');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('.kb-read-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            openArticle(this.dataset.articleId);
+        });
+    });
+
+    document.getElementById('kbBackBtn').addEventListener('click', closeArticle);
+    document.getElementById('kbBackBottomBtn').addEventListener('click', closeArticle);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,761 @@
+{% extends "public_base.html" %}
+
+{% block title %}LexAI - AI Legal Assistant{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<header class="hero-section position-relative overflow-hidden">
+    <!-- Geometric Grid Background (Bold Moment) -->
+    <div class="hero-grid-bg"></div>
+    <div class="container position-relative px-5 pb-5 pt-5">
+        <div class="row gx-5 align-items-center">
+            <div class="col-xxl-8 col-xl-9 col-lg-10">
+                <div class="badge bg-slate-800 text-info px-3 py-2 rounded-pill mb-4 border border-slate-800 shadow-sm fw-medium">
+                    <i class="bi bi-stars me-1"></i> Meet your new legal intelligence platform
+                </div>
+                <h1 class="display-3 fw-bold mb-4 hero-title">
+                    LexAI<br>
+                    <span class="text-slate-300 fs-1 mt-2 d-block">AI-Powered Legal Intelligence.</span>
+                </h1>
+                <p class="lead fw-normal text-slate-400 mb-5 max-w-2xl lh-lg">
+                    Understand legal documents. Explore legal knowledge. Get intelligent AI-powered assistance for contracts, rights, and obligations in seconds.
+                </p>
+                <div class="d-grid gap-3 d-sm-flex">
+                    {% if not current_user.is_authenticated %}
+                        <a class="btn btn-electric btn-lg px-5 py-3 me-sm-3 fw-semibold shadow-sm" href="{{ url_for('auth.register') }}">Get Started</a>
+                    {% else %}
+                        <a class="btn btn-electric btn-lg px-5 py-3 me-sm-3 fw-semibold shadow-sm" href="{{ url_for('main.dashboard') }}">Go to Dashboard</a>
+                    {% endif %}
+                    <a class="btn btn-outline-slate btn-lg px-5 py-3 fw-semibold" id="btn-learn-more" href="#features">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Features Section -->
+<section id="features" class="py-5 bg-white">
+    <div class="container px-5 py-5">
+        <div class="text-center mb-5">
+            <h6 class="text-info fw-bold text-uppercase tracking-wider mb-2">Capabilities</h6>
+            <h2 class="fw-bold text-slate-900 mb-3">Comprehensive Legal Toolset</h2>
+            <p class="lead text-slate-500 max-w-2xl mx-auto">LexAI combines advanced language models with secure document handling to streamline your legal workflows.</p>
+        </div>
+        <div class="row g-5 mt-2">
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 hover-lift">
+                    <div class="feature-icon-box">
+                        <i class="bi bi-chat-square-text"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">AI Legal Chat</h5>
+                    <p class="text-slate-500 mb-0">Ask complex legal questions, clarify jargon, and explore legal concepts using our general legal AI assistant.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 hover-lift">
+                    <div class="feature-icon-box">
+                        <i class="bi bi-file-earmark-bar-graph"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Document Analysis</h5>
+                    <p class="text-slate-500 mb-0">Automatically extract parties, obligations, risks, financial terms, and red flags from any contract.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 hover-lift">
+                    <div class="feature-icon-box">
+                        <i class="bi bi-book"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Knowledge Base</h5>
+                    <p class="text-slate-500 mb-0">Access a curated library of verified legal articles and concepts integrated directly into your workflow.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 offset-lg-2">
+                <div class="card h-100 border-0 shadow-sm p-4 hover-lift">
+                    <div class="feature-icon-box">
+                        <i class="bi bi-file-earmark-check"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Document-based RAG</h5>
+                    <p class="text-slate-500 mb-0">Chat securely with your uploaded files. Our system retrieves exact context from your documents to ground AI answers.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 hover-lift">
+                    <div class="feature-icon-box">
+                        <i class="bi bi-lightbulb"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Legal Insights</h5>
+                    <p class="text-slate-500 mb-0">Get professional summaries, spot missing clauses, and receive structural recommendations for your agreements.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- LexAI Interactive Book Popup -->
+<div class="lexai-book-overlay" id="lexaiBookOverlay" aria-hidden="true">
+
+    <button class="lexai-book-close" id="lexaiBookClose"
+            type="button" aria-label="Close book">&times;</button>
+
+    <div class="lexai-book-scene">
+        <div class="lexai-book" id="lexaiBook">
+
+            <div class="lexai-book-cover">
+                <div class="lexai-cover-content">
+                    <i class="bi bi-bank lexai-book-emblem"></i>
+                    <span class="lexai-cover-label">LEXAI • DIGITAL LAW LIBRARY</span>
+                    <h2>The Art of<br>Legal Clarity</h2>
+                    <p>Your intelligent companion for legal questions and concepts.</p>
+                    <span class="lexai-open-hint">CLICK TO OPEN ↗</span>
+                </div>
+            </div>
+
+            <div class="lexai-book-pages">
+
+                <div class="lexai-page-left">
+                    <span class="lexai-page-kicker">CHAPTER 01</span>
+                    <h3>Understand<br>the law.</h3>
+                    <div class="lexai-page-rule"></div>
+                    <p>Explore legal concepts and understand unfamiliar terminology in simpler words.</p>
+                    <span class="lexai-page-number">01</span>
+                </div>
+
+                <div class="lexai-page-right">
+                    <span class="lexai-page-kicker">YOUR AI ASSISTANT</span>
+                    <h3>What can we<br>explore today?</h3>
+
+                    <div class="lexai-book-feature">
+                        <span><i class="bi bi-chat-dots"></i></span>
+                        <div>
+                            <strong>Ask questions</strong>
+                            <p>Explore legal concepts in plain language.</p>
+                        </div>
+                    </div>
+
+                    <div class="lexai-book-feature">
+                        <span><i class="bi bi-journal-text"></i></span>
+                        <div>
+                            <strong>Understand terms</strong>
+                            <p>Make complex wording easier to understand.</p>
+                        </div>
+                    </div>
+
+                    <div class="lexai-book-feature">
+                        <span><i class="bi bi-lightbulb"></i></span>
+                        <div>
+                            <strong>Explore further</strong>
+                            <p>Learn more with follow-up questions.</p>
+                        </div>
+                    </div>
+
+                    <span class="lexai-page-number">02</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <p class="lexai-book-caption">A little knowledge can open a world of clarity.</p>
+</div>
+<!-- Animated How LexAI Works Section -->
+<section id="how-it-works" class="lexai-process-section">
+    <div class="container px-4 py-5">
+
+        <div class="lexai-process-heading text-center">
+            <span class="lexai-process-label">
+                <span class="lexai-live-dot"></span>
+                THE INTELLIGENCE BEHIND LEXAI
+            </span>
+
+            <h2>From Legal Complexity<br>
+                <span>to Absolute Clarity.</span>
+            </h2>
+
+            <p>Three simple steps. A smarter way to understand legal documents.</p>
+        </div>
+
+        <div class="lexai-process-grid">
+
+            <!-- STEP 1 -->
+            <div class="lexai-process-card" style="--step-delay: 0s">
+                <div class="lexai-step-top">
+                    <span class="lexai-step-number">01</span>
+                    <span class="lexai-step-tag">INPUT</span>
+                </div>
+
+                <div class="lexai-process-icon icon-upload">
+                    <i class="bi bi-file-earmark-arrow-up"></i>
+                    <span class="lexai-icon-orbit"></span>
+                </div>
+
+                <h3>Upload Document</h3>
+                <p>Bring your contracts and legal agreements into your workspace for a closer look.</p>
+
+                <div class="lexai-process-footer">
+                    <i class="bi bi-shield-lock"></i>
+                    Secure document handling
+                </div>
+            </div>
+
+            <!-- CONNECTOR -->
+            <div class="lexai-process-connector">
+                <span></span>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="lexai-process-card lexai-process-featured"
+                 style="--step-delay: .15s">
+                <div class="lexai-step-top">
+                    <span class="lexai-step-number">02</span>
+                    <span class="lexai-step-tag">INTELLIGENCE</span>
+                </div>
+
+                <div class="lexai-process-icon icon-ai">
+                    <i class="bi bi-cpu"></i>
+                    <span class="lexai-icon-orbit"></span>
+                    <span class="lexai-ai-pulse"></span>
+                </div>
+
+                <h3>AI-Powered Analysis</h3>
+                <p>LexAI examines supported document content and organises important information into structured insights.</p>
+
+                <div class="lexai-process-footer">
+                    <i class="bi bi-stars"></i>
+                    Smarter document review
+                </div>
+            </div>
+
+            <!-- CONNECTOR -->
+            <div class="lexai-process-connector">
+                <span></span>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="lexai-process-card" style="--step-delay: .3s">
+                <div class="lexai-step-top">
+                    <span class="lexai-step-number">03</span>
+                    <span class="lexai-step-tag">DISCOVERY</span>
+                </div>
+
+                <div class="lexai-process-icon icon-insights">
+                    <i class="bi bi-shield-check"></i>
+                    <span class="lexai-icon-orbit"></span>
+                </div>
+
+                <h3>Review & Discover</h3>
+                <p>Explore findings, review potential risks and obligations, and ask questions to understand the document.</p>
+
+                <div class="lexai-process-footer">
+                    <i class="bi bi-lightbulb"></i>
+                    Clarity at every step
+                </div>
+            </div>
+
+        </div>
+
+        <div class="lexai-process-bottom">
+            <span class="lexai-bottom-line"></span>
+            <p><i class="bi bi-stars"></i>
+                Legal technology designed around clarity, context and confidence.
+            </p>
+            <span class="lexai-bottom-line"></span>
+        </div>
+
+    </div>
+</section>
+
+<!-- LexAI Premium Animated Pricing -->
+<section id="pricing" class="lexai-pricing-section">
+    <div class="container px-4 py-5">
+
+        <div class="lexai-pricing-heading text-center">
+            <span class="lexai-pricing-eyebrow">
+                <i class="bi bi-gem"></i> SIMPLE & TRANSPARENT
+            </span>
+
+            <h2>Choose Your Level of<br>
+                <span>Legal Intelligence.</span>
+            </h2>
+
+            <p>Powerful legal tools. Flexible plans. More clarity in every decision.</p>
+        </div>
+
+        <div class="lexai-pricing-grid">
+
+            <!-- BASIC PLAN -->
+            <article class="lexai-price-card lexai-basic-plan">
+                <div class="lexai-price-card-top">
+                    <div class="lexai-price-icon basic-icon">
+                        <i class="bi bi-compass"></i>
+                    </div>
+                    <span class="lexai-plan-label">GET STARTED</span>
+                </div>
+
+                <h3>Basic</h3>
+                <p class="lexai-plan-description">
+                    Your starting point for exploring legal intelligence.
+                </p>
+
+                <div class="lexai-price">
+                    <span class="lexai-price-amount">$0</span>
+                    <span class="lexai-price-period">/ month</span>
+                </div>
+
+                <div class="lexai-price-divider"></div>
+
+                <p class="lexai-features-title">WHAT'S INCLUDED</p>
+
+                <ul class="lexai-price-features">
+                    <li><i class="bi bi-check-circle-fill"></i> 5 document uploads/month</li>
+                    <li><i class="bi bi-check-circle-fill"></i> Basic AI Chat</li>
+                    <li><i class="bi bi-check-circle-fill"></i> Access to Knowledge Base</li>
+                    <li class="lexai-feature-unavailable">
+                        <i class="bi bi-dash-circle"></i> Advanced Contract Analysis
+                    </li>
+                </ul>
+
+                <a href="{{ url_for('auth.register') }}"
+                   class="lexai-price-button lexai-basic-button">
+                    Get Started <i class="bi bi-arrow-up-right"></i>
+                </a>
+
+                <div class="lexai-plan-footnote">
+                    <i class="bi bi-check2"></i> Start with the essentials
+                </div>
+            </article>
+
+            <!-- PROFESSIONAL PLAN -->
+            <article class="lexai-price-card lexai-pro-plan">
+
+                <div class="lexai-popular-badge">
+                    <i class="bi bi-stars"></i> MOST POPULAR
+                </div>
+
+                <div class="lexai-price-card-top">
+                    <div class="lexai-price-icon pro-icon">
+                        <i class="bi bi-shield-lock"></i>
+                    </div>
+                    <span class="lexai-plan-label">FOR POWER USERS</span>
+                </div>
+
+                <h3>Professional</h3>
+                <p class="lexai-plan-description">
+                    A more powerful workspace for in-depth legal document review.
+                </p>
+
+                <div class="lexai-price">
+                    <span class="lexai-price-amount">$49</span>
+                    <span class="lexai-price-period">/ month</span>
+                </div>
+
+                <div class="lexai-price-divider"></div>
+
+                <p class="lexai-features-title">EVERYTHING IN BASIC, PLUS</p>
+
+                <ul class="lexai-price-features">
+                    <li><i class="bi bi-check-circle-fill"></i> Unlimited document uploads</li>
+                    <li><i class="bi bi-check-circle-fill"></i> Priority AI Chat processing</li>
+                    <li><i class="bi bi-check-circle-fill"></i> Full Knowledge Base access</li>
+                    <li><i class="bi bi-check-circle-fill"></i> Advanced Contract Analysis</li>
+                </ul>
+
+                <a href="{{ url_for('auth.register') }}"
+                   class="lexai-price-button lexai-pro-button">
+                    Explore Professional <i class="bi bi-arrow-up-right"></i>
+                </a>
+
+                <div class="lexai-plan-footnote">
+                    <i class="bi bi-stars"></i> Unlock advanced capabilities
+                </div>
+            </article>
+
+        </div>
+
+        <div class="lexai-pricing-note">
+            <i class="bi bi-info-circle"></i>
+            Choose the plan that best fits your needs.
+        </div>
+
+    </div>
+</section>
+<!-- LexAI Premium About Us Section -->
+<section id="about" class="lexai-about-section">
+    <div class="container px-4 py-5">
+
+        <div class="lexai-about-heading">
+            <span class="lexai-about-eyebrow">
+                <span class="lexai-about-status-dot"></span>
+                ABOUT LEXAI
+            </span>
+
+            <h2>Technology with a<br>
+                <span>Purposeful Perspective.</span>
+            </h2>
+
+            <p class="lexai-about-subtitle">
+                Making legal understanding simpler, clearer, and more accessible.
+            </p>
+        </div>
+
+        <div class="lexai-about-grid">
+
+            <!-- LEFT: ABOUT THE PROJECT -->
+            <div class="lexai-about-story">
+
+                <div class="lexai-about-glass-card">
+                    <div class="lexai-about-card-icon">
+                        <i class="bi bi-bank"></i>
+                    </div>
+
+                    <span class="lexai-about-small-label">OUR VISION</span>
+
+                    <h3>Bridging the gap between law and understanding.</h3>
+
+                    <p>
+                        LexAI was created to make legal information easier to
+                        explore by bringing artificial intelligence and legal
+                        technology together in one accessible platform.
+                    </p>
+
+                    <p>
+                        By combining document retrieval, AI-assisted analysis,
+                        and conversational interaction, LexAI aims to help
+                        users navigate complex legal language with greater clarity.
+                    </p>
+
+                    <div class="lexai-about-divider"></div>
+
+                    <div class="lexai-about-values">
+                        <div>
+                            <span class="lexai-value-icon">
+                                <i class="bi bi-lightbulb"></i>
+                            </span>
+                            <div>
+                                <strong>Clarity</strong>
+                                <small>Make information easier to understand.</small>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="lexai-value-icon">
+                                <i class="bi bi-shield-check"></i>
+                            </span>
+                            <div>
+                                <strong>Responsibility</strong>
+                                <small>Encourage careful review of legal information.</small>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="lexai-value-icon">
+                                <i class="bi bi-cpu"></i>
+                            </span>
+                            <div>
+                                <strong>Innovation</strong>
+                                <small>Explore useful AI-powered workflows.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT: PROJECT TEAM -->
+            <div class="lexai-team-panel">
+
+                <div class="lexai-team-heading">
+                    <div>
+                        <span class="lexai-about-small-label">THE PEOPLE BEHIND THE PROJECT</span>
+                        <h3>Meet the team.</h3>
+                    </div>
+
+                    <span class="lexai-team-symbol">
+                        <i class="bi bi-people"></i>
+                    </span>
+                </div>
+
+                <p class="lexai-team-description">
+                    A collaborative team exploring the future of AI-assisted legal technology.
+                </p>
+
+                <div class="lexai-team-grid">
+
+                    <div class="lexai-member-card" style="--member-delay: 0s">
+                        <span class="lexai-member-avatar">RB</span>
+                        <div>
+                            <strong>Rohan Bongane</strong>
+                            <small>Project Team</small>
+                        </div>
+                        <i class="bi bi-arrow-up-right lexai-member-arrow"></i>
+                    </div>
+
+                    <div class="lexai-member-card" style="--member-delay: .08s">
+                        <span class="lexai-member-avatar">HJ</span>
+                        <div>
+                            <strong>Harsh Jha</strong>
+                            <small>Project Team</small>
+                        </div>
+                        <i class="bi bi-arrow-up-right lexai-member-arrow"></i>
+                    </div>
+
+                    <div class="lexai-member-card" style="--member-delay: .16s">
+                        <span class="lexai-member-avatar">AB</span>
+                        <div>
+                            <strong>Aishwariya Bhunia</strong>
+                            <small>Project Team</small>
+                        </div>
+                        <i class="bi bi-arrow-up-right lexai-member-arrow"></i>
+                    </div>
+
+                    <div class="lexai-member-card" style="--member-delay: .24s">
+                        <span class="lexai-member-avatar">NS</span>
+                        <div>
+                            <strong>Nitu Sharma</strong>
+                            <small>Project Team</small>
+                        </div>
+                        <i class="bi bi-arrow-up-right lexai-member-arrow"></i>
+                    </div>
+
+                    <div class="lexai-member-card" style="--member-delay: .32s">
+                        <span class="lexai-member-avatar">PR</span>
+                        <div>
+                            <strong>Prerana Rao</strong>
+                            <small>Project Team</small>
+                        </div>
+                        <i class="bi bi-arrow-up-right lexai-member-arrow"></i>
+                    </div>
+
+                </div>
+
+                <div class="lexai-team-footer">
+                    <i class="bi bi-stars"></i>
+                    Built through collaboration and continuous learning.
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const teamBtn = document.getElementById('btn-team-reveal');
+        const learnMoreBtn = document.getElementById('btn-learn-more');
+        const teamSection = document.getElementById('team-section');
+        
+        function revealTeam(e) {
+            if (e) e.preventDefault();
+            if (teamSection.style.display === 'none') {
+                teamSection.style.display = 'block';
+                teamSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (e && e.target === teamBtn) {
+                teamSection.style.display = 'none';
+            } else if (e && e.target.closest('#btn-learn-more')) {
+                teamSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        if(teamBtn && teamSection) {
+            teamBtn.addEventListener('click', revealTeam);
+        }
+        if(learnMoreBtn && teamSection) {
+            learnMoreBtn.addEventListener('click', revealTeam);
+        }
+    });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const overlay = document.getElementById('lexaiBookOverlay');
+    const book = document.getElementById('lexaiBook');
+    const closeButton = document.getElementById('lexaiBookClose');
+
+    if (!overlay || !book || !closeButton) {
+        console.error('LexAI book HTML was not found.');
+        return;
+    }
+
+    const cover = book.querySelector('.lexai-book-cover');
+    const coverLabel = book.querySelector('.lexai-cover-label');
+    const coverTitle = book.querySelector('.lexai-cover-content h2');
+    const coverDescription = book.querySelector('.lexai-cover-content p');
+    const leftTitle = book.querySelector('.lexai-page-left h3');
+    const leftDescription = book.querySelector('.lexai-page-left > p');
+    const rightTitle = book.querySelector('.lexai-page-right h3');
+    const featureItems = book.querySelectorAll('.lexai-book-feature');
+    
+
+    const books = {
+        'AI Legal Chat': {
+            category: 'AI ASSISTANT',
+            title: 'The Art of|Legal Clarity',
+            description: 'Your intelligent companion for exploring legal questions.',
+            chapter: 'Understand|the law.',
+            intro: 'Explore general legal concepts, clarify unfamiliar terminology, and learn through simple conversational explanations.',
+            right: 'Ask. Explore.|Understand.',
+            benefits: [
+                ['bi-chat-dots', 'Ask legal questions', 'Explore general legal concepts in plain language.'],
+                ['bi-journal-text', 'Clarify terminology', 'Understand unfamiliar legal words and phrases.'],
+                ['bi-lightbulb', 'Explore further', 'Use follow-up questions to learn more.']
+            ],
+            url: '/chat'
+        },
+        'Document Analysis': {
+            category: 'DOCUMENT INTELLIGENCE',
+            title: 'Discover|Every Detail',
+            description: 'A closer look at the details within your contracts.',
+            chapter: 'Read beyond|the pages.',
+            intro: 'Review important contract information, including parties, obligations, financial terms, and potential red flags where supported.',
+            right: 'A closer look|at contracts',
+            benefits: [
+                ['bi-file-earmark-text', 'Review key details', 'Examine important contract information.'],
+                ['bi-shield-exclamation', 'Spot potential risks', 'Identify items that may need closer review.'],
+                ['bi-list-check', 'Organise findings', 'Present observations in a clearer format.']
+            ],
+            url: '/upload'
+        },
+        'Knowledge Base': {
+            category: 'LEGAL KNOWLEDGE',
+            title: 'A Library|of Knowledge',
+            description: 'Explore legal reference material in one organised place.',
+            chapter: 'Knowledge|opens doors.',
+            intro: 'Browse available legal articles, concepts, and reference material for learning and research.',
+            right: 'Explore and|discover',
+            benefits: [
+                ['bi-book', 'Browse legal topics', 'Explore available articles and concepts.'],
+                ['bi-search', 'Find references', 'Look for relevant information in the collection.'],
+                ['bi-journal-bookmark', 'Build understanding', 'Use reference material to support learning.']
+            ],
+            url: '/knowledge-base'
+        },
+        'Document-based RAG': {
+            category: 'CONTEXTUAL AI',
+            title: 'Answers Within|Your Documents',
+            description: 'Explore questions and answers grounded in document context.',
+            chapter: 'Let your|documents speak.',
+            intro: 'Use supported uploaded documents as context to find information relevant to your questions.',
+            right: 'Find the|right context',
+            benefits: [
+                ['bi-cloud-upload', 'Use uploaded files', 'Work with documents supported by the app.'],
+                ['bi-search', 'Retrieve context', 'Find passages related to a question.'],
+                ['bi-chat-square-text', 'Ask about files', 'Explore document-specific questions.']
+            ],
+            url: '/chat'
+        },
+        'Legal Insights': {
+            category: 'SMART REVIEW',
+            title: 'See the|Bigger Picture',
+            description: 'Make complex contract information easier to review.',
+            chapter: 'Turn details|into insight.',
+            intro: 'Review summaries and potential clause gaps to make contract information easier to understand.',
+            right: 'Review with|more clarity',
+            benefits: [
+                ['bi-card-text', 'Review summaries', 'Understand important information concisely.'],
+                ['bi-exclamation-triangle', 'Check clause gaps', 'Review possible omissions more closely.'],
+                ['bi-lightbulb', 'Explore insights', 'Consider findings for further review.']
+            ],
+            
+        }
+    };
+
+    function setLines(element, value) {
+        if (!element) return;
+        element.replaceChildren();
+
+        value.split('|').forEach(function (line, index) {
+            if (index > 0) element.appendChild(document.createElement('br'));
+            element.appendChild(document.createTextNode(line));
+        });
+    }
+
+    function openBook(card) {
+        const heading = card.querySelector('h1,h2,h3,h4,h5,h6');
+        if (!heading) return;
+
+        const name = heading.textContent.trim().replace(/\s+/g, ' ');
+const data = books[name];
+
+        if (!data) {
+            console.warn('No book content configured for:', name);
+            return;
+        }
+
+        if (coverLabel) coverLabel.textContent = 'LEXAI • ' + data.category;
+        setLines(coverTitle, data.title);
+        if (coverDescription) coverDescription.textContent = data.description;
+        setLines(leftTitle, data.chapter);
+        if (leftDescription) leftDescription.textContent = data.intro;
+        setLines(rightTitle, data.right);
+
+        featureItems.forEach(function (item, index) {
+            const benefit = data.benefits[index];
+            if (!benefit) return;
+
+            const icon = item.querySelector('span i');
+            const title = item.querySelector('strong');
+            const description = item.querySelector('p');
+
+            if (icon) icon.className = 'bi ' + benefit[0];
+            if (title) title.textContent = benefit[1];
+            if (description) description.textContent = benefit[2];
+        });
+
+        // Reset the book to its closed-cover state.
+        book.classList.remove('is-open');
+
+
+       overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeBook() {
+        overlay.classList.remove('is-open');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        book.classList.remove('is-open');
+    }
+
+    // Make every feature card open the book.
+    document.getElementById('features')
+    .querySelectorAll('.card')
+    .forEach(function (card) {
+            card.style.cursor = 'pointer';
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('role', 'button');
+
+            card.addEventListener('click', function (event) {
+                if (event.target.closest('a, button')) return;
+                openBook(card);
+            });
+
+            card.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openBook(card);
+                }
+            });
+        });
+
+    if (cover) {
+        cover.addEventListener('click', function () {
+            book.classList.add('is-open');
+        });
+    }
+
+    closeButton.addEventListener('click', closeBook);
+
+    overlay.addEventListener('click', function (event) {
+        if (event.target === overlay) closeBook();
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && overlay.classList.contains('is-open')) {
+            closeBook();
+        }
+    });
+});
+</script>
+{% endblock %}

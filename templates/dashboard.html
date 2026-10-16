@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Workspace / Dashboard{% endblock %}
+
+{% block content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+        <h2 class="fw-bold text-dark">Welcome back, {{ user.name }}</h2>
+        <p class="text-muted mb-0">Your AI-powered legal workspace.</p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <a href="{{ url_for('document.upload') }}" class="btn btn-primary shadow-sm"><i class="bi bi-cloud-arrow-up me-2"></i>Upload Document</a>
+    </div>
+</div>
+
+<!-- Stats / Quick Links -->
+<div class="row g-4 mb-5">
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 card-hover  shadow-sm">
+            <div class="card-body p-4 d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <h6 class="text-muted fw-bold text-uppercase mb-1">AI Chat</h6>
+                        <h4 class="mb-0 text-dark">General Legal</h4>
+                    </div>
+                    <div class="bg-primary bg-opacity-10 text-primary p-2 rounded">
+                        <i class="bi bi-chat-dots fs-4"></i>
+                    </div>
+                </div>
+                <p class="small text-muted mb-4 flex-grow-1">Ask questions about contracts, rights, and legal concepts.</p>
+                <a href="{{ url_for('chat.chat_ui') }}" class="btn btn-outline-primary btn-sm w-100">Start Chat</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 card-hover  shadow-sm">
+            <div class="card-body p-4 d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <h6 class="text-muted fw-bold text-uppercase mb-1">Document Chat</h6>
+                        <h4 class="mb-0 text-dark">Your Files</h4>
+                    </div>
+                    <div class="bg-success bg-opacity-10 text-success p-2 rounded">
+                        <i class="bi bi-file-earmark-text fs-4"></i>
+                    </div>
+                </div>
+                <p class="small text-muted mb-4 flex-grow-1">Chat securely with your uploaded documents.</p>
+                <a href="{{ url_for('chat.chat_ui') }}?mode=document" class="btn btn-outline-success btn-sm w-100">Chat with Document</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 card-hover  shadow-sm">
+            <div class="card-body p-4 d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <h6 class="text-muted fw-bold text-uppercase mb-1">Knowledge</h6>
+                        <h4 class="mb-0 text-dark">Legal KB</h4>
+                    </div>
+                    <div class="bg-info bg-opacity-10 text-info p-2 rounded">
+                        <i class="bi bi-book fs-4"></i>
+                    </div>
+                </div>
+                <p class="small text-muted mb-4 flex-grow-1">Explore our trusted legal knowledge base.</p>
+                <a href="{{ url_for('main.knowledge_base') }}" class="btn btn-outline-info btn-sm w-100">Browse Knowledge</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 card-hover  shadow-sm">
+            <div class="card-body p-4 d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <h6 class="text-muted fw-bold text-uppercase mb-1">History</h6>
+                        <h4 class="mb-0 text-dark">My Documents</h4>
+                    </div>
+                    <div class="bg-warning bg-opacity-10 text-warning p-2 rounded">
+                        <i class="bi bi-folder2-open fs-4"></i>
+                    </div>
+                </div>
+                <p class="small text-muted mb-4 flex-grow-1">View your past document analyses and uploads.</p>
+                <a href="{{ url_for('document.history') }}" class="btn btn-outline-warning btn-sm w-100 text-dark">View History</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Documents -->
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0">Recent Documents</h5>
+            <a href="{{ url_for('document.history') }}" class="text-decoration-none small">View all <i class="bi bi-arrow-right"></i></a>
+        </div>
+        
+        <div class="row g-3">
+            {% if documents %}
+                {% for doc in documents[:4] %}
+                <div class="col-md-6 col-xl-3">
+                    <div class="card h-100  shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="badge bg-light text-dark border"><i class="bi bi-filetype-{{ doc.file_type }} me-1"></i>{{ doc.file_type | upper }}</span>
+                                {% if doc.status == 'completed' %}
+                                    <span class="badge bg-success bg-opacity-10 text-success"><i class="bi bi-check-circle me-1"></i>Ready</span>
+                                {% else %}
+                                    <span class="badge bg-warning bg-opacity-10 text-warning">Processing</span>
+                                {% endif %}
+                            </div>
+                            <h6 class="card-title text-truncate mb-1" title="{{ doc.original_filename }}">{{ doc.original_filename }}</h6>
+                            <p class="card-text small text-muted mb-3">
+                                <i class="bi bi-file-text me-1"></i> {{ doc.page_count }} Pages &bull; {{ doc.word_count }} Words<br>
+                                <i class="bi bi-clock me-1"></i> {{ doc.uploaded_at.strftime('%b %d, %Y') }}
+                            </p>
+                            
+                            <div class="d-grid gap-2">
+                                {% if doc.analysis %}
+                                    <a href="{{ url_for('document.analysis', document_id=doc.id) }}" class="btn btn-sm btn-light border">View Analysis</a>
+                                {% elif doc.status == 'completed' and doc.extracted_text %}
+                                    <form action="{{ url_for('document.analyze', document_id=doc.id) }}" method="POST">
+                                        <button type="submit" class="btn btn-sm btn-outline-primary w-100">Analyze with AI</button>
+                                    </form>
+                                {% endif %}
+                                <a href="{{ url_for('chat.chat_ui') }}?mode=document&doc={{ doc.id }}" class="btn btn-sm btn-primary">Chat</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <div class="card  shadow-sm p-5 text-center bg-white">
+                        <div class="text-muted mb-3">
+                            <i class="bi bi-file-earmark-plus display-4"></i>
+                        </div>
+                        <h5 class="fw-bold">No documents yet</h5>
+                        <p class="text-muted">Upload your first legal document to get started.</p>
+                        <div>
+                            <a href="{{ url_for('document.upload') }}" class="btn btn-primary"><i class="bi bi-upload me-2"></i>Upload Document</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

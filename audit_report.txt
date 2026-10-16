@@ -1,0 +1,147 @@
+# LexAI - Complete Technical Audit
+
+## 1. PROJECT OVERVIEW
+LexAI is an AI-powered legal document assistant designed to help users quickly understand complex legal contracts and documents. The target users are legal professionals, students, and everyday individuals who need to extract key terms and risks from lengthy contracts without reading them manually. Currently, the application allows users to register an account, upload PDF and DOCX files, extract text from them, and send that text to Google's Gemini AI to generate a structured JSON analysis containing risks, obligations, and summaries. The final intended system will feature a Retrieval-Augmented Generation (RAG) chatbot allowing users to ask specific questions about their documents. The current workflow involves: User Registration -> Login -> File Upload -> Backend Text Extraction -> AI Analysis Trigger -> Gemini Processing -> Storing Results in MySQL -> Displaying a formatted report to the user.
+
+## 2. COMPLETE TECHNOLOGY STACK
+- Python: 3.14 (Environment), Entire Backend, Primary programming language, IMPLEMENTED
+- Flask: 3.0.0, app.py/Routes, Core web framework and routing, IMPLEMENTED
+- MySQL / PyMySQL: 1.1.0 (PyMySQL), config.py, Database storage and driver, IMPLEMENTED
+- Flask-SQLAlchemy: 3.1.1, models/database_models.py, ORM for database queries, IMPLEMENTED
+- Flask-Login: 0.6.3, auth_routes.py/app.py, User session management, IMPLEMENTED
+- Flask-Bcrypt: 1.0.1, auth_routes.py, Password hashing, IMPLEMENTED
+- python-dotenv: 1.0.1, config.py, Environment variable management, IMPLEMENTED
+- PyMuPDF (fitz): Latest installed, document_service.py, Extracting text from PDFs, IMPLEMENTED
+- python-docx: Latest installed, document_service.py, Extracting text from Word docs, IMPLEMENTED
+- google-genai: 0.3.0, ai_service.py, Calling Gemini AI APIs, IMPLEMENTED
+- Google Gemini: gemini-3.6-flash, ai_service.py, LLM for document analysis, IMPLEMENTED
+- pytest: 8.0.0, tests/, Unit and integration testing, IMPLEMENTED
+- Bootstrap / HTML / CSS: 5.x (via CDN), templates/, Frontend UI styling, IMPLEMENTED
+- ChromaDB: None, services/embedding_service.py, Vector database for RAG, NOT IMPLEMENTED
+
+## 3. PROJECT FOLDER STRUCTURE
+LexAI/
+- .env: Active environment variables
+- app.py: Main Flask application factory and base routes
+- config.py: Configuration classes
+- extensions.py: Initializes SQLAlchemy, Bcrypt, LoginManager
+- requirements.txt: Python dependencies
+- models/database_models.py: SQLAlchemy classes
+- routes/: Blueprints for auth, documents, admin (placeholder), chat (placeholder)
+- services/: Services for AI, documents, RAG (placeholder), embeddings (placeholder)
+- templates/: HTML files
+- static/: CSS/JS assets
+- tests/: Pytest suites
+- uploads/: Physical storage for uploaded files
+
+## 4. BACKEND ARCHITECTURE
+LexAI uses the Application Factory Pattern (create_app in app.py).
+Extensions (extensions.py) creates empty instances to prevent circular imports.
+App Factory binds them. Blueprints modularize routing.
+Request Flow: Browser POSTs file -> upload route -> save_uploaded_file -> text extraction -> DB commit -> redirect to analysis page.
+
+## 5. DATABASE ARCHITECTURE
+Database Engine: MySQL 9.6
+Table 1: users (id, name, email, password_hash, role, created_at, updated_at)
+Table 2: documents (id, user_id, filename, file_path, file_type, status, extracted_text) -> Belongs to User
+Table 3: document_analysis (id, document_id, user_id, JSON columns for parties, clauses, risks, etc.) -> One-to-One with Document
+
+## 6. AUTHENTICATION & SECURITY
+Implemented via Flask-Login and Flask-Bcrypt. Passwords hashed before saving. Sessions managed via cookies.
+Weaknesses: SECRET_KEY fallback in config.py, missing CSRF protection on raw HTML forms, admin_required decorator not fully implemented.
+
+## 7. DOCUMENT UPLOAD SYSTEM
+Validation checks PDF/DOCX extension. Size limit 15MB. Secure storage using uuid4 in uploads/<user_id>/<uuid>/. Ownership checked on every access/delete request.
+
+## 8. PDF & DOCX TEXT EXTRACTION
+PDF: PyMuPDF (fitz) extracts text page by page.
+DOCX: python-docx iterates through paragraphs.
+Stats: Word and character counts calculated via python split/len. No OCR for scanned images.
+
+## 9. AI / GEMINI INTEGRATION
+Model: gemini-3.6-flash.
+SDK: google-genai (v0.3.0).
+Flow: Text truncated to 500k chars -> sent to Gemini with JSON mime_type config -> parsed into DocumentAnalysis MySQL object.
+Error Handling: try/except catches JSONDecodeError, rolls back DB session.
+
+## 10. AI PROMPT / ANALYSIS LOGIC
+Instructs Gemini to return strict JSON: document_type, summary, parties, key_clauses, important_dates, obligations, risks, red_flags, financial_terms, termination_conditions, rights, recommendations, confidence, disclaimer.
+
+## 11. CURRENT AI STATUS
+AI integration: WORKING
+Gemini model: gemini-3.6-flash
+SDK: google-genai
+API connection: WORKING
+Document analysis: WORKING
+Database storage: WORKING
+Frontend display: WORKING
+
+## 12. FRONTEND
+Raw HTML templates with Bootstrap 5. Dashboard shows recent documents. Analysis view uses Jinja loops to render JSON arrays.
+
+## 13. ROUTES
+GET / (index), GET /dashboard, GET/POST /register, GET/POST /login, GET /logout, GET/POST /upload, GET /history, POST /analyze/<id>, GET /analysis/<id>, POST /delete/<id>
+
+## 14. SERVICES
+document_service.py: WORKING (PyMuPDF/docx extraction)
+ai_service.py: WORKING (Gemini JSON generation)
+rag_service.py: NOT IMPLEMENTED (Placeholder)
+embedding_service.py: NOT IMPLEMENTED (Placeholder)
+
+## 15. RAG / CHROMADB STATUS
+PLANNED / NOT IMPLEMENTED. No ChromaDB dependencies installed.
+
+## 16. TESTING
+test_auth.py, test_document.py, test_ai_analysis.py. 20 tests exist and all PASS. Run via `pytest -v`.
+
+## 17. CURRENT END-TO-END FLOW
+1. Registers via /register (Bcrypt hash)
+2. Logs in via /login (Flask-Login session)
+3. Uploads PDF via /upload (PyMuPDF extracts text)
+4. Clicks Analyze via /analyze (Gemini API called)
+5. Result Stored in document_analysis table (JSON)
+6. Result Displayed on /analysis page
+
+## 18. PHASE-WISE DEVELOPMENT
+Phase 1 (Database & Auth): WORKING
+Phase 2 (Document Upload): WORKING
+Phase 3 (AI Analysis): WORKING
+Phase 4 (RAG / Embeddings): PLANNED ONLY
+
+## 19. WHY EACH TECHNOLOGY WAS CHOSEN
+Flask: Lightweight and modular. MySQL: Relational structure + JSON columns. PyMuPDF: Fast raw text extraction. Gemini 3.6 Flash: Structured JSON output and massive context window. pytest: API mocking.
+
+## 20. MYSQL VS POSTGRESQL
+Current: MySQL efficiently handles Users and JSON columns. Future: If pgvector is needed, PostgreSQL might be better, but for now with ChromaDB planned, MySQL is perfect for metadata.
+
+## 21. ARCHITECTURE DIAGRAM
+[IMPLEMENTED]
+Browser -> Flask -> Services -> MySQL -> Gemini API
+
+[PLANNED]
+Document Text -> Embeddings -> ChromaDB -> RAG Chatbot
+
+## 22. VIVA QUESTIONS & ANSWERS
+(Refer to the detailed Markdown report for all 30 questions)
+Q: What backend framework is used? A: Flask.
+Q: How are passwords stored? A: Flask-Bcrypt hashing.
+Q: How does the system know who is logged in? A: Flask-Login session cookies.
+Q: How do you read PDF files? A: PyMuPDF (fitz).
+Q: How is the AI integrated? A: google-genai SDK with gemini-3.6-flash.
+
+## 23. ONE-PAGE PROJECT SUMMARY
+LexAI is an AI Legal Assistant that parses legal documents using PyMuPDF, analyzes them via the Gemini 3.6 Flash API to extract risks and clauses, and stores the structured JSON results in MySQL. It currently features secure auth and document management, with future plans for a RAG chatbot.
+
+## 24. FINAL STATUS TABLE
+Authentication: Working
+Database: Working
+Document Upload: Working
+PDF Extraction: Working
+DOCX Extraction: Working
+AI Analysis: Working
+Gemini Integration: Working
+Analysis Storage: Working
+RAG / ChromaDB / Chatbot: Planned / Not Implemented
+
+WHAT IS ACTUALLY WORKING RIGHT NOW: Auth, Uploads, Extraction, Gemini Analysis, DB Storage.
+WHAT STILL NEEDS TO BE BUILT: RAG (ChromaDB, embeddings, chatbot).

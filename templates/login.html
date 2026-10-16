@@ -1,0 +1,143 @@
+
+{% extends "public_base.html" %}
+
+{% block title %}Login | LexAI{% endblock %}
+
+{% block content %}
+<section class="lexai-book-login">
+    <div class="lexai-book-scene">
+        <div class="lexai-login-book">
+
+            <!-- LEFT PAGE: STAYS FIXED -->
+            <div class="lexai-login-page lexai-login-left">
+                <div class="lexai-book-brand">
+                    <i class="bi bi-bank"></i>
+                    <span>LexAI</span>
+                </div>
+
+                <div class="lexai-book-welcome">
+                    <span class="lexai-book-label">YOUR LEGAL COMPANION</span>
+                    <h1>Knowledge.<br>Justice.<br><span>Intelligence.</span></h1>
+                    <p>Your legal workspace begins here. Explore smarter legal research and document analysis with AI.</p>
+                    <i class="bi bi-book-half lexai-book-watermark"></i>
+                </div>
+
+                <div class="lexai-book-page-number">01 — LEXAI</div>
+            </div>
+
+            <!-- RIGHT PAGE: FLIPS -->
+            <div class="lexai-login-page lexai-login-right">
+                <div class="lexai-auth-flip-scene">
+                    <div class="lexai-auth-flip-inner" id="authFlipInner">
+
+                        <!-- LOGIN FRONT -->
+                        <div class="lexai-auth-face lexai-auth-front">
+                            <div class="lexai-login-content">
+                                <span class="lexai-book-label">WELCOME BACK</span>
+                                <h2>Open your <span>workspace.</span></h2>
+                                <p class="lexai-login-subtitle">Sign in to continue your legal journey.</p>
+
+                                <form action="{{ url_for('auth.login') }}" method="POST">
+                                    <div class="lexai-login-field">
+                                        <label for="loginEmail">EMAIL ADDRESS</label>
+                                        <div class="lexai-login-input">
+                                            <i class="bi bi-envelope"></i>
+                                            <input type="email" id="loginEmail" name="email"
+                                                   placeholder="name@company.com"
+                                                   autocomplete="email" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="lexai-login-field">
+                                        <label for="loginPassword">PASSWORD</label>
+                                        <div class="lexai-login-input">
+                                            <i class="bi bi-lock"></i>
+                                            <input type="password" id="loginPassword" name="password"
+                                                   placeholder="Enter your password"
+                                                   autocomplete="current-password" required>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="lexai-login-submit">
+                                        Sign In <i class="bi bi-arrow-right"></i>
+                                    </button>
+                                </form>
+
+                                <div class="lexai-login-divider">
+                                    <span>NEW TO LEXAI?</span>
+                                </div>
+
+                                <!-- NOT A FORM SUBMIT BUTTON -->
+                                <button type="button" class="lexai-create-account" id="showRegister">
+                                    Create your account <i class="bi bi-arrow-up-right"></i>
+                                </button>
+
+                                <div class="lexai-login-security">
+                                    <i class="bi bi-shield-lock"></i>
+                                    Your legal workspace, secured.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- REGISTER BACK: REUSES YOUR EXISTING FORM -->
+                        <div class="lexai-auth-face lexai-auth-back">
+                            <div class="lexai-login-content">
+                                <span class="lexai-book-label">JOIN LEXAI</span>
+
+<div class="lexai-register-title-row">
+    <h2>Create your <span>account.</span></h2>
+    <span class="lexai-auth-card-icon">
+        <i class="bi bi-person-plus"></i>
+    </span>
+</div>
+
+<p class="lexai-login-subtitle">Start your legal journey with AI.</p>
+
+                                {% include "_register_form.html" %}
+
+                                <button type="button" class="lexai-create-account" id="showLogin">
+                                    <i class="bi bi-arrow-left"></i> Back to Sign In
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="lexai-book-page-number">02 — LEXAI</div>
+            </div>
+
+        </div>
+    </div>
+
+    <p class="lexai-book-caption">
+        <i class="bi bi-stars"></i> Every great legal journey starts with a page.
+    </p>
+</section>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const flipBook = document.getElementById("authFlipInner");
+    const showRegister = document.getElementById("showRegister");
+    const showLogin = document.getElementById("showLogin");
+
+    if (!flipBook || !showRegister || !showLogin) {
+        console.error("LexAI flip elements are missing.");
+        return;
+    }
+
+    showRegister.addEventListener("click", function () {
+        flipBook.classList.add("is-flipped");
+    });
+
+    showLogin.addEventListener("click", function () {
+        flipBook.classList.remove("is-flipped");
+    });
+});
+</script>
+{% endblock %}
+
+

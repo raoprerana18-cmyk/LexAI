@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis - {{ document.original_filename }}{% endblock %}
+{% block page_title %}Documents / Analysis / {{ document.original_filename }}{% endblock %}
+
+{% block content %}
+
+<div class="row mb-4 align-items-center">
+    <div class="col-md-7">
+        <h2 class="fw-bold">
+            <i class="bi bi-file-earmark-bar-graph text-primary me-2"></i>AI Legal Analysis
+        </h2>
+        <p class="text-muted mb-0">Automated insights and clause extraction for your document.</p>
+    </div>
+
+    <div class="col-md-5 mt-3 mt-md-0">
+        <div class="d-flex justify-content-end align-items-center gap-2 flex-wrap">
+            <a href="{{ url_for('document.history') }}"
+               class="btn btn-light shadow-sm border">
+                Back to Documents
+            </a>
+
+            <a href="{{ url_for('chat.chat_ui') }}?mode=document&doc={{ document.id }}"
+               class="btn btn-outline-success shadow-sm">
+                <i class="bi bi-chat-dots me-1"></i>Chat with Document
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row mb-5">
+    <!-- Document Info Card -->
+    <div class="col-lg-4 mb-4 mb-lg-0">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white border-bottom pt-4 pb-3">
+                <h5 class="fw-bold mb-0">Document Info</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="bg-light p-3 rounded me-3 text-center" style="width: 60px;">
+                        <i class="bi bi-filetype-{{ document.file_type }} fs-3 text-secondary"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-1 text-truncate" style="max-width: 200px;" title="{{ document.original_filename }}">{{ document.original_filename }}</h6>
+                        {% if analysis %}
+                            <span class="badge bg-success bg-opacity-10 text-success"><i class="bi bi-check-circle me-1"></i>Analyzed</span>
+                        {% else %}
+                            <span class="badge bg-secondary bg-opacity-10 text-secondary"><i class="bi bi-dash-circle me-1"></i>Not Analyzed</span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item px-0 d-flex justify-content-between">
+                        <span class="text-muted"><i class="bi bi-body-text me-2"></i>Word Count</span>
+                        <span class="fw-bold">{{ document.word_count }}</span>
+                    </li>
+                    <li class="list-group-item px-0 d-flex justify-content-between">
+                        <span class="text-muted"><i class="bi bi-file-text me-2"></i>Page Count</span>
+                        <span class="fw-bold">{{ document.page_count }}</span>
+                    </li>
+                    <li class="list-group-item px-0 d-flex justify-content-between">
+                        <span class="text-muted"><i class="bi bi-calendar3 me-2"></i>Uploaded</span>
+                        <span class="fw-bold">{{ document.uploaded_at.strftime('%Y-%m-%d') }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- AI Analysis Card -->
+    {% if analysis %}
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white border-bottom pt-4 pb-3 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0">Detailed Analysis</h5>
+                {% if analysis.confidence %}
+                <span class="badge bg-info text-dark">Confidence: {{ analysis.confidence }}</span>
+                {% endif %}
+            </div>
+            <div class="card-body p-4">
+                
+                {% if analysis.document_type %}
+                <div class="mb-4">
+                    <h6 class="fw-bold text-secondary mb-2"><i class="bi bi-tags me-2"></i>Document Type</h6>
+                    <p class="text-dark fs-5">{{ analysis.document_type }}</p>
+                </div>
+                <hr class="my-4">
+                {% endif %}
+
+                {% if analysis.summary %}
+                <div class="mb-4">
+                    <h6 class="fw-bold text-primary mb-3"><i class="bi bi-card-heading me-2"></i>Executive Summary</h6>
+                    <p class="fs-6 lh-lg text-dark">
+                        {{ analysis.summary }}
+                    </p>
+                </div>
+                {% endif %}
+                
+                {% if analysis.parties and analysis.parties|length > 0 %}
+                <hr class="my-4">
+                <h6 class="fw-bold text-primary mb-3"><i class="bi bi-people me-2"></i>Parties Involved</h6>
+                <ul class="list-group list-group-flush mb-3">
+                    {% for party in analysis.parties %}
+                        <li class="list-group-item text-dark"><i class="bi bi-person-fill me-2 text-secondary"></i>{{ party }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                
+                {% if analysis.key_clauses and analysis.key_clauses|length > 0 %}
+                <hr class="my-4">
+                <h6 class="fw-bold text-success mb-3"><i class="bi bi-key me-2"></i>Key Clauses & Terms</h6>
+                <div class="accordion" id="clausesAccordion">
+                    {% for clause in analysis.key_clauses %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingClause{{ loop.index }}">
+                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseClause{{ loop.index }}">
+                                {{ clause.title }}
+                            </button>
+                        </h2>
+                        <div id="collapseClause{{ loop.index }}" class="accordion-collapse collapse" data-bs-parent="#clausesAccordion">
+                            <div class="accordion-body text-dark lh-lg">
+                                {{ clause.explanation }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                {% if analysis.important_dates and analysis.important_dates|length > 0 %}
+                <hr class="my-4">
+                <h6 class="fw-bold text-info mb-3"><i class="bi bi-calendar-event me-2"></i>Important Dates</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered">
+                        <thead class="table-light"><tr><th>Date</th><th>Event</th></tr></thead>
+                        <tbody>
+                            {% for dt in analysis.important_dates %}
+                            <tr><td><strong>{{ dt.date }}</strong></td><td>{{ dt.event }}</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+
+                {% if analysis.financial_terms and analysis.financial_terms|length > 0 %}
+                <hr class="my-4">
+                <h6 class="fw-bold text-success mb-3"><i class="bi bi-cash-coin me-2"></i>Financial Terms</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered">
+                        <thead class="table-light"><tr><th>Amount</th><th>Conditions</th><th>Penalties</th></tr></thead>
+                        <tbody>
+                            {% for ft in analysis.financial_terms %}
+                            <tr>
+                                <td><strong>{{ ft.amount }}</strong></td>
+                                <td>{{ ft.conditions }}</td>
+                                <td>{{ ft.penalties or 'None' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+                
+                {% if analysis.obligations and analysis.obligations|length > 0 %}
+                <hr class="my-4">
+                <h6 class="fw-bold text-warning mb-3"><i class="bi bi-list-check me-2"></i>Obligations</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered">
+                        <thead class="table-light"><tr><th>Party</th><th>Obligation</th><th>Deadline</th></tr></thead>
+                        <tbody>
+                            {% for ob in analysis.obligations %}
+                            <tr>
+                                <td><strong>{{ ob.party }}</strong></td>
+                                <td>{{ ob.obligation }}</td>
+                                <td>{{ ob.deadline or 'N/A' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+
+                {% if analysis.rights and analysis.rights|length > 0 %}
+                <hr class="my-4">
+                <h6 class="fw-bold text-primary mb-3"><i class="bi bi-shield-check me-2"></i>Rights</h6>
+                <ul class="list-group list-group-flush mb-3">
+                    {% for right in analysis.rights %}
+                        <li class="list-group-item text-dark"><i class="bi bi-check2-square me-2 text-success"></i>{{ right }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                
+                {% if (analysis.risks and analysis.risks|length > 0) or (analysis.red_flags and analysis.red_flags|length > 0) %}
+                <hr class="my-4">
+                <h6 class="fw-bold text-danger mb-3"><i class="bi bi-exclamation-triangle me-2"></i>Risks & Red Flags</h6>
+                
+                {% if analysis.red_flags and analysis.red_flags|length > 0 %}
+                <div class="alert alert-danger mb-4">
+                    <h6 class="alert-heading fw-bold"><i class="bi bi-flag-fill me-2"></i>Red Flags Found</h6>
+                    <ul class="mb-0 mt-2">
+                        {% for rf in analysis.red_flags %}
+                        <li class="mb-1"><strong>{{ rf.issue }}:</strong> {{ rf.explanation }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                {% if analysis.risks and analysis.risks|length > 0 %}
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered">
+                        <thead class="table-light"><tr><th>Risk Description</th><th>Severity</th></tr></thead>
+                        <tbody>
+                            {% for risk in analysis.risks %}
+                            <tr>
+                                <td>{{ risk.description }}</td>
+                                <td>
+                                    {% if risk.severity == 'CRITICAL' or risk.severity == 'HIGH' %}
+                                        <span class="badge bg-danger">{{ risk.severity }}</span>
+                                    {% elif risk.severity == 'MEDIUM' %}
+                                        <span class="badge bg-warning text-dark">{{ risk.severity }}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ risk.severity }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+                {% endif %}
+
+                {% if analysis.termination_conditions and analysis.termination_conditions|length > 0 %}
+                <hr class="my-4">
+                <h6 class="fw-bold text-secondary mb-3"><i class="bi bi-x-octagon me-2"></i>Termination Conditions</h6>
+                <ul class="list-group list-group-flush mb-3">
+                    {% for tc in analysis.termination_conditions %}
+                        <li class="list-group-item text-dark"><i class="bi bi-x me-2 text-danger"></i>{{ tc }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                
+                {% if analysis.recommendations and analysis.recommendations|length > 0 %}
+                <hr class="my-4">
+                <h6 class="fw-bold text-info mb-3"><i class="bi bi-lightbulb me-2"></i>Recommendations</h6>
+                <ul class="list-group list-group-flush mb-4">
+                    {% for rec in analysis.recommendations %}
+                        <li class="list-group-item text-dark"><i class="bi bi-arrow-right-short me-2 text-info"></i>{{ rec }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                
+                {% if analysis.disclaimer %}
+                <div class="alert alert-secondary mt-5" style="font-size: 0.85rem;">
+                    <i class="bi bi-info-circle me-2"></i><strong>Disclaimer:</strong> {{ analysis.disclaimer }}
+                </div>
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-5 text-center d-flex flex-column justify-content-center align-items-center">
+                <div class="bg-light rounded-circle p-4 mb-4">
+                    <i class="bi bi-robot fs-1 text-secondary"></i>
+                </div>
+                <h4 class="fw-bold text-dark mb-3">AI Analysis Not Available</h4>
+                <p class="text-muted mb-4 px-md-5">This document has not been analyzed yet, or a previous analysis attempt was temporarily unavailable. Run the AI Legal Analysis to extract key clauses, risks, and obligations.</p>
+                
+                <form action="{{ url_for('document.analyze', document_id=document.id) }}" method="POST">
+                    <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">
+                        <i class="bi bi-magic me-2"></i>Run AI Analysis Now
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Documents{% endblock %}
+{% block page_title %}Documents / My Documents{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2><i class="bi bi-folder2-open me-2"></i>My Documents</h2>
+            <p class="text-muted">View and manage your uploaded legal documents.</p>
+        </div>
+    </div>
+
+    {% if documents %}
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Document Name</th>
+                        <th>Upload Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doc in documents %}
+                    <tr>
+                        <td>
+                            <i class="bi bi-file-earmark-text me-2 text-primary"></i>
+                            {{ doc.original_filename }}
+                        </td>
+                        <td>
+                            {% if doc.uploaded_at %}
+                                {{ doc.uploaded_at.strftime('%d %b %Y, %I:%M %p') }}
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+                        <td>{{ doc.status or 'Uploaded' }}</td>
+                        <td>
+                            <a href="{{ url_for('document.analysis', document_id=doc.id) }}"
+                               class="btn btn-sm btn-outline-primary">
+                                View / Analyze
+                            </a>
+                            <form action="{{ url_for('document.delete', document_id=doc.id) }}"
+                                  method="POST" class="d-inline"
+                                  onsubmit="return confirm('Delete this document?');">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <div class="card shadow-sm text-center p-5">
+        <i class="bi bi-folder2-open display-4 text-muted mb-3"></i>
+        <h4>No documents uploaded yet</h4>
+        <p class="text-muted">Upload a document to view and analyze it here.</p>
+        <div>
+            <a href="{{ url_for('document.upload') }}" class="btn btn-primary">
+                Upload Your First Document
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

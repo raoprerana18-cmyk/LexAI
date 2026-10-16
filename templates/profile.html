@@ -1,0 +1,106 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Profile | LexAI{% endblock %}
+{% block page_title %}Account / My Profile{% endblock %}
+
+{% block content %}
+<div class="container py-4 py-lg-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-9 col-xl-8">
+
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+
+                <!-- Profile Header -->
+                <div class="card-header bg-white border-bottom p-4 p-md-5">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center"
+                             style="width: 64px; height: 64px; flex-shrink: 0;">
+                            <i class="bi bi-person-circle fs-2"></i>
+                        </div>
+                        <div>
+                            <h3 class="fw-bold mb-1">My Profile</h3>
+                            <p class="text-muted mb-0">Your account information and details</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Details -->
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="row g-4">
+
+                        <div class="col-12 col-md-6">
+                            <div class="rounded-3 border p-3 h-100">
+                                <label class="text-muted small fw-semibold mb-2">
+                                    <i class="bi bi-person me-1"></i> FULL NAME
+                                </label>
+                                <div class="fs-5 fw-semibold text-break">
+                                    {{ user.name }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div class="rounded-3 border p-3 h-100">
+                                <label class="text-muted small fw-semibold mb-2">
+                                    <i class="bi bi-envelope me-1"></i> EMAIL ADDRESS
+                                </label>
+                                <div class="fs-5 fw-semibold text-break">
+                                    {{ user.email }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div class="rounded-3 border p-3 h-100">
+                                <label class="text-muted small fw-semibold mb-2">
+                                    <i class="bi bi-shield-check me-1"></i> ACCOUNT ROLE
+                                </label>
+                                <div>
+                                    <span class="badge rounded-pill bg-primary px-3 py-2 text-uppercase">
+                                        {{ user.role }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div class="rounded-3 border p-3 h-100">
+                                <label class="text-muted small fw-semibold mb-2">
+                                    <i class="bi bi-calendar3 me-1"></i> DATE REGISTERED
+                                </label>
+                                <div class="fs-6 fw-semibold">
+                                    {{ user.created_at.strftime('%d %B %Y') }}
+                                </div>
+                                <small class="text-muted">
+                                    {{ user.created_at.strftime('%I:%M %p') }} UTC
+                                </small>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Security Note -->
+                    <div class="alert alert-light border rounded-3 mt-4 mb-0 d-flex align-items-start gap-2">
+                        <i class="bi bi-info-circle text-primary fs-5"></i>
+                        <div class="small text-muted">
+                            For security, contact an administrator to update your registration details.
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer bg-white border-top p-4">
+                    <a href="{{ url_for('main.dashboard') }}"
+                       class="btn btn-outline-secondary px-4 py-2">
+                        <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

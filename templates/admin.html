@@ -1,0 +1,542 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel{% endblock %}
+{% block page_title %}Admin / Dashboard{% endblock %}
+
+{% block content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+        <h2 class="fw-bold"><i class="bi bi-shield-fill-check text-danger me-2"></i>Administrative Controls</h2>
+        <p class="text-muted mb-0">System overview, user management, and knowledge base administration.</p>
+    </div>
+</div>
+
+<!-- Navigation Tabs -->
+<ul class="nav nav-pills mb-4" id="adminTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link {% if tab != 'users' %}active{% endif %} rounded-pill me-2" id="stats-tab" data-bs-toggle="pill" data-bs-target="#stats" type="button" role="tab"><i class="bi bi-activity me-1"></i> System Stats</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link {% if tab == 'users' %}active{% endif %} rounded-pill me-2" id="users-tab" data-bs-toggle="pill" data-bs-target="#users" type="button" role="tab"><i class="bi bi-people-fill me-1"></i> User Management</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link rounded-pill" id="kb-tab" data-bs-toggle="pill" data-bs-target="#kb" type="button" role="tab"><i class="bi bi-journal-text me-1"></i> Knowledge Base</button>
+    </li>
+</ul>
+
+<div class="tab-content" id="adminTabsContent">
+    <!-- System Stats Tab -->
+    <div class="tab-pane fade {% if tab != 'users' %}show active{% endif %}" id="stats" role="tabpanel">
+        
+<div class="row g-4 mb-5 admin-stats">
+    <!-- Registered Users -->
+    <div class="col-md-4">
+        <div class="admin-stat-card admin-stat-users">
+            <div class="admin-stat-content">
+                <span class="admin-stat-label">REGISTERED USERS</span>
+                <h1 class="admin-stat-number">{{ total_users }}</h1>
+                <span class="admin-stat-caption">
+                    <i class="bi bi-people me-1"></i> Total registered accounts
+                </span>
+            </div>
+            <div class="admin-stat-icon">
+                <i class="bi bi-people-fill"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Uploaded Documents -->
+    <div class="col-md-4">
+        <div class="admin-stat-card admin-stat-documents">
+            <div class="admin-stat-content">
+                <span class="admin-stat-label">UPLOADED DOCUMENTS</span>
+                <h1 class="admin-stat-number">{{ total_documents }}</h1>
+                <span class="admin-stat-caption">
+                    <i class="bi bi-file-earmark-check me-1"></i> Documents in the system
+                </span>
+            </div>
+            <div class="admin-stat-icon">
+                <i class="bi bi-file-earmark-pdf"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Knowledge Base Articles -->
+    <div class="col-md-4">
+        <div class="admin-stat-card admin-stat-knowledge">
+            <div class="admin-stat-content">
+                <span class="admin-stat-label">KNOWLEDGE BASE ARTICLES</span>
+                <h1 class="admin-stat-number">{{ total_kb_entries }}</h1>
+                <span class="admin-stat-caption">
+                    <i class="bi bi-journal-check me-1"></i> Legal reference articles
+                </span>
+            </div>
+            <div class="admin-stat-icon">
+                <i class="bi bi-journal-text"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .admin-stat-card {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 180px;
+        padding: 28px;
+        overflow: hidden;
+        border-radius: 22px;
+        color: #ffffff;
+        box-shadow: 0 12px 28px rgba(30, 45, 80, 0.14);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .admin-stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 35px rgba(30, 45, 80, 0.20);
+    }
+
+    .admin-stat-users {
+        background: linear-gradient(135deg, #2563eb, #4f46e5);
+    }
+
+    .admin-stat-documents {
+        background: linear-gradient(135deg, #059669, #10b981);
+    }
+
+    .admin-stat-knowledge {
+        background: linear-gradient(135deg, #0284c7, #06b6d4);
+    }
+
+    .admin-stat-content {
+        position: relative;
+        z-index: 2;
+        min-width: 0;
+    }
+
+    .admin-stat-label {
+        display: block;
+        margin-bottom: 12px;
+        color: rgba(255, 255, 255, 0.92);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 1px;
+    }
+
+    .admin-stat-number {
+        margin: 0 0 10px;
+        color: #ffffff !important;
+        font-size: clamp(42px, 4vw, 58px);
+        font-weight: 800;
+        line-height: 1.1;
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+    }
+
+    .admin-stat-caption {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 12px;
+    }
+
+    .admin-stat-icon {
+        position: absolute;
+        right: 20px;
+        bottom: 8px;
+        color: rgba(255, 255, 255, 0.19);
+        font-size: 90px;
+        line-height: 1;
+        pointer-events: none;
+    }
+
+    @media (max-width: 576px) {
+        .admin-stat-card {
+            min-height: 155px;
+            padding: 22px;
+        }
+
+        .admin-stat-icon {
+            right: 12px;
+            font-size: 70px;
+        }
+    }
+</style>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-white border-bottom-0 pt-4 pb-0 fw-bold">Recent Registrations</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="rounded-start">Email</th>
+                                        <th>Role</th>
+                                        <th class="rounded-end text-end">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for u in recent_registrations %}
+                                    <tr>
+                                        <td>{{ u.email }}</td>
+                                        <td><span class="badge {% if u.role == 'admin' %}bg-danger{% else %}bg-secondary{% endif %} bg-opacity-10 text-{% if u.role == 'admin' %}danger{% else %}secondary{% endif %}">{{ u.role }}</span></td>
+                                        <td class="text-end text-muted small">{{ u.created_at.strftime('%Y-%m-%d') }}</td>
+                                    </tr>
+                                    {% else %}
+                                    <tr><td colspan="3" class="text-center text-muted">No users found</td></tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-white border-bottom-0 pt-4 pb-0 fw-bold">Recent Uploads</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="rounded-start">Filename</th>
+                                        <th>Status</th>
+                                        <th class="rounded-end text-end">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for doc in recent_documents %}
+                                    <tr>
+                                        <td class="text-truncate" style="max-width: 150px;" title="{{ doc.original_filename }}">{{ doc.original_filename }}</td>
+                                        <td>
+                                            {% if doc.status == 'completed' %}
+                                                <span class="badge bg-success bg-opacity-10 text-success"><i class="bi bi-check-circle me-1"></i>Ready</span>
+                                            {% else %}
+                                                <span class="badge bg-warning bg-opacity-10 text-warning">Processing</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-end text-muted small">{{ doc.uploaded_at.strftime('%Y-%m-%d') }}</td>
+                                    </tr>
+                                    {% else %}
+                                    <tr><td colspan="3" class="text-center text-muted">No documents found</td></tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Management Tab -->
+    <div class="tab-pane fade {% if tab == 'users' %}show active{% endif %}" id="users" role="tabpanel">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white pt-4 pb-0 border-bottom-0 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0">Manage Users</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-3">Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Joined</th>
+                                <th class="text-end pe-3">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for u in users %}
+                            <tr>
+                                <td class="ps-3 fw-bold">{{ u.name }}</td>
+                                <td>{{ u.email }}</td>
+                                <td>
+                                    <span class="badge {% if u.role == 'admin' %}bg-danger{% else %}bg-secondary{% endif %} bg-opacity-10 text-{% if u.role == 'admin' %}danger{% else %}secondary{% endif %} border">{{ u.role | upper }}</span>
+                                </td>
+                                <td class="text-muted small">{{ u.created_at.strftime('%Y-%m-%d') }}</td>
+                                <td class="text-end pe-3">
+                                    <form action="{{ url_for('admin.change_role', user_id=u.id) }}" method="POST" class="d-inline">
+                                        <select name="role" class="form-select form-select-sm d-inline-block w-auto me-1" onchange="this.form.submit()">
+                                            <option value="user" {% if u.role == 'user' %}selected{% endif %}>User</option>
+                                            <option value="admin" {% if u.role == 'admin' %}selected{% endif %}>Admin</option>
+                                        </select>
+                                    </form>
+                                    <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to permanently delete this user and all their documents?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" {% if u.id == current_user.id %}disabled title="Cannot delete yourself"{% endif %}><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Knowledge Base Management Tab -->
+    <div class="tab-pane fade" id="kb" role="tabpanel">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white pt-4 pb-0 border-bottom-0 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0">Manage Knowledge Base</h5>
+                <button type="button" class="btn btn-sm btn-primary" onclick="openAddKbPage()">
+    <i class="bi bi-plus-lg me-1"></i> Add Entry
+</button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-3">Title</th>
+                                <th>Category</th>
+                                <th>Source</th>
+                                <th>Indexed Date</th>
+                                <th class="text-end pe-3">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in kb_entries %}
+                            <tr>
+                                <td class="ps-3 fw-bold">{{ entry.title }}</td>
+                                <td><span class="badge bg-info bg-opacity-10 text-info border">{{ entry.category }}</span></td>
+                                <td class="text-muted small">{{ entry.source or 'Internal' }}</td>
+                                <td class="text-muted small">{{ entry.created_at.strftime('%Y-%m-%d') }}</td>
+                                <td class="text-end pe-3">
+                                
+<button type="button"
+    class="btn btn-sm btn-outline-primary"
+    data-edit-url="{{ url_for('admin.kb_edit', kb_id=entry.id) }}"
+    data-title="{{ entry.title|e }}"
+    data-category="{{ entry.category|e }}"
+    data-source="{{ (entry.source or '')|e }}"
+    data-content="{{ entry.content|e }}"
+    onclick="openEditKbPageFromButton(this)">
+    <i class="bi bi-pencil"></i>
+</button>
+
+                                    <form action="{{ url_for('admin.kb_delete', kb_id=entry.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this KB entry?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+
+
+                           
+                            {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center p-4 text-muted">No knowledge base entries found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Knowledge Base Entry Page -->
+<div id="editKbPage" class="card border-0 shadow-sm rounded-4 mb-4" style="display: none;">
+    <div class="card-header bg-white border-0 p-4">
+        <div class="d-flex align-items-center gap-3">
+            <button type="button" class="btn btn-light rounded-circle"
+                    onclick="closeEditKbPage()" aria-label="Back">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+            <div>
+                <h4 class="fw-bold mb-1">Edit Knowledge Base Entry</h4>
+                <p class="text-muted mb-0">Update the legal reference article.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-4 p-md-5">
+        <form id="editKbForm" method="POST">
+            <div class="mb-4">
+                <label class="form-label fw-bold">Article Title *</label>
+                <input id="editKbTitle" type="text"
+                       class="form-control form-control-lg"
+                       name="title" required>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Category *</label>
+                <input id="editKbCategory" type="text"
+                       class="form-control" name="category" required>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Source / Citation</label>
+                <input id="editKbSource" type="text"
+                       class="form-control" name="source">
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Content / Explanation *</label>
+                <textarea id="editKbContent" class="form-control"
+                          name="content" rows="12" required></textarea>
+            </div>
+
+            <div class="d-flex flex-wrap justify-content-end gap-2 border-top pt-4">
+                <button type="button" class="btn btn-outline-secondary px-4"
+                        onclick="closeEditKbPage()">Cancel</button>
+                <button type="submit" class="btn btn-primary px-4">
+                    <i class="bi bi-check-circle me-2"></i>Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openEditKbPage() {
+    const page = document.getElementById('editKbPage');
+    if (!page) return;
+
+    page.style.display = 'block';
+
+    const addPage = document.getElementById('addKbPage');
+    if (addPage) addPage.style.display = 'none';
+
+    document.querySelectorAll('.nav-tabs, .nav-pills').forEach(el => {
+        el.style.display = 'none';
+    });
+
+    document.querySelectorAll('.tab-content > .tab-pane').forEach(el => {
+        el.style.display = 'none';
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function closeEditKbPage() {
+    const page = document.getElementById('editKbPage');
+    if (page) page.style.display = 'none';
+
+    document.querySelectorAll('.nav-tabs, .nav-pills').forEach(el => {
+        el.style.display = '';
+    });
+
+    document.querySelectorAll('.tab-content > .tab-pane').forEach(el => {
+        el.style.display = '';
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+<!-- Add Knowledge Base Entry Page -->
+<div id="addKbPage" class="card border-0 shadow-sm rounded-4 mb-4" style="display: none;">
+    <div class="card-header bg-white border-0 p-4">
+        <div class="d-flex align-items-center gap-3">
+            <button type="button" class="btn btn-light rounded-circle"
+                    onclick="closeAddKbPage()" aria-label="Back">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+            <div>
+                <h4 class="fw-bold mb-1">Add Knowledge Base Entry</h4>
+                <p class="text-muted mb-0">Create a new legal reference article for LexAI.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-4 p-md-5">
+        <form action="{{ url_for('admin.kb_add') }}" method="POST">
+            <div class="mb-4">
+                <label class="form-label fw-bold">Article Title *</label>
+                <input type="text" class="form-control form-control-lg"
+                       name="title" required
+                       placeholder="e.g. Non-Disclosure Agreement (NDA)">
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Category *</label>
+                <input type="text" class="form-control"
+                       name="category" required list="categoryList"
+                       placeholder="e.g. Contracts">
+                <datalist id="categoryList">
+                    <option value="Contracts">
+                    <option value="Employment Law">
+                    <option value="Business Law">
+                    <option value="Intellectual Property">
+                </datalist>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Source / Citation</label>
+                <input type="text" class="form-control"
+                       name="source"
+                       placeholder="e.g. Indian Contract Act, 1872">
+                <div class="form-text">Optional: mention the relevant law or reference.</div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Content / Explanation *</label>
+                <textarea class="form-control" name="content"
+                          rows="12" required
+                          placeholder="Write the complete legal explanation here..."></textarea>
+            </div>
+
+            <div class="d-flex flex-wrap justify-content-end gap-2 border-top pt-4">
+                <button type="button" class="btn btn-outline-secondary px-4"
+                        onclick="closeAddKbPage()">
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-primary px-4">
+                    <i class="bi bi-plus-circle me-2"></i>Save Entry
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openAddKbPage() {
+        const page = document.getElementById('addKbPage');
+        const tabs = document.querySelector('.nav-tabs, .nav-pills');
+        const sections = document.querySelectorAll('.tab-content > .tab-pane');
+
+        if (!page) return;
+
+        page.style.display = 'block';
+
+        if (tabs) tabs.style.display = 'none';
+        sections.forEach(section => section.style.display = 'none');
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function closeAddKbPage() {
+        const page = document.getElementById('addKbPage');
+        const tabs = document.querySelector('.nav-tabs, .nav-pills');
+        const sections = document.querySelectorAll('.tab-content > .tab-pane');
+
+        if (page) page.style.display = 'none';
+        if (tabs) tabs.style.display = '';
+
+        sections.forEach(section => {
+            section.style.display = '';
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+function openEditKbPageFromButton(button) {
+    const form = document.getElementById('editKbForm');
+
+    form.action = button.dataset.editUrl;
+    document.getElementById('editKbTitle').value = button.dataset.title;
+    document.getElementById('editKbCategory').value = button.dataset.category;
+    document.getElementById('editKbSource').value = button.dataset.source;
+    document.getElementById('editKbContent').value = button.dataset.content;
+
+    openEditKbPage();
+}
+
+</script>
+
+{% endblock %}
